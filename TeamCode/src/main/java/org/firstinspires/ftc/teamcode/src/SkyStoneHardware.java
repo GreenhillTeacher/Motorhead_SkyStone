@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.src;
 
 import com.qualcomm.hardware.motors.RevRoboticsCoreHexMotor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
