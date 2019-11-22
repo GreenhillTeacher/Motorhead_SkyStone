@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -83,6 +83,9 @@ public class AutonDriving extends LinearOpMode {
     private float phoneXRotate    = 0;
     private float phoneYRotate    = 0;
     private float phoneZRotate    = 0;
+
+    public String skystonePosition;
+    public double forwardInches = 93;
 
     @Override
     public void runOpMode() {
@@ -197,7 +200,8 @@ public class AutonDriving extends LinearOpMode {
             }
 
             // Provide feedback as to where the robot is located (if we know).
-            if (targetVisible) {
+            if (targetVisible)
+            {
                 // express position (translation) of robot in inches.
                 VectorF translation = lastLocation.getTranslation();
                 telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
@@ -206,9 +210,23 @@ public class AutonDriving extends LinearOpMode {
                 // express the rotation of the robot in degrees.
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
                 telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+                double pos = translation.get(1);
+                if (pos > 8)
+                {
+                    skystonePosition = "right";
+                }
+                else if (pos > 0)
+                {
+                    skystonePosition = "center";
+                }
+                else
+                {
+                    skystonePosition = "left";
+                }
             }
             else {
                 telemetry.addData("Visible Target", "none");
+                skystonePosition = "center";
             }
             telemetry.update();
         }

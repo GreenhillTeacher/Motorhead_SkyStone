@@ -1,4 +1,4 @@
-package legacy;
+package org.firstinspires.ftc.teamcode.src.main.java.legacy;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;

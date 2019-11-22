@@ -1,8 +1,7 @@
-package org.firstinspires.ftc.teamcode.src;
+package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -16,22 +15,21 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-@Autonomous(name="TestDriving", group="Skystone")
-public class TestDriving extends LinearOpMode {
+@Autonomous(name="WheelTest", group="Skystone")
+public class WheelTest extends LinearOpMode {
 
     /* Declare OpMode members. */
     SkyStoneHardware robot = new SkyStoneHardware();
     private ElapsedTime runtime = new ElapsedTime();
     String xyz = "z";
 
-    static final double     COUNTS_PER_MOTOR_REV = 1120;    // Currently: Andymark Neverest 40
-    static final double     COUNTS_PER_REV_ARM = 1495; //torquenado
-    static final double     PULLEY_DIAMETER = 1.3;
-    static final double     COUNTS_PER_INCH_ARM = COUNTS_PER_REV_ARM/(PULLEY_DIAMETER * Math.PI);
+    static final double     COUNTS_PER_MOTOR_REV = 1120 ;    // Currently: Andymark Neverest 40
+    static final double     COUNTS_PER_REV_ARM = 1440;
+    static final double     COUNTS_PER_INCH_ARM = COUNTS_PER_REV_ARM/4;
     static final double     DRIVE_GEAR_REDUCTION = .9;     // This is < 1.0 if geared UP //On OUR CENTER MOTOR THE GEAR REDUCTION IS .5
     static final double     WHEEL_DIAMETER_INCHES = 3.54331;     // For figuring circumference
     static final double     COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * Math.PI);
+            (WHEEL_DIAMETER_INCHES * 3.1415);
 
 
 //    static final double COUNTS_PER_MOTOR_REV = 537; //216
@@ -88,15 +86,16 @@ public class TestDriving extends LinearOpMode {
         waitForStart();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
-//        turnToPosition(90, "z", .5, 5, false);
-//        sleep(500);
-//        encoderDrive(10, "f", 5,1);
-        //robot.armLift.setPower(.5);
-        //sleep(100);
-        //robot.armLift.setPower(0);
-        armLift(3, .5, 5);
-        armExtend(32, .75, 15);
-////        sleep(100);
+        motorTest(robot.fLMotor);
+
+        motorTest(robot.fRMotor);
+
+        motorTest(robot.bLMotor);
+
+        motorTest(robot.bRMotor);
+        //turnToPosition(90, "z", 1, 5, false);
+       // encoderDrive(10, "f", 5,1);
+//        sleep(100);
 //        turnDegrees(-90, "z", 1, 5, false);
 //        sleep(100);
 //        turnDegrees(45, "z", 1, 5, false);
@@ -115,6 +114,13 @@ public class TestDriving extends LinearOpMode {
 //        sleep(100);
         //tf.start(); //moved to start of program
 
+    }
+
+    public void motorTest(DcMotor motor)
+    {
+        motor.setPower(1);
+        sleep(1000);
+        motor.setPower(0);
     }
 
     public static double counts(double inches)
@@ -141,7 +147,7 @@ public class TestDriving extends LinearOpMode {
 
 
     public void turnToPosition (double target, String xyz, double topPower, double timeoutS, boolean isCorrection) {
-        //stopAndReset();
+        //Write code to correct to a target position (NOT FINISHED)
         target*= -1;
         double originalAngle = readAngle(xyz);
 
@@ -198,27 +204,7 @@ public class TestDriving extends LinearOpMode {
             }
         } while (opModeIsActive() && ((error > .3) || (error < -0.3)) && (runtime.seconds() < timeoutS));
         normalDrive(0, 0);
-        //stopAndReset();
 
-    }
-
-    public void stopAndReset()
-    {
-        robot.bRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.bLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.fRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.fLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.armExt.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.armLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //robot.susan.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //
-        robot.bRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.bLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.fRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.fLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.armExt.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.armLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //robot.susan.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public double pidMultiplierDriving(double error) {
@@ -388,7 +374,6 @@ public class TestDriving extends LinearOpMode {
     }
     public void armExtend(double inches, double topPower, double timeoutS)
     {
-        stopAndReset();
         //TODO: CHECK PULLEY CIRCUMFERENCE
         int target = robot.armExt.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH_ARM);
 
@@ -407,30 +392,5 @@ public class TestDriving extends LinearOpMode {
             telemetry.update();
         }
         robot.armExt.setPower(0);
-        stopAndReset();
-    }
-
-    public void armLift(double inches, double topPower, double timeoutS)
-    {
-        stopAndReset();
-        //TODO: CHECK PULLEY CIRCUMFERENCE
-        int target = robot.armLift.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH_ARM);
-
-        robot.armLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.armLift.setTargetPosition(target);
-
-        runtime.reset();
-        while(opModeIsActive() && runtime.seconds() < timeoutS && robot.armLift.isBusy())
-        {
-            double error = target - robot.armLift.getCurrentPosition();
-            double power = topPower * pidMultiplierDriving(error);
-            robot.armLift.setPower(power);
-            telemetry.addData("Path1",  "Running to %7d", target);
-            telemetry.addData("Path2",  "Running at %7d", robot.armLift.getCurrentPosition());
-            telemetry.update();
-        }
-        robot.armLift.setPower(0);
-        stopAndReset();
     }
 }

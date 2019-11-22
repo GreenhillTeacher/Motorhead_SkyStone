@@ -1,4 +1,4 @@
-package legacy;
+package org.firstinspires.ftc.teamcode.src.main.java.legacy;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
-import org.firstinspires.ftc.teamcode.SkyStoneHardware;
+//import org.firstinspires.ftc.teamcode.SkyStoneHardware;
 
 
 @TeleOp(name="GyroTest", group="ColorSensor")
@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.SkyStoneHardware;
 
 public class GyroTest extends OpMode {
 
-    SkyStoneHardware robot = new SkyStoneHardware();
+    MecanumHardware3 robot = new MecanumHardware3();
 
     private float drive = .8f;
     BNO055IMU imu;

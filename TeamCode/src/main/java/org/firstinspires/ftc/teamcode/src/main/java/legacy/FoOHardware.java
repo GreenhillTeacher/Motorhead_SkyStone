@@ -1,6 +1,6 @@
 //THIS IS A MOTORHEADS PROGRAM
 
-package legacy;
+package org.firstinspires.ftc.teamcode.src.main.java.legacy;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.ColorSensor;
