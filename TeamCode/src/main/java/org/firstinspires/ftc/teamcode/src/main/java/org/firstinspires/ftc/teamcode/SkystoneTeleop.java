@@ -34,11 +34,11 @@ public class SkystoneTeleop extends OpMode {
         mecanumMove();
 
         //arm lift
-        if(gamepad1.dpad_up)
+        if(gamepad2.dpad_up)
         {
             robot.armLift.setPower(-liftPower);
         }
-        else if(gamepad1.dpad_down)
+        else if(gamepad2.dpad_up)
         {
             robot.armLift.setPower(liftPower);
         }
@@ -46,6 +46,8 @@ public class SkystoneTeleop extends OpMode {
         {
             robot.armLift.setPower(0);
         }
+
+
 
         //arm extension
         if(gamepad2.left_trigger >= .5)
@@ -62,12 +64,12 @@ public class SkystoneTeleop extends OpMode {
         }
 
         //claw grab
-        if(gamepad2.a)
+        if(gamepad2.b)
         {
             //open
             robot.claw.setPosition(1);
         }
-        else if(gamepad2.b)
+        else if(gamepad2.a)
         {
             //close
             robot.claw.setPosition(0);
@@ -76,11 +78,11 @@ public class SkystoneTeleop extends OpMode {
         //wrist movement
         if(gamepad2.x)
         {
-            robot.wrist.setPosition(1);
+            robot.wrist.setPower(1);
         }
         else if(gamepad2.y)
         {
-            robot.wrist.setPosition(.5);
+            robot.wrist.setPower(-1);
         }
     }
 

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.motors.RevRoboticsCoreHexMotor;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -29,7 +30,7 @@ public class SkyStoneHardware
     public DcMotor armExt;
     //public DistanceSensor distSen;
     public Servo claw;
-    public Servo wrist;
+    public CRServo wrist;
     //public ColorSensor color1;
 
     //declaring values for use with encoders
@@ -61,7 +62,7 @@ public class SkyStoneHardware
         //distSen = hwMap.get(DistanceSensor.class, "distSen");
         //color1 = hwMap.get(ColorSensor.class, "color1");
         claw = hwMap.get(Servo.class, "claw");
-        wrist = hwMap.get(Servo.class, "wrist");
+        wrist = hwMap.get(CRServo.class, "wrist");
 
         fLMotor.setPower(0);
         bLMotor.setPower(0);
@@ -102,6 +103,6 @@ public class SkyStoneHardware
         armExt.setDirection(DcMotor.Direction.FORWARD);
 
         claw.setPosition(1);//added for testing xoxo viridian
-        wrist.setPosition(1);
+
     }
 }
