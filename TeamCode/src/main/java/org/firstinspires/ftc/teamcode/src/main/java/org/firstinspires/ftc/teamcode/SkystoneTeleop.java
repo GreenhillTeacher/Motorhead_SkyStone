@@ -18,7 +18,7 @@ public class SkystoneTeleop extends OpMode {
     static final double     WHEEL_DIAMETER_INCHES = 4;     // For figuring circumference
     static final double     COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    double susanPower = .45;
+    //double susanPower = .45;
     double liftPower = .4;
 
     @Override
@@ -82,47 +82,6 @@ public class SkystoneTeleop extends OpMode {
         }
     }
 
-//    public void susan(int dir)
-//    {
-//        //accelerates susan rotation
-//        if(dir == 0)
-//        {
-//            if(robot.susan.getPower() != susanPower)
-//            {
-//                double inc = (susanPower - robot.susan.getPower())/200;
-//                for(int i = 0; i < 200; i++)
-//                {
-//                    robot.susan.setPower(robot.susan.getPower() + inc);
-//                }
-//            }
-//        }
-//        else if (dir == 1)
-//        {
-//            if(robot.susan.getPower() != -susanPower)
-//            {
-//                double inc = (-susanPower - robot.susan.getPower())/200;
-//                for(int i = 0; i < 200; i++)
-//                {
-//                    robot.susan.setPower(robot.susan.getPower() + inc);
-//                }
-//            }
-//        }
-//        else if (dir == 2)
-//        {
-//            if(robot.susan.getPower() != 0)
-//            {
-//                double inc = -(robot.susan.getPower()/200);
-//                for(int i = 0; i < 200; i++)
-//                {
-//                    robot.susan.setPower(robot.susan.getPower() + inc);
-//                }
-//            }
-//        }
-//        else
-//        {
-//            telemetry.addData("not a valid direction", dir );
-//        }
-//    }
     public void mecanumMove() {
         //variables
         double drive = .8f;

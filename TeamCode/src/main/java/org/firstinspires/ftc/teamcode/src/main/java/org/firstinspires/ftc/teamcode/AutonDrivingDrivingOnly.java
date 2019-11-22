@@ -5,9 +5,12 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -15,15 +18,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
-
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
@@ -38,12 +32,12 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
-@Autonomous(name="AutonDriving", group="Skystone")
-public class AutonDriving extends LinearOpMode {
+@Autonomous(name="AutonDrivingDrvingOnly", group="Skystone")
+public class AutonDrivingDrivingOnly extends LinearOpMode {
 
     /* Declare OpMode members. */
     //TODO: NOTE CHANGE WHEN ARM IS ON
-    SkyStoneHardware robot = new SkyStoneHardware();
+    SkyStoneHardwareDrivingOnly robot = new SkyStoneHardwareDrivingOnly();
     private ElapsedTime runtime = new ElapsedTime();
     String xyz = "z";
     //CONTAINS ALL METHODS AND VARIABlES TO BE EXTENDED BY OTHER AUTON CLASSES
@@ -215,11 +209,11 @@ public class AutonDriving extends LinearOpMode {
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
                 telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
                 double pos = translation.get(1);
-                if(pos > 8)
+                if(pos > 0)
                 {
                     skystonePosition = "right";
                 }
-                else if(pos > 0)
+                else if(pos > -6)
                 {
                     skystonePosition = "center";
                 }
@@ -334,17 +328,15 @@ public class AutonDriving extends LinearOpMode {
         robot.bLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.fRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.fLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.armExt.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.armLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //robot.susan.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //robot.armExt.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //robot.armLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //
         robot.bRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.bLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.fRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.fLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.armExt.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.armLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //robot.susan.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //robot.armExt.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //robot.armLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public double pidMultiplierDriving(double error) {
@@ -507,7 +499,7 @@ public class AutonDriving extends LinearOpMode {
         }
         stopAndReset();
     }
-    public void armExtend(double inches, double topPower, double timeoutS)
+    /*public void armExtend(double inches, double topPower, double timeoutS)
     {
         stopAndReset();
         int target = robot.armExt.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH_ARM);
@@ -551,5 +543,5 @@ public class AutonDriving extends LinearOpMode {
         }
         robot.armLift.setPower(0);
         stopAndReset();
-    }
+    }*/
 }

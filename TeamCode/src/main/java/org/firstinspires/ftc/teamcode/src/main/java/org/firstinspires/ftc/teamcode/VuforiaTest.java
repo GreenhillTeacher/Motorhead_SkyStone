@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -269,7 +270,6 @@ public class VuforiaTest extends LinearOpMode {
             }
 
             // Provide feedback as to where the robot is located (if we know).
-            //TODO: ADD STATEMENTS W/ POSITION VALUE CORRESPONDING TO SKYSTONE POSITION
             if (targetVisible) {
                 // express position (translation) of robot in inches.
                 VectorF translation = lastLocation.getTranslation();
