@@ -280,11 +280,11 @@ public class VuforiaTest extends LinearOpMode {
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
                 telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
                 double pos = translation.get(1);
-                if(pos > 8)
+                if(pos > 0)
                 {
                     skystonePosition = "right";
                 }
-                else if(pos > 0)
+                else if(-pos > 9)
                 {
                     skystonePosition = "center";
                 }
@@ -295,7 +295,9 @@ public class VuforiaTest extends LinearOpMode {
             }
             else {
                 telemetry.addData("Visible Target", "none");
+                skystonePosition = "left";
             }
+            telemetry.addData("Skystone Position", skystonePosition);
             telemetry.update();
         }
         telemetry.addData("stopped", "stopped");

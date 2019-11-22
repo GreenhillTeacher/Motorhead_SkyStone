@@ -19,7 +19,7 @@ public class SkystoneTeleop extends OpMode {
     static final double     COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
     //double susanPower = .45;
-    double liftPower = .4;
+    double liftPower = 1;
 
     @Override
     public void init() {
@@ -36,11 +36,11 @@ public class SkystoneTeleop extends OpMode {
         //arm lift
         if(gamepad1.dpad_up)
         {
-            robot.armLift.setPower(liftPower);
+            robot.armLift.setPower(-liftPower);
         }
         else if(gamepad1.dpad_down)
         {
-            robot.armLift.setPower(-liftPower);
+            robot.armLift.setPower(liftPower);
         }
         else
         {
@@ -48,11 +48,11 @@ public class SkystoneTeleop extends OpMode {
         }
 
         //arm extension
-        if(gamepad1.left_trigger >= .5)
+        if(gamepad2.left_trigger >= .5)
         {
             robot.armExt.setPower(-.5);
         }
-        else if(gamepad1.right_trigger >= .5)
+        else if(gamepad2.right_trigger >= .5)
         {
             robot.armExt.setPower(.5);
         }
@@ -62,23 +62,25 @@ public class SkystoneTeleop extends OpMode {
         }
 
         //claw grab
-        if(gamepad1.a)
+        if(gamepad2.a)
         {
+            //open
             robot.claw.setPosition(1);
         }
-        else if(gamepad1.b)
+        else if(gamepad2.b)
         {
+            //close
             robot.claw.setPosition(0);
         }
 
         //wrist movement
-        if(gamepad1.x)
+        if(gamepad2.x)
         {
-            robot.wrist.setPosition(robot.wrist.getPosition() + .1);
+            robot.wrist.setPosition(1);
         }
-        else if(gamepad1.y)
+        else if(gamepad2.y)
         {
-            robot.wrist.setPosition(robot.wrist.getPosition() - .1);
+            robot.wrist.setPosition(.5);
         }
     }
 

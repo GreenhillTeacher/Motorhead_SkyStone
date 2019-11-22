@@ -114,37 +114,37 @@ public class FullAutonRed extends AutonDriving {
 
 
         ///
-        encoderDrive(10, "f", 5, 1);
+        encoderDrive(10, "f", 5, driveSpeed);
         String skystone = vuforia(allTrackables, targetsSkyStone);
-        turnToPosition(-90, "z", .75, 5, false);
+        turnToPosition(90, "z", turnSpeed, 7, false);
 
         if(skystone.equals("right"))
         {
-            encoderDrive(8, "f", 5, 1);
+            encoderDrive(9, "f", 5, driveSpeed);
             forwardInches -= 8;
         }
         else if (skystone.equals("left"))
         {
-            encoderDrive(8, "b", 5, 1);
+            encoderDrive(9, "b", 5, driveSpeed);
             forwardInches += 8;
         }
-       /* armExtend(32, .75, 10);
+        /*armExtend(32, armSpeed, 10);
         //TODO: CHECK CLAW CLOSE POSITION
-        robot.claw.setPosition(1);
+        robot.claw.setPosition(clawClose);
         sleep(100);
         //
-        armExtend(-10, .75, 7);
-        armLift(2, 1, 5);
-        armExtend(-22, .75, 7);
+        armExtend(-10, armSpeed, 7);
+        armLift(2, liftSpeed, 5);
+        armExtend(-22, armSpeed, 7);
         sleep(250);
         //
-        encoderDrive(forwardInches, "f", 10, 1);
+        encoderDrive(forwardInches, "f", 10, driveSpeed);
         //TODO: FOUNDATION?
         /*sleep(100);
-        encoderDrive(4, "l", 5, .75);
+        encoderDrive(4, "l", 5, driveSpeed);
         sleep(100);
-        turnToPosition(90, "z", .75, 5, false);
-        encoderDrive(43, "f", 7, 1);*/
+        turnToPosition(90, "z", turnSpeed, 5, false);
+        encoderDrive(43, "f", 7, driveSpeed);*/
        telemetry.addData("path", "complete");
        telemetry.update();
     }

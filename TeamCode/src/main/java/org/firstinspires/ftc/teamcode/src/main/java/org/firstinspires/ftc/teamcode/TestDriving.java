@@ -22,8 +22,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 @Autonomous(name="TestDriving", group="Skystone")
-public class TestDriving extends AutonDrivingDrivingOnly {
-    AutonDrivingDrivingOnly auton = new AutonDrivingDrivingOnly();
+public class TestDriving extends AutonDriving {
+    AutonDriving auton = new AutonDriving();
 
     //SkyStoneHardwareDrivingOnly robot = new SkyStoneHardwareDrivingOnly();
     @Override
@@ -115,8 +115,9 @@ public class TestDriving extends AutonDrivingDrivingOnly {
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
 
+       // stopAndReset();
 
 
-        stopAndReset();
+        encoderDrive(10, "f",5, driveSpeed);
     }
 }

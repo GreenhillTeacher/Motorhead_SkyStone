@@ -2,12 +2,12 @@ package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamc
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name="FullAutonRed", group="Skystone")
+@Autonomous(name="RightWallMatPark", group="Skystone")
 public class RightWallMatPark extends AutonDriving {
 
     @Override
     public void runOpMode()
     {
-        encoderDrive(9,"b", 5, 1);
+        encoderDrive(9,"b", 5, driveSpeed);
     }
 }

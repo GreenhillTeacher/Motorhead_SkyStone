@@ -89,6 +89,14 @@ public class AutonDriving extends LinearOpMode {
 
     //public String skystonePosition = "center";
     public double forwardInches = 93;
+    public double driveSpeed = .6;
+    public double turnSpeed = 1;
+    public double armSpeed = .7;
+    public double liftSpeed = 1;
+    public double clawOpen = 1;
+    public double clawClosed = 0;
+    public double wristSide = 1;
+    public double wristForward = .5;
 
     @Override
     public void runOpMode() {
@@ -183,7 +191,7 @@ public class AutonDriving extends LinearOpMode {
     public String vuforia(List<VuforiaTrackable> allTrackables, VuforiaTrackables targetsSkyStone)
     {
         runtime.reset();
-        String skystonePosition = "center";
+        String skystonePosition = "null";
         targetsSkyStone.activate();
         while (runtime.seconds() <= 5) {
 
@@ -215,11 +223,11 @@ public class AutonDriving extends LinearOpMode {
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
                 telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
                 double pos = translation.get(1);
-                if(pos > 8)
+                if(pos > 0)
                 {
                     skystonePosition = "right";
                 }
-                else if(pos > 0)
+                else if(-pos > 9)
                 {
                     skystonePosition = "center";
                 }
@@ -227,13 +235,17 @@ public class AutonDriving extends LinearOpMode {
                 {
                     skystonePosition = "left";
                 }
-                telemetry.addData("Skystone Position", skystonePosition);
             }
             else {
-                skystonePosition = "center";
                 telemetry.addData("Visible Target", "none");
+                skystonePosition = "left";
             }
+            telemetry.addData("Skystone Position", skystonePosition);
             telemetry.update();
+            if(!skystonePosition.equals("null"))
+            {
+                return skystonePosition;
+            }
         }
         //telemetry.addData("stopped", "stopped");
         //telemetry.update();
@@ -354,7 +366,7 @@ public class AutonDriving extends LinearOpMode {
     }
     public double pidMultiplierTurning(double error) {
         //equation for power multiplier is x/sqrt(x^2 + C)
-        double C = .1;
+        double C = .01;
         return Math.abs(error / Math.sqrt((error * error) + C));
     }
 
