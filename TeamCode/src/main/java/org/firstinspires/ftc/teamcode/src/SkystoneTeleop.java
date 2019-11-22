@@ -35,11 +35,11 @@ public class SkystoneTeleop extends OpMode {
         //arm lift
         if(gamepad1.dpad_up)
         {
-            robot.armLift.setPower(liftPower);
+            robot.armLift.setPower(-liftPower);
         }
         else if(gamepad1.dpad_down)
         {
-            robot.armLift.setPower(-liftPower);
+            robot.armLift.setPower(liftPower);
         }
         else
         {
@@ -49,11 +49,11 @@ public class SkystoneTeleop extends OpMode {
         //arm extension
         if(gamepad1.left_trigger >= .5)
         {
-            robot.armExt.setPower(-.5);
+            robot.armExt.setPower(-.75);
         }
         else if(gamepad1.right_trigger >= .5)
         {
-            robot.armExt.setPower(.5);
+            robot.armExt.setPower(.75);
         }
         else
         {
@@ -124,7 +124,7 @@ public class SkystoneTeleop extends OpMode {
 //    }
     public void mecanumMove() {
         //variables
-        double drive = .8f;
+        double drive = 1f;//changed this to (maybe) increase speed || <3 team 9054
         double r = Math.hypot(-gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
         double rightX = gamepad1.right_stick_x;

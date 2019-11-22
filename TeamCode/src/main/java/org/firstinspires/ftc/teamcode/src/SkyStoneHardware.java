@@ -4,7 +4,7 @@ import com.qualcomm.hardware.motors.RevRoboticsCoreHexMotor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
+//import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -17,10 +17,10 @@ public class SkyStoneHardware
     public DcMotor armLift;
     //public DcMotor susan;
     public DcMotor armExt;
-    public DistanceSensor distSen;
+    //public DistanceSensor distSen;
     public Servo claw;
     public Servo wrist;
-    public ColorSensor color1;
+    //public ColorSensor color1;
 
     //declaring values for use with encoders
     static final double     COUNTS_PER_MOTOR_REV    = 1120 ;    // AndyMark Motor Encoder
@@ -48,8 +48,8 @@ public class SkyStoneHardware
         armExt = hwMap.get(DcMotor.class, "armExt");
         armLift = hwMap.get(DcMotor.class, "armLift");
         //
-        distSen = hwMap.get(DistanceSensor.class, "distSen");
-        color1 = hwMap.get(ColorSensor.class, "color1");
+        //distSen = hwMap.get(DistanceSensor.class, "distSen");
+        //color1 = hwMap.get(ColorSensor.class, "color1");
         claw = hwMap.get(Servo.class, "claw");
         wrist = hwMap.get(Servo.class, "wrist");
 
@@ -60,6 +60,8 @@ public class SkyStoneHardware
 
         armExt.setPower(0);
         armLift.setPower(0);
+
+
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -83,10 +85,13 @@ public class SkyStoneHardware
         //flipped these 4
         fLMotor.setDirection(DcMotor.Direction.REVERSE);
         fRMotor.setDirection(DcMotor.Direction.FORWARD);
-        bLMotor.setDirection(DcMotor.Direction.REVERSE);
-        bRMotor.setDirection(DcMotor.Direction.FORWARD);
+        bLMotor.setDirection(DcMotor.Direction.FORWARD);
+        bRMotor.setDirection(DcMotor.Direction.REVERSE);
 
         armLift.setDirection(DcMotor.Direction.FORWARD);
         armExt.setDirection(DcMotor.Direction.FORWARD);
+
+        claw.setPosition(1);//added for testing xoxo viridian
+        wrist.setPosition(1);
     }
 }
