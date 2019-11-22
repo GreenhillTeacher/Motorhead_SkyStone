@@ -1,0 +1,17 @@
+package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
+@Autonomous(name="FullAutonRed", group="Skystone")
+public class RightBridgeMatPark extends AutonDriving {
+
+    @Override
+    public void runOpMode()
+    {
+        encoderDrive(24.5,"f", 5, 1);
+        turnToPosition(-90,"z",1,5,false);
+        encoderDrive(9,"f",5,1);
+        turnToPosition(90,"z",1,5,false);
+        encoderDrive(23.5, "f",5, 1);
+    }
+}
