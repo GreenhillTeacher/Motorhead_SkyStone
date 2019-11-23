@@ -3,7 +3,9 @@ package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamc
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -14,6 +16,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
@@ -22,7 +28,62 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 @Autonomous(name="FullAutonRed", group="Skystone")
-public class FullAutonRed extends AutonDriving {
+public class AutonInitTest extends LinearOpMode {
+
+    SkyStoneHardware robot = new SkyStoneHardware();
+    private ElapsedTime runtime = new ElapsedTime();
+    String xyz = "z";
+    //CONTAINS ALL METHODS AND VARIABlES TO BE EXTENDED BY OTHER AUTON CLASSES
+    static final double     COUNTS_PER_MOTOR_REV = 1120;    // Currently: Andymark Neverest 40
+    static final double     COUNTS_PER_REV_ARM = 1495; //torquenado
+    static final double     PULLEY_DIAMETER = 1.3;
+    static final double     COUNTS_PER_INCH_ARM = COUNTS_PER_REV_ARM/(PULLEY_DIAMETER * Math.PI);
+    static final double     DRIVE_GEAR_REDUCTION = .9;     // This is < 1.0 if geared UP //On OUR CENTER MOTOR THE GEAR REDUCTION IS .5
+    static final double     WHEEL_DIAMETER_INCHES = 3.54331;     // For figuring circumference
+    static final double     COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * Math.PI);
+
+    BNO055IMU imu;
+
+    public static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
+    public static final boolean PHONE_IS_PORTRAIT = false  ;
+
+    public static final String VUFORIA_KEY =
+            "AYy6NYn/////AAABmTW3q+TyLUMbg/IXWlIG3BkMMq0okH0hLmwj3CxhPhvUlEZHaOAmESqfePJ57KC2g6UdWLN7OYvc8ihGAZSUJ2JPWAsHQGv6GUAj4BlrMCjHvqhY0w3tV/Azw2wlPmls4FcUCRTzidzVEDy+dtxqQ7U5ZtiQhjBZetAcnLsCYb58dgwZEjTx2+36jiqcFYvS+FlNJBpbwmnPUyEEb32YBBZj4ra5jB0v4IW4wYYRKTNijAQKxco33VYSCbH0at99SqhXECURA55dtmmJxYpFlT/sMmj0iblOqoG/auapQmmyEEXt/T8hv9StyirabxhbVVSe7fPsAueiXOWVm0kCPO+KN/TyWYB9Hg/mSfnNu9i9";
+
+    // Since ImageTarget trackables use mm to specifiy their dimensions, we must use mm for all the physical dimension.
+    // We will define some constants and conversions here
+    public static final float mmPerInch        = 25.4f;
+    // the height of the center of the target image above the floor
+
+    // Constant for Stone Target
+    public static final float stoneZ = 2.00f * mmPerInch;
+
+    // Constants for the center support targets
+
+    // Class Members
+    public OpenGLMatrix lastLocation = null;
+    public VuforiaLocalizer vuforia = null;
+
+    WebcamName webcamName = null;
+
+    public boolean targetVisible = false;
+    public float phoneXRotate    = 0;
+    public float phoneYRotate    = 0;
+    public float phoneZRotate    = 0;
+    public List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
+    public VuforiaTrackables targetsSkyStone;
+
+    //public String skystonePosition = "center";
+    public double forwardInches = 93;
+    public double driveSpeed = .6;
+    public double turnSpeed = 1;
+    public double armSpeed = .7;
+    public double liftSpeed = 1;
+    public double clawOpen = 1;
+    public double clawClosed = 0;
+    public double wristSide = 1;
+    public double wristForward = .5;
 
     @Override
     public void runOpMode()
@@ -110,42 +171,14 @@ public class FullAutonRed extends AutonDriving {
 
         waitForStart();
 
+        //testing for start lag 1
+        telemetry.addData("start", 1);
+        telemetry.update();
+
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
-
-
-        ///ACTUAL CODE
-        encoderDrive(10, "f", 5, driveSpeed);
-        String skystone = vuforia(allTrackables, targetsSkyStone);
-        turnToPosition(90, "z", turnSpeed, 7, false);
-
-        if(skystone.equals("right"))
-        {
-            encoderDrive(9, "f", 5, driveSpeed);
-            forwardInches -= 8;
-        }
-        else if (skystone.equals("left"))
-        {
-            encoderDrive(9, "b", 5, driveSpeed);
-            forwardInches += 8;
-        }
-        /*armExtend(21, armSpeed, 10);
-        robot.claw.setPosition(clawClose);
-        sleep(100);
-        //
-        armExtend(-10, armSpeed, 7);
-        armLift(2, liftSpeed, 5);
-        armExtend(-22, armSpeed, 7);
-        sleep(250);
-        //
-        encoderDrive(forwardInches, "f", 10, driveSpeed);
-        //TODO: FOUNDATION?
-            /*sleep(100);
-            encoderDrive(4, "l", 5, driveSpeed);
-            sleep(100);
-            turnToPosition(90, "z", turnSpeed, 5, false);
-            encoderDrive(43, "f", 7, driveSpeed);*/
-       telemetry.addData("path", "complete");
-       telemetry.update();
+        //testing for start lag 2
+        telemetry.addData("start", 2);
+        telemetry.update();
     }
 }
