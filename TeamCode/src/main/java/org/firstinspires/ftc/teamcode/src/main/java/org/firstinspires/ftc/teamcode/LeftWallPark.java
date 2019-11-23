@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-@Autonomous(name="LeftWallPark", group="Skystone")
+@Autonomous(name="LeftWallPark", group="WallPark")
 public class LeftWallPark extends AutonDriving {
 
     @Override
@@ -43,6 +43,6 @@ public class LeftWallPark extends AutonDriving {
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
         //
-        encoderDrive(9,"f", 5, driveSpeed);
+        encoderDrive(18,"f", 5, driveSpeed);
     }
 }

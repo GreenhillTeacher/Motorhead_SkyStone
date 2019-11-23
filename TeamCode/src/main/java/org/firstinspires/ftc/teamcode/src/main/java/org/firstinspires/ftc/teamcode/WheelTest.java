@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-@Autonomous(name="WheelTest", group="Skystone")
+@Autonomous(name="WheelTest", group="Test")
 public class WheelTest extends LinearOpMode {
 
     /* Declare OpMode members. */

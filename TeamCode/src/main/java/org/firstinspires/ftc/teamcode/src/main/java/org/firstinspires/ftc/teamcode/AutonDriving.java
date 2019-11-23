@@ -38,7 +38,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
-@Autonomous(name="AutonDriving", group="Skystone")
+@Autonomous(name="AutonDriving", group="Extends")
 public class AutonDriving extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -88,7 +88,6 @@ public class AutonDriving extends LinearOpMode {
     public VuforiaTrackables targetsSkyStone;
 
     //public String skystonePosition = "center";
-    public double forwardInches = 93;
     public double driveSpeed = .6;
     public double turnSpeed = 1;
     public double armSpeed = .7;
@@ -97,6 +96,9 @@ public class AutonDriving extends LinearOpMode {
     public double clawClosed = 0;
     public double wristSide = 1;
     public double wristForward = .5;
+
+    Orientation angles;
+    Acceleration gravity;
 
     @Override
     public void runOpMode() {
@@ -108,7 +110,7 @@ public class AutonDriving extends LinearOpMode {
         runtime.reset();
         String skystonePosition = "null";
         targetsSkyStone.activate();
-        while (runtime.seconds() <= 5) {
+        while (runtime.seconds() <= 3) {
 
             // check all the trackable targets to see which one (if any) is visible.
             targetVisible = false;
@@ -157,25 +159,87 @@ public class AutonDriving extends LinearOpMode {
             }
             telemetry.addData("Skystone Position", skystonePosition);
             telemetry.update();
-            if(!skystonePosition.equals("null"))
-            {
-                return skystonePosition;
-            }
         }
         //telemetry.addData("stopped", "stopped");
         //telemetry.update();
-        sleep(2500);
+        //sleep(2500);
 
         // Disable Tracking when we are done;
         targetsSkyStone.deactivate();
         return skystonePosition;
     }
+
+
     public static double counts(double inches)
     {
         double newInches = (inches - 3.7959) / 1.1239;
         return newInches;
     }
 
+
+    public void updateAngles()
+    {
+        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+    }
+
+
+    public void turnDegreesLegacy(double target, double power, double timeoutS)
+    {
+        //Write code to correct to a target position (NOT FINISHED)
+        runtime.reset();
+        updateAngles(); //variable for gyro correction around z axis
+        target *= -1;//switches clockwise and counterclockwise directions
+
+        if(target < 0) {//this fixes a problem where the turn undershoots by 6ish degrees for some reason
+            target += 2;
+        }
+        else if(target > 0){
+            target -= 2;
+        }
+        //target += 6;
+        double error = angles.firstAngle - target;
+        double errorAbs;
+        //wrapping error to have it remain in the field
+        if (error > 180)  error -= 360;
+        if (error <= -180) error += 360;
+
+        double powerScaled = power;
+        do
+        {
+            updateAngles();
+            error = angles.firstAngle - target;
+            errorAbs = Math.abs(error);
+
+            if (errorAbs <= 10)
+            {
+                powerScaled /= 2;
+            }
+            telemetry.addData("error", error);
+            //telemetry.addData("NORTH", NORTH);
+            telemetry.addData("angle", angles.firstAngle);
+            telemetry.update();
+            if(error > 0)
+            {
+                robot.fRMotor.setPower(-powerScaled);
+                robot.bRMotor.setPower(-powerScaled);
+                robot.fLMotor.setPower(powerScaled);
+                robot.bLMotor.setPower(powerScaled);
+            }
+            else if(error < 0)
+            {
+                robot.fRMotor.setPower(powerScaled);
+                robot.bRMotor.setPower(powerScaled);
+                robot.fLMotor.setPower(-powerScaled);
+                robot.bLMotor.setPower(-powerScaled);
+            }
+        }
+        while ((Math.abs(error) > 1) && (runtime.seconds() < timeoutS) && opModeIsActive());
+
+        robot.fRMotor.setPower(0);
+        robot.bRMotor.setPower(0);
+        robot.fLMotor.setPower(0);
+        robot.bLMotor.setPower(0);
+    }
 
 
     public void normalDrive(double lpower, double rpower) {
@@ -281,7 +345,7 @@ public class AutonDriving extends LinearOpMode {
     }
     public double pidMultiplierTurning(double error) {
         //equation for power multiplier is x/sqrt(x^2 + C)
-        double C = .01;
+        double C = .001;
         return Math.abs(error / Math.sqrt((error * error) + C));
     }
 

@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-@Autonomous(name="RightBridgeParkArm", group="Skystone")
+@Autonomous(name="RightBridgeParkArm", group="BridgePark")
 public class RightBridgeParkArm extends AutonDriving {
 
     @Override

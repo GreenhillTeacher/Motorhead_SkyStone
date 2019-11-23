@@ -24,6 +24,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 @Autonomous(name="FullAutonRed", group="Skystone")
 public class FullAutonRed extends AutonDriving {
 
+    public double forwardInches = 81;
     @Override
     public void runOpMode()
     {
@@ -115,36 +116,56 @@ public class FullAutonRed extends AutonDriving {
 
 
         ///ACTUAL CODE
-        encoderDrive(10, "f", 5, driveSpeed);
+        encoderDrive(8, "f", 5, driveSpeed);
         String skystone = vuforia(allTrackables, targetsSkyStone);
-        turnToPosition(90, "z", turnSpeed, 7, false);
+        //turnToPosition(90, "z", turnSpeed, 7, false);
+        turnDegreesLegacy(90, .5, 5);
+        sleep(200);
 
-        if(skystone.equals("right"))
+        if(skystone.equals("center"))
         {
-            encoderDrive(9, "f", 5, driveSpeed);
-            forwardInches -= 8;
+            encoderDrive(2, "f", 5, driveSpeed);
         }
-        else if (skystone.equals("left"))
+        else if(skystone.equals("right"))
         {
-            encoderDrive(9, "b", 5, driveSpeed);
-            forwardInches += 8;
+            encoderDrive(11, "f", 5, driveSpeed);
+
+            forwardInches -= 9;
         }
-        /*armExtend(21, armSpeed, 10);
-        robot.claw.setPosition(clawClose);
-        sleep(100);
-        //
+        else
+        {
+            encoderDrive(7, "b", 5, driveSpeed);
+            forwardInches += 9;
+        }
+
+        //grab
+        /*armExtend(10, armSpeed, 10);
+        robot.wrist.setPower(1);
+        sleep(200); //todo: check
+        robot.wrist.setPower(0);
+        armExtend(18, armSpeed, 10);
+        robot.claw.setPosition(clawClosed);
+        sleep(100);*/
+
+        //return
+        /*armLift(1, liftSpeed, 7);
         armExtend(-10, armSpeed, 7);
         armLift(2, liftSpeed, 5);
-        armExtend(-22, armSpeed, 7);
-        sleep(250);
-        //
+        armExtend(-18, armSpeed, 7);
+        sleep(250);*/
+
+        //cross bridge
         encoderDrive(forwardInches, "f", 10, driveSpeed);
+        //armExtend(5, armSpeed, 7);
+        //robot.claw.setPosition(clawClose);
+
         //TODO: FOUNDATION?
             /*sleep(100);
             encoderDrive(4, "l", 5, driveSpeed);
             sleep(100);
             turnToPosition(90, "z", turnSpeed, 5, false);
             encoderDrive(43, "f", 7, driveSpeed);*/
+
        telemetry.addData("path", "complete");
        telemetry.update();
     }

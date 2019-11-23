@@ -21,7 +21,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
-@Autonomous(name="TestDriving", group="Skystone")
+@Autonomous(name="TestDriving", group="Test")
 public class TestDriving extends AutonDriving {
     AutonDriving auton = new AutonDriving();
 
@@ -118,6 +118,6 @@ public class TestDriving extends AutonDriving {
        // stopAndReset();
 
 
-        encoderDrive(10, "f",5, driveSpeed);
+        encoderDrive(10, "b",5, driveSpeed);
     }
 }

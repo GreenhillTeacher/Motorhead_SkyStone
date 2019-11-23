@@ -5,12 +5,26 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 
-@Autonomous(name="RightWallPark", group="WallPark")
-public class RightWallPark extends AutonDriving {
+import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
+import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
+import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
+import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
+import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
+@Autonomous(name="GyroTestLegacy", group="Test")
+public class GyroTest extends AutonDriving {
+
+    public double forwardInches = 81;
     @Override
     public void runOpMode()
     {
@@ -39,10 +53,18 @@ public class RightWallPark extends AutonDriving {
         robot.bLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.bRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+
         waitForStart();
+
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
-        //
-        encoderDrive(18,"b", 5, driveSpeed);
+
+
+        ///ACTUAL CODE
+        turnDegreesLegacy(90, .5, 5);
+        sleep(500);
+
+       telemetry.addData("path", "complete");
+       telemetry.update();
     }
 }
