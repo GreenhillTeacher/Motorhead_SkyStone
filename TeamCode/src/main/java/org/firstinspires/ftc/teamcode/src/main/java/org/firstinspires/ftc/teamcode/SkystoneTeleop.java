@@ -38,7 +38,7 @@ public class SkystoneTeleop extends OpMode {
         {
             robot.armLift.setPower(-liftPower);
         }
-        else if(gamepad2.dpad_up)
+        else if(gamepad2.dpad_down)
         {
             robot.armLift.setPower(liftPower);
         }
@@ -76,14 +76,20 @@ public class SkystoneTeleop extends OpMode {
         }
 
         //wrist movement
+        double wristPower;
         if(gamepad2.x)
         {
-            robot.wrist.setPower(1);
+            wristPower = .2;
         }
         else if(gamepad2.y)
         {
-            robot.wrist.setPower(-1);
+            wristPower = -.2;
         }
+        else
+        {
+            wristPower = 0;
+        }
+        robot.wrist.setPower(wristPower);
     }
 
     public void mecanumMove() {

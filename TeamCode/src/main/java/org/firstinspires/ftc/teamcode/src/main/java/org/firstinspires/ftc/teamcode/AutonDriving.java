@@ -157,6 +157,10 @@ public class AutonDriving extends LinearOpMode {
                 telemetry.addData("Visible Target", "none");
                 skystonePosition = "left";
             }
+            if(!skystonePosition.equals("null") && !skystonePosition.equals("left") && runtime.seconds() >= 2)
+            {
+                return skystonePosition;
+            }
             telemetry.addData("Skystone Position", skystonePosition);
             telemetry.update();
         }

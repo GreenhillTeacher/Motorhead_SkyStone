@@ -139,25 +139,25 @@ public class FullAutonRed extends AutonDriving {
         }
 
         //grab
-        /*armExtend(10, armSpeed, 10);
+        armExtend(10, armSpeed, 10);
         robot.wrist.setPower(1);
         sleep(200); //todo: check
         robot.wrist.setPower(0);
         armExtend(18, armSpeed, 10);
         robot.claw.setPosition(clawClosed);
-        sleep(100);*/
+        sleep(100);
 
         //return
-        /*armLift(1, liftSpeed, 7);
+        armLift(2, liftSpeed, 7);
         armExtend(-10, armSpeed, 7);
         armLift(2, liftSpeed, 5);
-        armExtend(-18, armSpeed, 7);
-        sleep(250);*/
+        armExtend(-12, armSpeed, 7);
+        sleep(250);
 
         //cross bridge
         encoderDrive(forwardInches, "f", 10, driveSpeed);
-        //armExtend(5, armSpeed, 7);
-        //robot.claw.setPosition(clawClose);
+        armExtend(5, armSpeed, 7);
+        robot.claw.setPosition(clawOpen);
 
         //TODO: FOUNDATION?
             /*sleep(100);
