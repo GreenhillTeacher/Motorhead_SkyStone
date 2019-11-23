@@ -20,6 +20,7 @@ public class SkystoneTeleop extends OpMode {
             (WHEEL_DIAMETER_INCHES * 3.1415);
     //double susanPower = .45;
     double liftPower = 1;
+    double wristPosition = .5;
 
     @Override
     public void init() {
@@ -36,11 +37,11 @@ public class SkystoneTeleop extends OpMode {
         //arm lift
         if(gamepad2.dpad_up)
         {
-            robot.armLift.setPower(-liftPower);
+            robot.armLift.setPower(liftPower);
         }
         else if(gamepad2.dpad_down)
         {
-            robot.armLift.setPower(liftPower);
+            robot.armLift.setPower(-liftPower);
         }
         else
         {
@@ -76,20 +77,19 @@ public class SkystoneTeleop extends OpMode {
         }
 
         //wrist movement
-        double wristPower;
         if(gamepad2.x)
         {
-            wristPower = .2;
+            wristPosition = 1;
         }
         else if(gamepad2.y)
         {
-            wristPower = -.2;
+            wristPosition = 0;
         }
-        else
+        else if(gamepad2.left_bumper)
         {
-            wristPower = 0;
+            wristPosition = .5;
         }
-        robot.wrist.setPower(wristPower);
+        robot.wrist.setPosition(wristPosition);
     }
 
     public void mecanumMove() {

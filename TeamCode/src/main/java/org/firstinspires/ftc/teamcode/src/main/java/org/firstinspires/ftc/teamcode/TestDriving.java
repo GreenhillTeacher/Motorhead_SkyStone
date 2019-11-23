@@ -118,6 +118,10 @@ public class TestDriving extends AutonDriving {
        // stopAndReset();
 
 
-        encoderDrive(10, "b",5, driveSpeed);
+        //encoderDrive(10, "b",5, driveSpeed);
+        robot.armLift.setPower(1);
+        sleep(750);
+        robot.armLift.setPower(0);
+        //  armLift(.01, .1, 5);
     }
 }

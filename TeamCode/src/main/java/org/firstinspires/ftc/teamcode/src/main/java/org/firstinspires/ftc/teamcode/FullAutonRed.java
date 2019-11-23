@@ -24,7 +24,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 @Autonomous(name="FullAutonRed", group="Skystone")
 public class FullAutonRed extends AutonDriving {
 
-    public double forwardInches = 81;
+    public double forwardInches = 64;
     @Override
     public void runOpMode()
     {
@@ -119,12 +119,12 @@ public class FullAutonRed extends AutonDriving {
         encoderDrive(8, "f", 5, driveSpeed);
         String skystone = vuforia(allTrackables, targetsSkyStone);
         //turnToPosition(90, "z", turnSpeed, 7, false);
-        turnDegreesLegacy(90, .5, 5);
+        turnDegreesLegacy(90, .3, 5);
         sleep(200);
 
         if(skystone.equals("center"))
         {
-            encoderDrive(2, "f", 5, driveSpeed);
+            encoderDrive(2, "b", 5, driveSpeed);
         }
         else if(skystone.equals("right"))
         {
@@ -134,23 +134,30 @@ public class FullAutonRed extends AutonDriving {
         }
         else
         {
-            encoderDrive(7, "b", 5, driveSpeed);
+            encoderDrive(11,"b", 5, driveSpeed);
             forwardInches += 9;
         }
 
         //grab
+        robot.armLift.setPower(1);
+        sleep(900);
+        robot.armLift.setPower(0);
+        sleep(100);
         armExtend(10, armSpeed, 10);
-        robot.wrist.setPower(1);
-        sleep(200); //todo: check
-        robot.wrist.setPower(0);
+        //robot.wrist.setPower(1);
+        //sleep(200); //todo: check
+        //robot.wrist.setPower(0);
         armExtend(18, armSpeed, 10);
         robot.claw.setPosition(clawClosed);
         sleep(100);
 
         //return
-        armLift(2, liftSpeed, 7);
+        //armLift(2, liftSpeed, 7);
+        robot.armLift.setPower(-1);
+        sleep(400);
+        robot.armLift.setPower(0);
         armExtend(-10, armSpeed, 7);
-        armLift(2, liftSpeed, 5);
+        //armLift(2, liftSpeed, 5);
         armExtend(-12, armSpeed, 7);
         sleep(250);
 
@@ -158,6 +165,7 @@ public class FullAutonRed extends AutonDriving {
         encoderDrive(forwardInches, "f", 10, driveSpeed);
         armExtend(5, armSpeed, 7);
         robot.claw.setPosition(clawOpen);
+        encoderDrive(8, "b", 10, driveSpeed);
 
         //TODO: FOUNDATION?
             /*sleep(100);

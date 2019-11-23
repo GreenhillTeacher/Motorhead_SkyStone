@@ -30,7 +30,7 @@ public class SkyStoneHardware
     public DcMotor armExt;
     //public DistanceSensor distSen;
     public Servo claw;
-    public CRServo wrist;
+    public Servo wrist;
     //public ColorSensor color1;
 
     //declaring values for use with encoders
@@ -62,7 +62,7 @@ public class SkyStoneHardware
         //distSen = hwMap.get(DistanceSensor.class, "distSen");
         //color1 = hwMap.get(ColorSensor.class, "color1");
         claw = hwMap.get(Servo.class, "claw");
-        wrist = hwMap.get(CRServo.class, "wrist");
+        wrist = hwMap.get(Servo.class, "wrist");
 
         fLMotor.setPower(0);
         bLMotor.setPower(0);
@@ -99,11 +99,12 @@ public class SkyStoneHardware
         bLMotor.setDirection(DcMotor.Direction.REVERSE);
         bRMotor.setDirection(DcMotor.Direction.FORWARD);
 
-        armLift.setDirection(DcMotor.Direction.FORWARD);
+        armLift.setDirection(DcMotor.Direction.REVERSE);
         armExt.setDirection(DcMotor.Direction.FORWARD);
 
         claw.setPosition(1);//added for testing xoxo viridian
-        wrist.setPower(0);
+        wrist.setPosition(.5);
+
 
     }
 }
