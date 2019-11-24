@@ -41,8 +41,7 @@ public class RightWallPark extends AutonDriving {
 
         waitForStart();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-
-        //
+        robot.claw.setPosition(clawClosed);
         encoderDrive(18,"b", 5, driveSpeed);
     }
 }

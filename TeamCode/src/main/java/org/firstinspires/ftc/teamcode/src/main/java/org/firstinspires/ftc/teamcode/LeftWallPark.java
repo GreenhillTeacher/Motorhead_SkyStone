@@ -43,6 +43,7 @@ public class LeftWallPark extends AutonDriving {
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
         //
+        robot.claw.setPosition(clawClosed);
         encoderDrive(18,"f", 5, driveSpeed);
     }
 }

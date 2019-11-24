@@ -46,8 +46,8 @@ public class LeftBridgeParkNoArm extends AutonDriving {
         //
         encoderDrive(24.5,"f", 5, driveSpeed);
         turnToPosition(90,"z",turnSpeed,5,false);
-        encoderDrive(9,"f",5,driveSpeed);
-        turnToPosition(-90,"z",turnSpeed,5,false);
+        encoderDrive(15,"f",5,driveSpeed);
+        turnToPosition(0,"z",turnSpeed,5,false);
         encoderDrive(23.5, "f",5, driveSpeed);
     }
 }

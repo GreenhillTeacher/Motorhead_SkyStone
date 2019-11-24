@@ -102,9 +102,7 @@ public class SkyStoneHardware
         armLift.setDirection(DcMotor.Direction.REVERSE);
         armExt.setDirection(DcMotor.Direction.FORWARD);
 
-        claw.setPosition(1);//added for testing xoxo viridian
-        wrist.setPosition(.5);
-
+        claw.setPosition(0);
 
     }
 }
