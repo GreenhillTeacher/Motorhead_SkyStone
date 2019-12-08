@@ -116,6 +116,7 @@ public class FullAutonRed extends AutonDriving {
 
 
         ///ACTUAL CODE
+        //TODO: add distance center
         encoderDrive(8, "f", 5, driveSpeed);
         String skystone = vuforia(allTrackables, targetsSkyStone);
         //turnToPosition(90, "z", turnSpeed, 7, false);

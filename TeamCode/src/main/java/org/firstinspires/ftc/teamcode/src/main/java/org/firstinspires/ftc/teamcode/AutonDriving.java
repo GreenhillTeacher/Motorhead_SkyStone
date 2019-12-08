@@ -18,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -55,6 +56,10 @@ public class AutonDriving extends LinearOpMode {
     static final double     WHEEL_DIAMETER_INCHES = 3.54331;     // For figuring circumference
     static final double     COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * Math.PI);
+
+    static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
+    static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
+    static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable
 
     BNO055IMU imu;
 
@@ -546,5 +551,130 @@ public class AutonDriving extends LinearOpMode {
         }
         robot.armLift.setPower(0);
         stopAndReset();
+    }
+
+    public void gyroDrive ( double speed, double distance, double angle) { // function currently only works for driving straight, not strafe
+
+        int     fLTarget;
+        int     fRTarget;
+        int     bLTarget;
+        int     bRTarget;
+        int     moveCounts;
+        double  max;
+        double  error;
+        double  steer;
+        double  leftSpeed;
+        double  rightSpeed;
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            moveCounts = (int)(distance * COUNTS_PER_INCH);
+//            newLeftTarget = robot.leftDrive.getCurrentPosition() + moveCounts;
+//            newRightTarget = robot.rightDrive.getCurrentPosition() + moveCounts;
+            fLTarget = robot.fLMotor.getCurrentPosition() + moveCounts;
+            fRTarget = robot.fRMotor.getCurrentPosition() + moveCounts;
+            bLTarget = robot.bLMotor.getCurrentPosition() + moveCounts;
+            bRTarget = robot.bRMotor.getCurrentPosition() + moveCounts;
+
+            // Set Target and Turn On RUN_TO_POSITION
+//            robot.leftDrive.setTargetPosition(newLeftTarget);
+//            robot.rightDrive.setTargetPosition(newRightTarget);
+            robot.fLMotor.setTargetPosition(fLTarget);
+            robot.fRMotor.setTargetPosition(fRTarget);
+            robot.bLMotor.setTargetPosition(bLTarget);
+            robot.bRMotor.setTargetPosition(bRTarget);
+
+//            robot.leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            robot.rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.fLMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.fRMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.bLMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.bRMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // start motion.
+            speed = Range.clip(Math.abs(speed), 0.0, 1.0);
+//            robot.leftDrive.setPower(speed);
+//            robot.rightDrive.setPower(speed);
+            robot.fLMotor.setPower(speed);
+            robot.fRMotor.setPower(speed);
+            robot.bLMotor.setPower(speed);
+            robot.bRMotor.setPower(speed);
+
+
+            // keep looping while we are still active, and BOTH motors are running.
+            while (opModeIsActive() /*&&
+                    (robot.leftDrive.isBusy() && robot.rightDrive.isBusy())*/)
+            {
+
+                // adjust relative speed based on heading error.
+                error = getError(angle);
+                steer = getSteer(error, P_DRIVE_COEFF);
+
+                // if driving in reverse, the motor correction also needs to be reversed
+                if (distance < 0)
+                    steer *= -1.0;
+
+                leftSpeed = speed - steer;
+                rightSpeed = speed + steer;
+
+                // Normalize speeds if either one exceeds +/- 1.0;
+                max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
+                if (max > 1.0)
+                {
+                    leftSpeed /= max;
+                    rightSpeed /= max;
+                }
+
+                robot.fLMotor.setPower(leftSpeed);
+                robot.bLMotor.setPower(leftSpeed);
+                robot.fRMotor.setPower(rightSpeed);
+                robot.bRMotor.setPower(rightSpeed);
+
+                // Display drive status for the driver.
+                telemetry.addData("Err/St",  "%5.1f/%5.1f",  error, steer);
+                telemetry.addData("Target",  "fL:%7d\tfR:%7d\tbL:&7d\tbR:%7d",
+                                                            fLTarget, fRTarget,
+                                                            bLTarget, bRTarget);
+                telemetry.addData("Actual",  "fL:%7d\tfR:%7d\tbL:%7d\tbR:%7d",
+                                                            robot.fLMotor.getCurrentPosition(),
+                                                            robot.fRMotor.getCurrentPosition(),
+                                                            robot.bLMotor.getCurrentPosition(),
+                                                            robot.bRMotor.getCurrentPosition());
+                telemetry.addData("Speed",   "%5.2f:%5.2f",  leftSpeed, rightSpeed);//refers to the speed of the left and right side of the robot
+                telemetry.update();
+            }
+
+            // Stop all motion;
+            robot.fLMotor.setPower(0);
+            robot.fRMotor.setPower(0);
+            robot.bLMotor.setPower(0);
+            robot.bRMotor.setPower(0);
+
+            // Turn off RUN_TO_POSITION
+            robot.fLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+    }
+
+    public double getError(double targetAngle) {
+
+        double robotError;
+
+        // calculate error in -179 to +180 range  (
+        robotError = targetAngle - imu.getAngularOrientation().thirdAngle;
+        while (robotError > 180)  robotError -= 360;
+        while (robotError <= -180) robotError += 360;
+        return robotError;
+    }
+
+    /**
+     * returns desired steering force.  +/- 1 range.  +ve = steer left
+     * @param error   Error angle in robot relative degrees
+     * @param PCoeff  Proportional Gain Coefficient
+     * @return
+     */
+    public double getSteer(double error, double PCoeff) {
+        return Range.clip(error * PCoeff, -1, 1);
     }
 }
