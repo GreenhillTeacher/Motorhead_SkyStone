@@ -11,13 +11,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name="MecanumTeleop3DriveOnly", group="MecanumBot3")
 //@Disabled
-@Disabled
+//@Disabled
 
 public class MecanumTeleop3DriveOnly extends OpMode {
 
     MecanumHardware3DriveOnly robot = new MecanumHardware3DriveOnly();
 
-    private float drive = .8f;
+    private float drive = .4f;
 
     @Override
     public void init()
