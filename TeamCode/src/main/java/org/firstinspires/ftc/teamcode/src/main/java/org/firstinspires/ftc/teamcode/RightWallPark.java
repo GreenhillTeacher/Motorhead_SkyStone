@@ -3,12 +3,15 @@ package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamc
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.configuration.annotations.DigitalIoDeviceType;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 @Autonomous(name="RightWallPark", group="WallPark")
+@Disabled
 public class RightWallPark extends AutonDriving {
 
     @Override

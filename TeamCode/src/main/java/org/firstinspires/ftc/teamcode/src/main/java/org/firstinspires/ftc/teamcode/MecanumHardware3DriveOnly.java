@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+
 public class MecanumHardware3DriveOnly
 {
     public DcMotor fLMotor;
@@ -42,6 +44,8 @@ public class MecanumHardware3DriveOnly
         fRMotor = hwMap.get(DcMotor.class, "fRMotor");
         bRMotor = hwMap.get(DcMotor.class, "bRMotor");
         bLMotor = hwMap.get(DcMotor.class, "bLMotor");
+
+        //webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
         //distSen = hwMap.get(DistanceSensor.class, "distSen");
         //sensorColor = hwMap.get(ColorSensor.class, "sensorColor");

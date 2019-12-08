@@ -2,69 +2,93 @@ package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamc
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
+import org.firstinspires.ftc.teamcode.src.main.java.legacy.MecanumHardware3;
+//import org.firstinspires.ftc.teamcode.SkyStoneHardware;
 
-import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
-import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
-import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
-import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
-import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
-@Autonomous(name="GyroTestLegacy", group="Test")
-public class GyroTest extends AutonDriving {
+@TeleOp(name="GyroTest", group="Test")
+//@Disabled
+@Disabled
 
-    public double forwardInches = 81;
+public class GyroTest extends OpMode {
+
+    MecanumHardware3DriveOnly robot = new MecanumHardware3DriveOnly();
+
+    private float drive = .8f;
+    BNO055IMU imu;
+    Orientation angles;
+    Acceleration gravity;
+
     @Override
-    public void runOpMode()
+    public void init()
     {
+        //Initialize the hardware variables.
+        //The init() method of the hardware class does all the work here
         robot.init(hardwareMap);
-        BNO055IMU.Parameters p = new BNO055IMU.Parameters();
-        p.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        p.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        p.calibrationDataFile = "BNO055IMUCalibration.json";
-        p.loggingEnabled = true;
-        p.loggingTag = "IMU";
-        p.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(p);
+        imu.initialize(parameters);
 
-        //side motors
-        robot.fLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.fRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        robot.fLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.fRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        //lateral motors
-        robot.bLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.bRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        robot.bLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.bRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-
-        waitForStart();
-
-        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-
-
-
-        ///ACTUAL CODE
-        turnDegreesLegacy(90, .5, 5);
-        sleep(500);
-
-       telemetry.addData("path", "complete");
-       telemetry.update();
     }
+
+    @Override
+    public void loop()
+    {
+        //waitForStart();
+        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+        //
+        telemetry.addData("x", readAngle("x"));
+        telemetry.addData("y", readAngle("y"));
+        telemetry.addData("z", readAngle("z"));
+        telemetry.update();
+//        telemetry.addData("sen1b", robot.sen1.blue());
+//        telemetry.addData("sen2", robot.sen2.alpha());
+//        telemetry.addData("sen3", robot.sen3.alpha());
+//        telemetry.addData("dist", robot.dist.getDistance(DistanceUnit.INCH));//if the distance is < .5in then the stone is too close despite being skystone
+        //and if a nonskystone is more than 5.5in away it needs to be brought closer
+        // if stone is really close then skystone reading are lower across the board than regular stone
+//        double average = robot.sen1.alpha()+ robot.sen3.alpha() + robot.sen2.alpha();
+//        boolean isSkystone = false;
+//        average/=3;
+//        telemetry.addData("average", (robot.sen1.alpha() + robot.sen2.alpha() + robot.sen3.alpha())/3);
+//        if(average < 150)
+//        {
+//            isSkystone = true;
+//        }
+//        telemetry.addData("Is A Skystone", isSkystone);
+       // telemetry.update();
+        //not funny didnt laugh
+    }
+    public double readAngle(String xyz) {
+        Orientation angles;
+        Acceleration gravity;
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        if (xyz.equals("x")) {
+            return angles.thirdAngle;
+        } else if (xyz.equals("y")) {
+            return angles.secondAngle;
+        } else if (xyz.equals("z")) {
+            return angles.firstAngle;
+        } else {
+            return 0;
+        }
+    }
+
 }

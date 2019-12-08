@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.src.main.java.legacy;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -17,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 @TeleOp(name="GyroTest", group="ColorSensor")
 //@Disabled
+@Disabled
 
 public class GyroTest extends OpMode {
 

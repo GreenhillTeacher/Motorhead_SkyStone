@@ -1,29 +1,19 @@
 package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.Position;
-import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
-
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.Range;
-
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
@@ -35,24 +25,23 @@ import java.util.List;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
-import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
-//@Autonomous(name="AutonDriving", group="Extends")
-public class AutonDriving extends LinearOpMode {
+//@Autonomous(name="AutonDrivingDriveOnly", group="AutonTesting")
+public class AutonDrivingDriveOnly extends LinearOpMode {
 
     /* Declare OpMode members. */
     //TODO: NOTE CHANGE WHEN ARM IS ON
-    SkyStoneHardware robot = new SkyStoneHardware();
+    MecanumHardware3DriveOnly robot = new MecanumHardware3DriveOnly();
     private ElapsedTime runtime = new ElapsedTime();
     String xyz = "z";
     //CONTAINS ALL METHODS AND VARIABlES TO BE EXTENDED BY OTHER AUTON CLASSES
     static final double     COUNTS_PER_MOTOR_REV = 537.6;    // Currently: Andymark Neverest 20
-    static final double     COUNTS_PER_REV_ARM = 1495; //torquenado
-    static final double     PULLEY_DIAMETER = 1.3;
-    static final double     COUNTS_PER_INCH_ARM = COUNTS_PER_REV_ARM/(PULLEY_DIAMETER * Math.PI);
-    static final double     DRIVE_GEAR_REDUCTION = 24/10;     // This is < 1.0 if geared UP //On OUR CENTER MOTOR THE GEAR REDUCTION IS .5
+    //static final double     COUNTS_PER_REV_ARM = 1495; //torquenado
+    //static final double     PULLEY_DIAMETER = 1.3;
+   // static final double     COUNTS_PER_INCH_ARM = COUNTS_PER_REV_ARM/(PULLEY_DIAMETER * Math.PI);
+    static final double     DRIVE_GEAR_REDUCTION = .54;     // This is < 1.0 if geared UP //On OUR CENTER MOTOR THE GEAR REDUCTION IS .5
     static final double     WHEEL_DIAMETER_INCHES = 2.95276;     // For figuring circumference
     static final double     COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * Math.PI);
@@ -93,7 +82,7 @@ public class AutonDriving extends LinearOpMode {
     public VuforiaTrackables targetsSkyStone;
 
     //public String skystonePosition = "center";
-    public double driveSpeed = .6;
+    public double driveSpeed = .4;
     public double turnSpeed = 1;
     public double armSpeed = .7;
     public double liftSpeed = 1;
@@ -334,16 +323,16 @@ public class AutonDriving extends LinearOpMode {
         robot.bLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.fRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.fLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.armExt.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.armLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //robot.armExt.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //robot.armLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //robot.susan.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //
         robot.bRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.bLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.fRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.fLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.armExt.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.armLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //robot.armExt.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //robot.armLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //robot.susan.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
@@ -507,7 +496,7 @@ public class AutonDriving extends LinearOpMode {
         }
         stopAndReset();
     }
-    public void armExtend(double inches, double topPower, double timeoutS)
+    /*public void armExtend(double inches, double topPower, double timeoutS)
     {
         stopAndReset();
         int target = robot.armExt.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH_ARM);
@@ -552,10 +541,10 @@ public class AutonDriving extends LinearOpMode {
         robot.armLift.setPower(0);
         stopAndReset();
     }
-
-    public void gyroDrive ( String heading, double inches, double angle, double timeoutS, double topPower) { // function currently only works for driving straight, not strafe
-
+*/
+    public void gyroDrive (double topPower, double inches, double angle, String heading, double timeoutS) {
         stopAndReset();
+
         int TargetFL = 0;
         int TargetFR = 0;
         int TargetBL = 0;
@@ -568,20 +557,18 @@ public class AutonDriving extends LinearOpMode {
         double powerFR = 0;
         double powerBL = 0;
         double powerBR = 0;
-        //int     fLTarget;
-        //int     fRTarget;
-        //int     bLTarget;
-        ///int     bRTarget;
-        int     moveCounts;
+        //int newLeftTarget;
+        //int newRightTarget;
+        int counts;
         double  max;
-        double  error;
+        double  angleError;
         double  steer;
-        double  leftSpeed;
-        double  rightSpeed;
+        //double  leftSpeed;
+        //double  rightSpeed;
 
         // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-
+        if (opModeIsActive())
+        {
             if(heading == "f")
             {
                 TargetFL = robot.fLMotor.getCurrentPosition() + (int)( inches* COUNTS_PER_INCH);
@@ -624,53 +611,57 @@ public class AutonDriving extends LinearOpMode {
             {
                 telemetry.addData("not a valid direction", heading );
             }
+            stopAndReset();
 
             // Determine new target position, and pass to motor controller
-            moveCounts = (int)(inches * COUNTS_PER_INCH);
-//            newLeftTarget = robot.leftDrive.getCurrentPosition() + moveCounts;
-//            newRightTarget = robot.rightDrive.getCurrentPosition() + moveCounts;
-            TargetFL = robot.fLMotor.getCurrentPosition() + moveCounts;
-            TargetFR = robot.fRMotor.getCurrentPosition() + moveCounts;
-            TargetBL = robot.bLMotor.getCurrentPosition() + moveCounts;
-            TargetBR = robot.bRMotor.getCurrentPosition() + moveCounts;
+            counts = (int)(inches * COUNTS_PER_INCH);
+            TargetFL = robot.fLMotor.getCurrentPosition() + counts;
+            TargetFR = robot.fRMotor.getCurrentPosition() + counts;
+            TargetBL = robot.bLMotor.getCurrentPosition() + counts;
+            TargetBR = robot.bRMotor.getCurrentPosition() + counts;
 
             // Set Target and Turn On RUN_TO_POSITION
-//            robot.leftDrive.setTargetPosition(newLeftTarget);
-//            robot.rightDrive.setTargetPosition(newRightTarget);
             robot.fLMotor.setTargetPosition(TargetFL);
             robot.fRMotor.setTargetPosition(TargetFR);
             robot.bLMotor.setTargetPosition(TargetBL);
             robot.bRMotor.setTargetPosition(TargetBR);
 
-//            robot.leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            robot.rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.fLMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.fRMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.bLMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.bRMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
             // start motion.
             //speed = Range.clip(Math.abs(speed), 0.0, 1.0);
-//            robot.leftDrive.setPower(speed);
-//            robot.rightDrive.setPower(speed);
-           /* robot.fLMotor.setPower(speed);
+            /*robot.fLMotor.setPower(speed);
             robot.fRMotor.setPower(speed);
             robot.bLMotor.setPower(speed);
             robot.bRMotor.setPower(speed);*/
 
-
+            // keep looping while we are still active, and BOTH motors are running.
             while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) && ((robot.fLMotor.isBusy() && robot.fRMotor.isBusy()) && robot.bLMotor.isBusy() && robot.bRMotor.isBusy()))
-            {
-                error = getError(angle);
-                steer = getSteer(error, P_DRIVE_COEFF);
+                    (robot.fLMotor.isBusy() && robot.fRMotor.isBusy() && robot.bLMotor.isBusy() && robot.bRMotor.isBusy())) {
+
+                // adjust relative speed based on heading error.
+
+                angleError = getError(angle);
+                if(Math.abs(angleError) >= .3)
+                {
+                    steer = getSteer(angleError, P_DRIVE_COEFF);
+                }
+                else
+                {
+                    steer =0;
+                }
+                //steer = getSteer(error, P_DRIVE_COEFF);
 
                 // if driving in reverse, the motor correction also needs to be reversed
                 if (heading.equals("b"))
                     steer *= -1.0;
-
                 else if(!heading.equals("f"))
-                    steer = 0;
+                    steer =0;
+
+               // powerFL = (topPower - steer) * speed;
+               // rightSpeed = (speed + steer) * speed;
                 errorFL = TargetFL - robot.fLMotor.getCurrentPosition();
                 errorFR = TargetFR - robot.fRMotor.getCurrentPosition();
                 errorBL = TargetBL - robot.bLMotor.getCurrentPosition();
@@ -681,8 +672,9 @@ public class AutonDriving extends LinearOpMode {
                 powerBL = topPower * (pidMultiplierDriving(errorBL) - steer);
                 powerBR = topPower * (pidMultiplierDriving(errorBR) + steer);
 
-                max = Math.max(Math.max(Math.abs(powerFL), Math.abs(powerFR)), Math.max(Math.abs(powerBL), Math.abs(powerBR)));
-                if (max > 1.0)
+                // Normalize speeds if either one exceeds +/- 1.0;
+                max = Math.max(Math.max(Math.abs(powerFL), Math.abs(powerFR)), Math.max(powerBL, powerBR));
+                if (max > 1)
                 {
                     powerFL /= max;
                     powerFR /= max;
@@ -690,18 +682,17 @@ public class AutonDriving extends LinearOpMode {
                     powerBR /= max;
                 }
 
-                robot.fLMotor.setPower(Math.abs(powerFL));
-                robot.fRMotor.setPower(Math.abs(powerFR));
-                robot.bRMotor.setPower(Math.abs(powerBL));
-                robot.bLMotor.setPower(Math.abs(powerBR));
-                telemetry.addData("Path1",  "Running to %7d :%7d :%7d :%7d", TargetFL,  TargetFR, TargetBL, TargetBR);
+                robot.fLMotor.setPower(powerFL);
+                robot.bLMotor.setPower(powerFR);
+                robot.fRMotor.setPower(powerBL);
+                robot.bRMotor.setPower(powerBR);
 
-                telemetry.addData("Path2",  "Running at %7d :%7d :%7d :%7d", robot.fLMotor.getCurrentPosition(), robot.fRMotor.getCurrentPosition(), robot.bLMotor.getCurrentPosition(), robot.bRMotor.getCurrentPosition());
-                //telemetry.addData("speeds",  "Running to %7f :%7f :%7f :%7f", speedfL,  speedfR, speedfL, speedbR);
+                // Display drive status for the driver.
+                telemetry.addData("Err/St",  "%5.1f/%5.1f",  angleError, steer);
+                telemetry.addData("Target",  "%7d:%7d:%7d:%7d",      TargetFL,  TargetFR, TargetBL, TargetBR);
+                telemetry.addData("Speed",   "%5.2f:%5.2f:%5.2f:%5.2f",  powerFL, powerFR, powerBL, powerBR);
                 telemetry.update();
             }
-
-            // keep looping while we are still active, and BOTH motors are running
 
             // Stop all motion;
             robot.fLMotor.setPower(0);
@@ -710,21 +701,16 @@ public class AutonDriving extends LinearOpMode {
             robot.bRMotor.setPower(0);
 
             // Turn off RUN_TO_POSITION
-            robot.bRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.bLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.fRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.fLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            //  sleep(250);   // optional pause after each move
+            stopAndReset();
         }
         stopAndReset();
     }
-
     public double getError(double targetAngle) {
 
         double robotError;
 
         // calculate error in -179 to +180 range  (
-        robotError = targetAngle - imu.getAngularOrientation().thirdAngle;
+        robotError = targetAngle - readAngle("z");
         while (robotError > 180)  robotError -= 360;
         while (robotError <= -180) robotError += 360;
         return robotError;

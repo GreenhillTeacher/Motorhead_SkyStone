@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.src.main.java.legacy;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -7,6 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="ColorSensorTest", group="ColorSensor")
 //@Disabled
+@Disabled
 
 public class ColorSensorBarTest extends OpMode {
 

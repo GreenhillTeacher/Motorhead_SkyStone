@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="MecanumTeleop3", group="MecanumBot3")
 //@Disabled
-
+@Disabled
 public class MecanumTeleop3 extends OpMode {
 
     MecanumHardware3 robot = new MecanumHardware3();

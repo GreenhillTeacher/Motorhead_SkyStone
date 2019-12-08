@@ -22,8 +22,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 @Autonomous(name="TestDriving", group="Test")
-public class TestDriving extends AutonDriving {
-    AutonDriving auton = new AutonDriving();
+public class TestDriving extends AutonDrivingDriveOnly {
+//    AutonDrivingDriveOnly auton = new AutonDrivingDriveOnly();
 
     //SkyStoneHardwareDrivingOnly robot = new SkyStoneHardwareDrivingOnly();
     @Override
@@ -55,61 +55,6 @@ public class TestDriving extends AutonDriving {
         robot.bLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.bRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
-
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
-
-        // VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-
-        parameters.vuforiaLicenseKey = VUFORIA_KEY;
-
-        parameters.cameraName = webcamName;
-
-        //  Instantiate the Vuforia engine
-        vuforia = ClassFactory.getInstance().createVuforia(parameters);
-
-        // Load the data sets for the trackable objects. These particular data
-        // sets are stored in the 'assets' part of our application.
-        targetsSkyStone = this.vuforia.loadTrackablesFromAsset("Skystone");
-
-        VuforiaTrackable stoneTarget = targetsSkyStone.get(0);
-        stoneTarget.setName("Stone Target");
-
-        // For convenience, gather together all the trackable objects in one easily-iterable collection */
-        //List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
-        allTrackables.addAll(targetsSkyStone);
-
-        stoneTarget.setLocation(OpenGLMatrix
-                .translation(0, 0, stoneZ)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
-
-        if (CAMERA_CHOICE == BACK) {
-            phoneYRotate = -90;
-        } else {
-            phoneYRotate = 90;
-        }
-
-        // Rotate the phone vertical about the X axis if it's in portrait mode
-        if (PHONE_IS_PORTRAIT) {
-            phoneXRotate = 90 ;
-        }
-
-        // Next, translate the camera lens to where it is on the robot.
-        // In this example, it is centered (left to right), but forward of the middle of the robot, and above ground level.
-        final float CAMERA_FORWARD_DISPLACEMENT  = 4.0f * mmPerInch;   // eg: Camera is 4 Inches in front of robot-center
-        final float CAMERA_VERTICAL_DISPLACEMENT = 8.0f * mmPerInch;   // eg: Camera is 8 Inches above ground
-        final float CAMERA_LEFT_DISPLACEMENT     = 0;     // eg: Camera is ON the robot's center line
-
-        OpenGLMatrix robotFromCamera = OpenGLMatrix
-                .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, YZX, DEGREES, phoneYRotate, phoneZRotate, phoneXRotate));
-
-        /**  Let all the trackable listeners know where the phone is.  */
-        for (VuforiaTrackable trackable : allTrackables) {
-            ((VuforiaTrackableDefaultListener) trackable.getListener()).setPhoneInformation(robotFromCamera, parameters.cameraDirection);
-        }
-
 
         waitForStart();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
@@ -119,9 +64,14 @@ public class TestDriving extends AutonDriving {
 
 
         //encoderDrive(10, "b",5, driveSpeed);
-        robot.armLift.setPower(1);
-        sleep(750);
-        robot.armLift.setPower(0);
+       // robot.armLift.setPower(1);
+       // sleep(750);
+        //telemetry.addData("hello", "this has been run");
+       // robot.armLift.setPower(0);
+        gyroDrive(.35, 10, 0, "f", 5);
+        //encoderDrive(10, "f", 3, .3);
+        //sleep(1000);
+        //telemetry.update();
         //  armLift(.01, .1, 5);
     }
 }

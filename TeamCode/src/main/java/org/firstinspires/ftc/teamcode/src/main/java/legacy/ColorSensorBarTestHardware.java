@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.src.main.java.legacy;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+@Disabled
 public class ColorSensorBarTestHardware
 {
 
