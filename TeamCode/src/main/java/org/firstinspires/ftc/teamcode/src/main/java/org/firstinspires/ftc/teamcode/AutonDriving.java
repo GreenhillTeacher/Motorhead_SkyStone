@@ -48,12 +48,12 @@ public class AutonDriving extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     String xyz = "z";
     //CONTAINS ALL METHODS AND VARIABlES TO BE EXTENDED BY OTHER AUTON CLASSES
-    static final double     COUNTS_PER_MOTOR_REV = 1120;    // Currently: Andymark Neverest 40
+    static final double     COUNTS_PER_MOTOR_REV = 537.6;    // Currently: Andymark Neverest 20
     static final double     COUNTS_PER_REV_ARM = 1495; //torquenado
     static final double     PULLEY_DIAMETER = 1.3;
     static final double     COUNTS_PER_INCH_ARM = COUNTS_PER_REV_ARM/(PULLEY_DIAMETER * Math.PI);
-    static final double     DRIVE_GEAR_REDUCTION = .9;     // This is < 1.0 if geared UP //On OUR CENTER MOTOR THE GEAR REDUCTION IS .5
-    static final double     WHEEL_DIAMETER_INCHES = 3.54331;     // For figuring circumference
+    static final double     DRIVE_GEAR_REDUCTION = 24/10;     // This is < 1.0 if geared UP //On OUR CENTER MOTOR THE GEAR REDUCTION IS .5
+    static final double     WHEEL_DIAMETER_INCHES = 2.95276;     // For figuring circumference
     static final double     COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * Math.PI);
 
