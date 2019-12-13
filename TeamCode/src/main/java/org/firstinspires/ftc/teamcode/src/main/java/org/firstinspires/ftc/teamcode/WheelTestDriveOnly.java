@@ -17,7 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 @Autonomous(name="WheelTestDriveOnly", group="Test")
-@Disabled
+//@Disabled
 public class WheelTestDriveOnly extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -88,40 +88,19 @@ public class WheelTestDriveOnly extends LinearOpMode {
         waitForStart();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
-        motorTest(robot.fLMotor);
+        motorTest(robot.fLMotor, .6);
 
-        motorTest(robot.fRMotor);
+        motorTest(robot.fRMotor, .3);
 
-        motorTest(robot.bLMotor);
+        motorTest(robot.bLMotor, .6);
 
-        motorTest(robot.bRMotor);
-        //turnToPosition(90, "z", 1, 5, false);
-       // encoderDrive(10, "f", 5,1);
-//        sleep(100);
-//        turnDegrees(-90, "z", 1, 5, false);
-//        sleep(100);
-//        turnDegrees(45, "z", 1, 5, false);
-//        sleep(100);
-//        turnDegrees(-45, "z", 1, 5, false);
-//        sleep(100);
-//        turnDegrees(0, "z", 1, 5, false);
-//        sleep(1500);
-//        encoderDrive(19.75, "f", 10, .8);
-//        sleep(100);
-//        encoderDrive(10, "r", 10, 1);
-//        sleep(100);
-//        encoderDrive(10, "b", 10, 1);
-//        sleep(100);
-//        encoderDrive(10, "l", 10, 1);
-//        sleep(100);
-        //tf.start(); //moved to start of program
-
+        motorTest(robot.bRMotor, .6);
     }
 
-    public void motorTest(DcMotor motor)
+    public void motorTest(DcMotor motor, double power)
     {
-        motor.setPower(1);
-        sleep(1000);
+        motor.setPower(power);
+        sleep(2000);
         motor.setPower(0);
     }
 

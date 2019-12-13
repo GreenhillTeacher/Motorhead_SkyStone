@@ -56,10 +56,19 @@ public class TestDriving extends AutonDrivingDriveOnly {
         robot.bRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
+        //telemetry.addData("hello", "hello");
+        //telemetry.update();
+        sleep(500);
+
         waitForStart();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
+        startAngle = readAngle("z");
 
+
+        //telemetry.addData("hello ", "2");
+        //telemetry.update();
+        sleep(500);
        // stopAndReset();
 
 
@@ -68,7 +77,15 @@ public class TestDriving extends AutonDrivingDriveOnly {
        // sleep(750);
         //telemetry.addData("hello", "this has been run");
        // robot.armLift.setPower(0);
-        gyroDrive(.35, 10, 0, "f", 5);
+        gyroDrive(.2, 10, startAngle);
+
+        //telemetry.addData("hello", "3");
+        //telemetry.update();
+        sleep(500);
+        //encoderDrive(2, "f", 5, .25);
+        //turnDegreesLegacy(90, .2, 5);
+        //encoderDrive(2, "f", 5, .25);
+        //encoderDrive(10, "f", 5, .3);
         //encoderDrive(10, "f", 3, .3);
         //sleep(1000);
         //telemetry.update();

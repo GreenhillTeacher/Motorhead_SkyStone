@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.src.main.java.legacy.MecanumHardware3;
 
 @TeleOp(name="GyroTest", group="Test")
 //@Disabled
-@Disabled
+//@Disabled
 
 public class GyroTest extends OpMode {
 
