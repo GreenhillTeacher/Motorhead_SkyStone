@@ -85,7 +85,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 
 @TeleOp(name="VuforiaTest", group ="Test")
 //@Disabled
-@Disabled
+//@Disabled
 public class VuforiaTest extends LinearOpMode {
 
     // IMPORTANT: If you are using a USB WebCam, you must select CAMERA_CHOICE = BACK; and PHONE_IS_PORTRAIT = false;
@@ -280,19 +280,7 @@ public class VuforiaTest extends LinearOpMode {
                 // express the rotation of the robot in degrees.
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
                 telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
-                double pos = translation.get(1);
-                if(pos > 0)
-                {
-                    skystonePosition = "right";
-                }
-                else if(-pos > 9)
-                {
-                    skystonePosition = "center";
-                }
-                else
-                {
-                    skystonePosition = "left";
-                }
+                //double pos = translation.get(1);
             }
             else {
                 telemetry.addData("Visible Target", "none");
@@ -303,7 +291,7 @@ public class VuforiaTest extends LinearOpMode {
         }
         telemetry.addData("stopped", "stopped");
         telemetry.update();
-        sleep(2500);
+        //sleep(2500);
 
         // Disable Tracking when we are done;
         targetsSkyStone.deactivate();

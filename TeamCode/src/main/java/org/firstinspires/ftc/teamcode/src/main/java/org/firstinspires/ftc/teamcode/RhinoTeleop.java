@@ -1,24 +1,19 @@
 package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-
 
 
 @TeleOp(name="MecanumTeleop3DriveOnly", group="MecanumBot3")
 //@Disabled
-@Disabled
 //@Disabled
 
-public class MecanumTeleop3DriveOnly extends OpMode {
+public class RhinoTeleop extends OpMode {
 
-    MecanumHardware3DriveOnly robot = new MecanumHardware3DriveOnly();
+    RhinoHardware robot = new RhinoHardware();
 
     private float drive = .4f;
+    private boolean intakeToggle = false;
     //private float BRDrive = 1f;
 
     @Override
@@ -27,25 +22,33 @@ public class MecanumTeleop3DriveOnly extends OpMode {
         //Initialize the hardware variables.
         //The init() method of the hardware class does all the work here
         robot.init(hardwareMap);
+        //robot.intakeL.setPower(1);
+        //robot.intakeR.setPower(1);
     }
 
     @Override
     public void loop()
 
     {
-
         mecanumMove();
-        //telemetry.addData("Distance Sensor", robot.distSen.getDistance(DistanceUnit.INCH));
-        /*if(gamepad1.a)
-        {
-            robot.servo1.setPosition(0);
-            robot.servo2.setPosition(1);
-        }
+
+        //compression intake
         if(gamepad1.b)
         {
-            robot.servo1.setPosition(1);
-            robot.servo2.setPosition(0);
-        }*/
+            if(intakeToggle)
+            {
+                robot.intakeL.setPower(0);
+                robot.intakeR.setPower(0);
+                intakeToggle = false;
+            }
+            else
+            {
+                robot.intakeL.setPower(1);
+                robot.intakeR.setPower(1);
+                intakeToggle = true;
+            }
+        }
+
 
         telemetry.update();
     }

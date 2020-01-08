@@ -55,40 +55,14 @@ public class TestDriving extends AutonDrivingDriveOnly {
         robot.bLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.bRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-
-        //telemetry.addData("hello", "hello");
-        //telemetry.update();
-        sleep(500);
-
         waitForStart();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-
         startAngle = readAngle("z");
 
+        //encoderDrive(10, "f", 5, driveSpeed);
+        gyroDrive(driveSpeed, 10, startAngle);
 
-        //telemetry.addData("hello ", "2");
-        //telemetry.update();
-        sleep(500);
-       // stopAndReset();
-
-
-        //encoderDrive(10, "b",5, driveSpeed);
-       // robot.armLift.setPower(1);
-       // sleep(750);
-        //telemetry.addData("hello", "this has been run");
-       // robot.armLift.setPower(0);
-        gyroDrive(.2, 10, startAngle);
-
-        //telemetry.addData("hello", "3");
-        //telemetry.update();
-        sleep(500);
-        //encoderDrive(2, "f", 5, .25);
-        //turnDegreesLegacy(90, .2, 5);
-        //encoderDrive(2, "f", 5, .25);
-        //encoderDrive(10, "f", 5, .3);
-        //encoderDrive(10, "f", 3, .3);
-        //sleep(1000);
-        //telemetry.update();
-        //  armLift(.01, .1, 5);
+        telemetry.addData("Path", "Complete");
+        telemetry.update();
     }
 }
