@@ -29,6 +29,7 @@ public class GyroTest extends OpMode {
     BNO055IMU imu;
     Orientation angles;
     Acceleration gravity;
+    double startAngle;
 
     @Override
     public void init()
@@ -45,6 +46,7 @@ public class GyroTest extends OpMode {
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
+        startAngle = readAngle("z");
 
     }
 
@@ -54,6 +56,7 @@ public class GyroTest extends OpMode {
         //waitForStart();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
         //
+        telemetry.addData("Start Angle", startAngle);
         telemetry.addData("x", readAngle("x"));
         telemetry.addData("y", readAngle("y"));
         telemetry.addData("z", readAngle("z"));

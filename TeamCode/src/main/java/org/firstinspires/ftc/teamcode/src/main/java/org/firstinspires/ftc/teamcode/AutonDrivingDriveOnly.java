@@ -83,7 +83,7 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
     public VuforiaTrackables targetsSkyStone;
 
     //public String skystonePosition = "center";
-    public double driveSpeed = .2;
+    public double driveSpeed = .3;
 
     //TODO: CHECK
     public double turnSpeed = 1;
@@ -548,7 +548,6 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
 
         stopAndReset();
 
-
         int fLTarget;
         int fRTarget;
         int bLTarget;
@@ -596,6 +595,11 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
 
                 // adjust relative speed based on heading error.
                 error = getError(angle);
+
+                if(Math.abs(error) < .3)
+                {
+                    error = 0;
+                }
                 steer = getSteer(error, P_DRIVE_COEFF);
 
                 // if driving in reverse, the motor correction also needs to be reversed
@@ -612,6 +616,9 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
                     leftSpeed /= max;
                     rightSpeed /= max;
                 }
+
+                leftSpeed *= .25;
+                rightSpeed *= .25;
 
                 robot.fLMotor.setPower(leftSpeed);
                 robot.fRMotor.setPower(rightSpeed);

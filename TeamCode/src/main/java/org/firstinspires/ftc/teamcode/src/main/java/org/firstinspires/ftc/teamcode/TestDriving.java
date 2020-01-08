@@ -60,7 +60,8 @@ public class TestDriving extends AutonDrivingDriveOnly {
         startAngle = readAngle("z");
 
         //encoderDrive(10, "f", 5, driveSpeed);
-        gyroDrive(driveSpeed, 10, startAngle);
+        gyroDrive(driveSpeed, 20
+                , 0);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
