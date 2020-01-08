@@ -33,7 +33,6 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 public class AutonDrivingDriveOnly extends LinearOpMode {
 
     /* Declare OpMode members. */
-    //TODO: NOTE CHANGE WHEN ARM IS ON
     RhinoHardware robot = new RhinoHardware();
     private ElapsedTime runtime = new ElapsedTime();
     String xyz = "z";
@@ -42,7 +41,7 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
     //static final double     COUNTS_PER_REV_ARM = 1495; //torquenado
     //static final double     PULLEY_DIAMETER = 1.3;
    // static final double     COUNTS_PER_INCH_ARM = COUNTS_PER_REV_ARM/(PULLEY_DIAMETER * Math.PI);
-    static final double     DRIVE_GEAR_REDUCTION = .35;     // This is < 1.0 if geared UP //On OUR CENTER MOTOR THE GEAR REDUCTION IS .5
+    static final double     DRIVE_GEAR_REDUCTION = .50;     // This is < 1.0 if geared UP //On OUR CENTER MOTOR THE GEAR REDUCTION IS .5
     static final double     WHEEL_DIAMETER_INCHES = 2.95276;     // For figuring circumference
     static final double     COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * Math.PI);
@@ -83,7 +82,7 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
     public VuforiaTrackables targetsSkyStone;
 
     //public String skystonePosition = "center";
-    public double driveSpeed = .3;
+    //public double driveSpeed = .3;
 
     //TODO: CHECK
     public double turnSpeed = 1;
@@ -92,6 +91,9 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
     Orientation angles;
     Acceleration gravity;
     public double startAngle = 0;
+    //TODO: CHECK
+    private double gyroThreshold = .4;
+    private double gyroDriveSpeed = .25;
 
     @Override
     public void runOpMode() {
@@ -543,9 +545,8 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
         stopAndReset();
     }
 */
-    public void gyroDrive (double speed, double distance, double angle)
+    public void gyroDrive (double distance, double angle)
     {
-
         stopAndReset();
 
         int fLTarget;
@@ -583,11 +584,11 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
             robot.bRMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // start motion.
-            speed = Range.clip(Math.abs(speed), 0.0, 1.0);
-            robot.fLMotor.setPower(speed);
-            robot.fRMotor.setPower(speed);
-            robot.bLMotor.setPower(speed);
-            robot.bRMotor.setPower(speed);
+            //gyroDriveSpeed = Range.clip(Math.abs(speed), 0.0, 1.0);
+            robot.fLMotor.setPower(gyroDriveSpeed);
+            robot.fRMotor.setPower(gyroDriveSpeed);
+            robot.bLMotor.setPower(gyroDriveSpeed);
+            robot.bRMotor.setPower(gyroDriveSpeed);
 
             // keep looping while we are still active, and BOTH motors are running.
             while (opModeIsActive() &&
@@ -596,18 +597,18 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
                 // adjust relative speed based on heading error.
                 error = getError(angle);
 
-                if(Math.abs(error) < .3)
+                if(Math.abs(error) < gyroThreshold)
                 {
                     error = 0;
                 }
-                steer = getSteer(error, P_DRIVE_COEFF);
+                steer = -getSteer(error, P_DRIVE_COEFF);
 
                 // if driving in reverse, the motor correction also needs to be reversed
                 if (distance < 0)
                     steer *= -1.0;
 
-                leftSpeed = speed - steer;
-                rightSpeed = speed + steer;
+                leftSpeed = gyroDriveSpeed - steer;
+                rightSpeed = gyroDriveSpeed + steer;
 
                 // Normalize speeds if either one exceeds +/- 1.0;
                 max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
@@ -617,8 +618,8 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
                     rightSpeed /= max;
                 }
 
-                leftSpeed *= .25;
-                rightSpeed *= .25;
+                leftSpeed *= gyroDriveSpeed;
+                rightSpeed *= gyroDriveSpeed;
 
                 robot.fLMotor.setPower(leftSpeed);
                 robot.fRMotor.setPower(rightSpeed);
@@ -641,9 +642,13 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
             stopAndReset();
         }
     }
-    /*public void gyroDriveWithC (double topPower, double inches, double angle, String heading, double timeoutS) {
+    public void gyroDriveWithC (double inches, double angle, String heading, double timeoutS)
+    {
+
         stopAndReset();
         runtime.reset();
+
+        inches *= .7;
         int TargetFL = 0;
         int TargetFR = 0;
         int TargetBL = 0;
@@ -737,13 +742,13 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
             robot.bRMotor.setPower(speed);*/
 
             // keep looping while we are still active, and BOTH motors are running.
-            /*while (opModeIsActive() &&
-                    (robot.fLMotor.isBusy() && robot.fRMotor.isBusy() && robot.bLMotor.isBusy() && robot.bRMotor.isBusy())) {
+            while (opModeIsActive() &&
+                    (robot.fLMotor.isBusy() && robot.fRMotor.isBusy() && robot.bLMotor.isBusy() && robot.bRMotor.isBusy()) && runtime.seconds() <= timeoutS) {
 
                 // adjust relative speed based on heading error.
 
                 angleError = getError(angle);
-                if(Math.abs(angleError) >= .3)
+                if(Math.abs(angleError) > gyroThreshold)
                 {
                     steer = getSteer(angleError, P_DRIVE_COEFF);
                 }
@@ -755,9 +760,13 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
 
                 // if driving in reverse, the motor correction also needs to be reversed
                 if (heading.equals("b"))
+                {
                     steer *= -1.0;
+                }
                 else if(!heading.equals("f"))
-                    steer =0;
+                {
+                    steer = 0;
+                }
 
                // powerFL = (topPower - steer) * speed;
                // rightSpeed = (speed + steer) * speed;
@@ -766,10 +775,12 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
                 errorBL = TargetBL - robot.bLMotor.getCurrentPosition();
                 errorBR = TargetBR - robot.bRMotor.getCurrentPosition();
 
-                powerFL = topPower - steer;
-                powerFR = topPower + steer;
-                powerBL = topPower - steer;
-                powerBR = topPower + steer;
+                steer *= 1.2;
+                
+                powerFL = gyroDriveSpeed - steer;
+                powerFR = gyroDriveSpeed + steer;
+                powerBL = gyroDriveSpeed - steer;
+                powerBR = gyroDriveSpeed + steer;
 
                 // Normalize speeds if either one exceeds +/- 1.0;
                 max = Math.max(Math.max(Math.abs(powerFL), Math.abs(powerFR)), Math.max(powerBL, powerBR));
@@ -780,30 +791,33 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
                     powerBL /= max;
                     powerBR /= max;
                 }
+                powerFL *= pidMultiplierDriving(errorFL);
+                powerFR *= pidMultiplierDriving(errorFR);
+                powerBL *= pidMultiplierDriving(errorBL);
+                powerBR *= pidMultiplierDriving(errorBR);
 
-                robot.fLMotor.setPower(powerFL);
-                robot.bLMotor.setPower(powerFR);
-                robot.fRMotor.setPower(powerBL);
-                robot.bRMotor.setPower(powerBR);
+                robot.fLMotor.setPower(powerFL * gyroDriveSpeed);
+                robot.bLMotor.setPower(powerFR * gyroDriveSpeed);
+                robot.fRMotor.setPower(powerBL * gyroDriveSpeed);
+                robot.bRMotor.setPower(powerBR * gyroDriveSpeed);
 
                 // Display drive status for the driver.
                 telemetry.addData("Err/St",  "%5.1f/%5.1f",  angleError, steer);
-                telemetry.addData("Target",  "%7d:%7d:%7d:%7d",      TargetFL,  TargetFR, TargetBL, TargetBR);
+                telemetry.addData("Target",  "%7d:%7d:%7d:%7d", TargetFL,  TargetFR, TargetBL, TargetBR);
+                telemetry.addData("Current Pos",  "%7d:%7d:%7d:%7d", robot.fLMotor.getCurrentPosition(),  robot.fLMotor.getCurrentPosition(), robot.fLMotor.getCurrentPosition(), robot.fLMotor.getCurrentPosition());
                 telemetry.addData("Speed",   "%5.2f:%5.2f:%5.2f:%5.2f",  powerFL, powerFR, powerBL, powerBR);
                 telemetry.update();
             }
 
             // Stop all motion;
-            robot.fLMotor.setPower(0);
-            robot.bLMotor.setPower(0);
-            robot.fRMotor.setPower(0);
-            robot.bRMotor.setPower(0);
+            normalDrive(0 ,0);
 
             // Turn off RUN_TO_POSITION
             stopAndReset();
         }
         stopAndReset();
-    }*/
+    }
+
     public double getError(double targetAngle)
     {
 
@@ -823,7 +837,6 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
      * @return
      */
     public double getSteer(double error, double PCoeff) {
-        //TODO: IMPLEMENT FULL PID
         return Range.clip(error * PCoeff, -1, 1);
     }
 }

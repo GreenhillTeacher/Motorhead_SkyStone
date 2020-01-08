@@ -23,10 +23,10 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 @Autonomous(name="TurnDegreesTest", group="Test")
-@Disabled
-public class TurnDegreesTest extends AutonDriving {
 
-    public double forwardInches = 81;
+public class TurnDegreesTest extends AutonDrivingDriveOnly {
+
+    //public double forwardInches = 81;
     @Override
     public void runOpMode()
     {

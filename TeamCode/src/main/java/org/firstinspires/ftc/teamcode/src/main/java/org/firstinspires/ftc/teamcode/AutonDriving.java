@@ -43,7 +43,6 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 public class AutonDriving extends LinearOpMode {
 
     /* Declare OpMode members. */
-    //TODO: NOTE CHANGE WHEN ARM IS ON
     SkyStoneHardware robot = new SkyStoneHardware();
     private ElapsedTime runtime = new ElapsedTime();
     String xyz = "z";

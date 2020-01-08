@@ -17,7 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 @Autonomous(name="WheelTestDriveOnly", group="Test")
-//@Disabled
+@Disabled
 public class WheelTestDriveOnly extends LinearOpMode {
 
     /* Declare OpMode members. */
