@@ -12,8 +12,8 @@ public class RhinoTeleop extends OpMode {
 
     RhinoHardware robot = new RhinoHardware();
 
-    private float drive = .4f;
-    private boolean intakeToggle = false;
+    private float drive = .6f;
+    private boolean intakeToggle = true;
     //private float BRDrive = 1f;
 
     @Override
