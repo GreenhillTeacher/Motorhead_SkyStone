@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
-@TeleOp(name="MecanumTeleop3DriveOnly", group="MecanumBot3")
+@TeleOp(name="RhinoTeleop", group="Rhino")
 //@Disabled
 //@Disabled
 
@@ -35,18 +35,13 @@ public class RhinoTeleop extends OpMode {
         //compression intake
         if(gamepad1.b)
         {
-            if(intakeToggle)
-            {
-                robot.intakeL.setPower(0);
-                robot.intakeR.setPower(0);
-                intakeToggle = false;
-            }
-            else
-            {
-                robot.intakeL.setPower(1);
-                robot.intakeR.setPower(1);
-                intakeToggle = true;
-            }
+            robot.intakeL.setPower(0);
+            robot.intakeR.setPower(0);
+        }
+        else if (gamepad1.a)
+        {
+            robot.intakeR.setPower(1);
+            robot.intakeL.setPower(1);
         }
 
 
@@ -58,7 +53,7 @@ public class RhinoTeleop extends OpMode {
         //variables
         double r = Math.hypot(-gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
-        double rightX = -gamepad1.right_stick_x;
+        double rightX = gamepad1.right_stick_x;
         final double v1 = r * Math.cos(robotAngle) + rightX;
         final double v2 = r * Math.sin(robotAngle) - rightX;
         final double v3 = r * Math.sin(robotAngle) + rightX;

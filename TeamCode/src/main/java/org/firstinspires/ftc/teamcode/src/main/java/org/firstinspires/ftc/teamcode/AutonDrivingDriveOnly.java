@@ -41,7 +41,7 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
     //static final double     COUNTS_PER_REV_ARM = 1495; //torquenado
     //static final double     PULLEY_DIAMETER = 1.3;
    // static final double     COUNTS_PER_INCH_ARM = COUNTS_PER_REV_ARM/(PULLEY_DIAMETER * Math.PI);
-    static final double     DRIVE_GEAR_REDUCTION = .50;     // This is < 1.0 if geared UP //On OUR CENTER MOTOR THE GEAR REDUCTION IS .5
+    static final double     DRIVE_GEAR_REDUCTION = .475;     // This is < 1.0 if geared UP //On OUR CENTER MOTOR THE GEAR REDUCTION IS .5
     static final double     WHEEL_DIAMETER_INCHES = 2.95276;     // For figuring circumference
     static final double     COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * Math.PI);
@@ -341,7 +341,7 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
 
     public double pidMultiplierDriving(double error) {
         //equation for power multiplier is x/sqrt(x^2 + C)
-        int C = 100;
+        int C = 500;
         return Math.abs(error / Math.sqrt((error * error) + C));
     }
     public double pidMultiplierTurning(double error) {
@@ -648,7 +648,7 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
         stopAndReset();
         runtime.reset();
 
-        inches *= .7;
+        //inches *= .5;
         int TargetFL = 0;
         int TargetFR = 0;
         int TargetBL = 0;
@@ -692,37 +692,10 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
 
             }
 
-            else if(heading == "r")
-            {
-                TargetFL = robot.fLMotor.getCurrentPosition() + (int)( inches* COUNTS_PER_INCH);
-                TargetFR = robot.fRMotor.getCurrentPosition() - (int)( inches* COUNTS_PER_INCH);
-                TargetBL = robot.bLMotor.getCurrentPosition() - (int)( inches* COUNTS_PER_INCH);
-                TargetBR = robot.bRMotor.getCurrentPosition() + (int)( inches* COUNTS_PER_INCH); //weird should be +
-
-
-            }
-
-            else if(heading == "l")
-            {
-                TargetFL = robot.fLMotor.getCurrentPosition() - (int)( inches* COUNTS_PER_INCH);
-                TargetFR = robot.fRMotor.getCurrentPosition() + (int)( inches* COUNTS_PER_INCH);
-                TargetBL = robot.bLMotor.getCurrentPosition() + (int)( inches* COUNTS_PER_INCH); // weird should be +
-                TargetBR = robot.bRMotor.getCurrentPosition() - (int)( inches* COUNTS_PER_INCH);
-
-            }
-
             else
             {
                 telemetry.addData("not a valid direction", heading );
             }
-            //stopAndReset();
-
-            // Determine new target position, and pass to motor controller
-            //counts = (int)(inches * COUNTS_PER_INCH);
-            //TargetFL = robot.fLMotor.getCurrentPosition() + counts;
-            //TargetFR = robot.fRMotor.getCurrentPosition() + counts;
-            //TargetBL = robot.bLMotor.getCurrentPosition() + counts;
-            //TargetBR = robot.bRMotor.getCurrentPosition() + counts;
 
             // Set Target and Turn On RUN_TO_POSITION
             robot.fLMotor.setTargetPosition(TargetFL);
@@ -734,12 +707,6 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
             robot.fRMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.bLMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.bRMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            // start motion.
-            //speed = Range.clip(Math.abs(speed), 0.0, 1.0);
-            /*robot.fLMotor.setPower(speed);
-            robot.fRMotor.setPower(speed);
-            robot.bLMotor.setPower(speed);
-            robot.bRMotor.setPower(speed);*/
 
             // keep looping while we are still active, and BOTH motors are running.
             while (opModeIsActive() &&
@@ -747,8 +714,9 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
 
                 // adjust relative speed based on heading error.
 
+                //prevent over-correcting by having a threshold
                 angleError = getError(angle);
-                if(Math.abs(angleError) > gyroThreshold)
+                if(Math.abs(angleError) > 5)
                 {
                     steer = getSteer(angleError, P_DRIVE_COEFF);
                 }
@@ -775,7 +743,7 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
                 errorBL = TargetBL - robot.bLMotor.getCurrentPosition();
                 errorBR = TargetBR - robot.bRMotor.getCurrentPosition();
 
-                steer *= 1.2;
+                //steer *= 1.2;
                 
                 powerFL = gyroDriveSpeed - steer;
                 powerFR = gyroDriveSpeed + steer;
@@ -791,6 +759,7 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
                     powerBL /= max;
                     powerBR /= max;
                 }
+
                 powerFL *= pidMultiplierDriving(errorFL);
                 powerFR *= pidMultiplierDriving(errorFR);
                 powerBL *= pidMultiplierDriving(errorBL);

@@ -108,7 +108,7 @@ public class RhinoHardware
 
         //TODO: CHECK
         intakeL.setDirection(DcMotor.Direction.FORWARD);
-        intakeR.setDirection(DcMotor.Direction.FORWARD);
+        intakeR.setDirection(DcMotor.Direction.REVERSE);
         //armLift.setDirection(DcMotor.Direction.REVERSE);
         //armExt.setDirection(DcMotor.Direction.FORWARD);
 //

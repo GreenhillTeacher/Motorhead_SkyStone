@@ -61,7 +61,7 @@ public class TestDriving extends AutonDrivingDriveOnly {
 
         //encoderDrive(10, "f", 5, driveSpeed);
         //gyroDrive(20, 0);
-        gyroDriveWithC(20, 0, "f", 10);
+        gyroDriveWithC(10, 0, "f", 10);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
