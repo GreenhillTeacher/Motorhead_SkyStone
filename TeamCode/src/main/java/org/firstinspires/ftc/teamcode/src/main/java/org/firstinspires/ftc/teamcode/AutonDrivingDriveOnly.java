@@ -776,7 +776,7 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
                 errorBR = TargetBR - robot.bRMotor.getCurrentPosition();
 
                 steer *= 1.2;
-                
+
                 powerFL = gyroDriveSpeed - steer;
                 powerFR = gyroDriveSpeed + steer;
                 powerBL = gyroDriveSpeed - steer;
