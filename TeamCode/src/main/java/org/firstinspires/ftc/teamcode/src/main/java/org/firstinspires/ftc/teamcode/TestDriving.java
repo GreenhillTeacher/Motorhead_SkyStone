@@ -59,11 +59,17 @@ public class TestDriving extends AutonDrivingDriveOnly {
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
         startAngle = readAngle("z");
 
-        //encoderDrive(10, "f", 5, driveSpeed);
-        //gyroDrive(20, 0);
-        gyroDriveWithC(10, 0, "f", 10);
+        //gyroDrive(29, 0);
+        sleep(100);
+        axisTurn(-90, "z", axisTurnSpeed, 10);
+        //sleep(100);
+        //turnToPosition(90, "z", turnSpeed, 10, false);
+        //turnToPosition(90, "z", turnSpeed, 10, false);
+        //turnToPosition(90, "z", turnSpeed, 10, false);
 
+        //normalDrive(.4, 0);
         telemetry.addData("Path", "Complete");
         telemetry.update();
+        sleep(500);
     }
 }

@@ -41,7 +41,7 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
     //static final double     COUNTS_PER_REV_ARM = 1495; //torquenado
     //static final double     PULLEY_DIAMETER = 1.3;
    // static final double     COUNTS_PER_INCH_ARM = COUNTS_PER_REV_ARM/(PULLEY_DIAMETER * Math.PI);
-    static final double     DRIVE_GEAR_REDUCTION = .475;     // This is < 1.0 if geared UP //On OUR CENTER MOTOR THE GEAR REDUCTION IS .5
+    static final double     DRIVE_GEAR_REDUCTION = .410;     // This is < 1.0 if geared UP //On OUR CENTER MOTOR THE GEAR REDUCTION IS .5
     static final double     WHEEL_DIAMETER_INCHES = 2.95276;     // For figuring circumference
     static final double     COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * Math.PI);
@@ -82,18 +82,22 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
     public VuforiaTrackables targetsSkyStone;
 
     //public String skystonePosition = "center";
-    //public double driveSpeed = .3;
+    public double driveSpeed = .7;
 
     //TODO: CHECK
-    public double turnSpeed = 1;
+    public double turnSpeed = .7;
+    public double axisTurnSpeed = 1;
 
 
     Orientation angles;
     Acceleration gravity;
     public double startAngle = 0;
     //TODO: CHECK
-    private double gyroThreshold = .4;
-    private double gyroDriveSpeed = .25;
+    private double gyroDriveThreshold = 1;
+    private double gyroDriveSpeed = .275;
+
+    private double gyroTurnThreshold = .7;
+    private double degreeError = 7;
 
     @Override
     public void runOpMode() {
@@ -258,11 +262,22 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
     }
 
 
-    public void turnToPosition (double target, String xyz, double topPower, double timeoutS, boolean isCorrection) {
+    public void turnToPosition (double target, String xyz, double topPower, double timeoutS) {
         //stopAndReset();
         target*= -1;
         double originalAngle = readAngle(xyz);
 
+        //wild
+        if (target > 0)
+        {
+            target -= 2;
+        }
+        else
+        {
+            target += 2;
+        }
+        //telemetry.addData("hello", "1");
+        //telemetry.update();
 
         runtime.reset();
 
@@ -270,10 +285,18 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
         double error = angle - target;
         double powerScaled = topPower;
         do {
+            //telemetry.addData("hello", "2");
+            //sleep(1000);
+            //telemetry.update();
             angle = readAngle(xyz);
             error = angle - target;
-            if (!isCorrection) {
+            if(error > 6)
+            {
                 powerScaled = topPower * (error / 180) * pidMultiplierTurning(error);
+            }
+            else
+            {
+                powerScaled = topPower * (error / 180) * pidMultiplierTurning(error) + .05;
             }
 
             //double powerScaled = power*pidMultiplier(error);
@@ -281,40 +304,70 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
             telemetry.addData("current angle", readAngle(xyz));
             telemetry.addData("error", error);
             telemetry.update();
-            if (error > 0) {
-                if (xyz.equals("z")) {
-                    normalDrive(powerScaled, -powerScaled);
-                }
-                if (xyz.equals("y")) {
-                    if (opModeIsActive()) {
-                        robot.fLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                        robot.fRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                        robot.bLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                        robot.bRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                        robot.fLMotor.setPower(powerScaled);
-                        robot.fRMotor.setPower(powerScaled);
-                        robot.bLMotor.setPower(powerScaled);
-                        robot.bRMotor.setPower(powerScaled);
-                    }
-                }
-            } else if (error < 0) {
-                if (xyz.equals("z")) {
-                    normalDrive(powerScaled, -powerScaled);
-                }
-                if (xyz.equals("y")) {
-                    if (opModeIsActive()) {
-                        robot.fLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                        robot.fRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                        robot.bLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                        robot.bRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                        robot.fLMotor.setPower(powerScaled);
-                        robot.fRMotor.setPower(powerScaled);
-                        robot.bLMotor.setPower(powerScaled);
-                        robot.bRMotor.setPower(powerScaled);
-                    }
-                }
+            if (error > 0)
+            {
+                normalDrive(-powerScaled, powerScaled);
             }
-        } while (opModeIsActive() && ((error > .3) || (error < -0.3)) && (runtime.seconds() < timeoutS));
+            else if (error < 0)
+            {
+
+                normalDrive(powerScaled, -powerScaled);
+            }
+        } while (opModeIsActive() && (Math.abs(error) > gyroTurnThreshold) && (runtime.seconds() < timeoutS));
+        normalDrive(0, 0);
+        //stopAndReset();
+
+    }
+
+    public void axisTurn (double target, String xyz, double topPower, double timeoutS) {
+        //stopAndReset();
+        target*= -1;
+        double originalAngle = readAngle(xyz);
+
+        //wild
+        if (target > 0)
+        {
+            target -= degreeError;
+        }
+        else
+        {
+            target += degreeError;
+        }
+        //telemetry.addData("hello", "1");
+        //telemetry.update();
+
+        runtime.reset();
+
+        double angle = readAngle(xyz); //variable for gyro correction around z axis
+        double error = angle - target;
+        double powerScaled = topPower;
+        do {
+            //telemetry.addData("hello", "2");
+            //sleep(1000);
+            //telemetry.update();
+            angle = readAngle(xyz);
+            error = angle - target;
+            powerScaled = topPower * (error / 180) * pidMultiplierTurning(error);
+            if (error < 15)
+            {
+                //powerScaled ;
+            }
+            powerScaled *= -1;
+
+            //double powerScaled = power*pidMultiplier(error);
+            telemetry.addData("original angle", originalAngle);
+            telemetry.addData("current angle", readAngle(xyz));
+            telemetry.addData("error", error);
+            telemetry.update();
+            if (error > 0)
+            {
+                normalDrive(0, powerScaled);
+            }
+            else if (error < 0)
+            {
+                normalDrive(powerScaled, 0);
+            }
+        } while (opModeIsActive() && (Math.abs(error) > gyroTurnThreshold) && (runtime.seconds() < timeoutS));
         normalDrive(0, 0);
         //stopAndReset();
 
@@ -597,7 +650,7 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
                 // adjust relative speed based on heading error.
                 error = getError(angle);
 
-                if(Math.abs(error) < gyroThreshold)
+                if(Math.abs(error) < gyroDriveThreshold)
                 {
                     error = 0;
                 }
@@ -644,6 +697,8 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
     }
     public void gyroDriveWithC (double inches, double angle, String heading, double timeoutS)
     {
+        //THIS IS BROKEN AS FUCK
+        //WHAT A RIP
 
         stopAndReset();
         runtime.reset();
@@ -716,7 +771,7 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
 
                 //prevent over-correcting by having a threshold
                 angleError = getError(angle);
-                if(Math.abs(angleError) > 5)
+                if(Math.abs(angleError) > 7)
                 {
                     steer = getSteer(angleError, P_DRIVE_COEFF);
                 }
