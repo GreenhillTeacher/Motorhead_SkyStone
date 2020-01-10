@@ -350,9 +350,9 @@ public class AutonDrivingDriveOnly extends LinearOpMode {
             powerScaled = topPower * (error / 180) * pidMultiplierTurning(error);
             if (error < 15)
             {
-                //powerScaled ;
+                powerScaled = .3;
             }
-            powerScaled *= -1;
+            //powerScaled *= -1;
 
             //double powerScaled = power*pidMultiplier(error);
             telemetry.addData("original angle", originalAngle);

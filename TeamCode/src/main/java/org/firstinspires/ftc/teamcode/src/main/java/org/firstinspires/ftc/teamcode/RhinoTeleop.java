@@ -12,8 +12,10 @@ public class RhinoTeleop extends OpMode {
 
     RhinoHardware robot = new RhinoHardware();
 
-    private float drive = .6f;
-    private boolean intakeToggle = true;
+    private float driveVal = .8f;
+    private float drive = driveVal;
+    private float driveSlow = .2f;
+    //private boolean intakeToggle = true;
     //private float BRDrive = 1f;
 
     @Override
@@ -43,9 +45,14 @@ public class RhinoTeleop extends OpMode {
             robot.intakeR.setPower(1);
             robot.intakeL.setPower(1);
         }
-
-
-        telemetry.update();
+        if(gamepad1.left_bumper)
+        {
+            drive = driveSlow;
+        }
+        else
+        {
+            drive = driveVal;
+        }
     }
 
     public void mecanumMove()
