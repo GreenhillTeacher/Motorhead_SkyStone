@@ -53,6 +53,18 @@ public class RhinoTeleop extends OpMode {
         {
             drive = driveVal;
         }
+
+
+        if(gamepad1.left_trigger >= .75 || gamepad2.left_trigger >= .75)
+        {
+            robot.liftL.setPower(.3);
+            robot.liftR.setPower(.3);
+        }
+        else if(gamepad1.right_trigger >= .75 || gamepad2.right_trigger >= .75)
+        {
+            robot.liftL.setPower(-.3);
+            robot.liftR.setPower(-.3);
+        }
     }
 
     public void mecanumMove()

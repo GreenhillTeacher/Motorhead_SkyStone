@@ -20,6 +20,9 @@ public class RhinoHardware
     public DcMotor intakeL;
     public DcMotor intakeR;
 
+    public DcMotor liftL;
+    public DcMotor liftR;
+
     //public DcMotor armLift;
     //public DcMotor susan;
     //public DcMotor armExt;
@@ -54,6 +57,9 @@ public class RhinoHardware
         intakeL = hwMap.get(DcMotor.class, "intakeL");
         intakeR = hwMap.get(DcMotor.class, "intakeR");
 
+        liftL = hwMap.get(DcMotor.class, "liftL");
+        liftL = hwMap.get(DcMotor.class, "liftR");
+
         //susan = hwMap.get(DcMotor.class, "susan");
         //armExt = hwMap.get(DcMotor.class, "armExt");
         //armLift = hwMap.get(DcMotor.class, "armLift");
@@ -71,6 +77,9 @@ public class RhinoHardware
         intakeL.setPower(0);
         intakeR.setPower(0);
 
+
+        liftL.setPower(0);
+        liftR.setPower(0);
         //armExt.setPower(0);
         //armLift.setPower(0);
 
@@ -83,6 +92,8 @@ public class RhinoHardware
         bLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        liftL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        liftR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //armLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //armExt.setMode(DcMotor.RunMode.RUN_USING_ENCODER);\
         intakeL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -97,6 +108,9 @@ public class RhinoHardware
         intakeL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intakeR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        liftL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         //armLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //armExt.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -109,6 +123,10 @@ public class RhinoHardware
         //TODO: CHECK
         intakeL.setDirection(DcMotor.Direction.FORWARD);
         intakeR.setDirection(DcMotor.Direction.REVERSE);
+
+        //TODO: CHECK IF CORRECT
+        liftL.setDirection(DcMotor.Direction.FORWARD);
+        liftR.setDirection(DcMotor.Direction.REVERSE);
         //armLift.setDirection(DcMotor.Direction.REVERSE);
         //armExt.setDirection(DcMotor.Direction.FORWARD);
 //
