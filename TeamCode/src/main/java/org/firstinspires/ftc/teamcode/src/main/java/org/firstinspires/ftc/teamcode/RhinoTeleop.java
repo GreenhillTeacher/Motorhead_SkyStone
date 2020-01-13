@@ -82,6 +82,15 @@ public class RhinoTeleop extends OpMode {
         {
             robot.schlide.setPower(gamepad2.right_trigger * drive);
         }
+
+        if(gamepad1.x ||gamepad2.x)
+        {
+            robot.claw.setPosition(1);
+        }
+        else if(gamepad1.y || gamepad2.y)
+        {
+            robot.claw.setPosition(0);
+        }
     }
 
     public void mecanumMove()
