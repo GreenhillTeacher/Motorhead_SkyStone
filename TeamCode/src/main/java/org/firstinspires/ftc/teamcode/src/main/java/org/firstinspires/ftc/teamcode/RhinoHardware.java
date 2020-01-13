@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -23,6 +24,8 @@ public class RhinoHardware
     public DcMotor liftL;
     public DcMotor liftR;
 
+    public CRServo schlide;
+    public Servo claw;
     //public DcMotor armLift;
     //public DcMotor susan;
     //public DcMotor armExt;
@@ -60,6 +63,9 @@ public class RhinoHardware
         liftL = hwMap.get(DcMotor.class, "liftL");
         liftL = hwMap.get(DcMotor.class, "liftR");
 
+        schlide = hwMap.get(CRServo.class, "schlide");
+        claw = hwMap.get(Servo.class, "claw");
+
         //susan = hwMap.get(DcMotor.class, "susan");
         //armExt = hwMap.get(DcMotor.class, "armExt");
         //armLift = hwMap.get(DcMotor.class, "armLift");
@@ -77,9 +83,14 @@ public class RhinoHardware
         intakeL.setPower(0);
         intakeR.setPower(0);
 
-
         liftL.setPower(0);
         liftR.setPower(0);
+
+        claw.setDirection(Servo.Direction.FORWARD);
+        claw.setPosition(0);
+
+        schlide.setDirection(CRServo.Direction.FORWARD);
+        schlide.setPower(0);
         //armExt.setPower(0);
         //armLift.setPower(0);
 
@@ -98,7 +109,6 @@ public class RhinoHardware
         //armExt.setMode(DcMotor.RunMode.RUN_USING_ENCODER);\
         intakeL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intakeR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
 
         fLMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bLMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

@@ -55,15 +55,32 @@ public class RhinoTeleop extends OpMode {
         }
 
 
-        if(gamepad1.left_trigger >= .75 || gamepad2.left_trigger >= .75)
+        if(gamepad1.dpad_up || gamepad2.dpad_up)
         {
             robot.liftL.setPower(.3);
             robot.liftR.setPower(.3);
         }
-        else if(gamepad1.right_trigger >= .75 || gamepad2.right_trigger >= .75)
+        else if(gamepad1.dpad_down || gamepad2.dpad_down)
         {
             robot.liftL.setPower(-.3);
             robot.liftR.setPower(-.3);
+        }
+
+        if(gamepad1.left_trigger >= .1)
+        {
+            robot.schlide.setPower(-gamepad1.left_trigger * drive);
+        }
+        else if(gamepad2.left_trigger >= .1)
+        {
+            robot.schlide.setPower(-gamepad2.left_trigger * drive);
+        }
+        else if(gamepad1.right_trigger >= .1)
+        {
+            robot.schlide.setPower(gamepad1.right_trigger * drive);
+        }
+        else if(gamepad2.right_trigger >= .1)
+        {
+            robot.schlide.setPower(gamepad2.right_trigger * drive);
         }
     }
 
