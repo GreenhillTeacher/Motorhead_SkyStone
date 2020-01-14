@@ -26,6 +26,10 @@ public class RhinoHardware
 
     public CRServo schlide;
     public Servo claw;
+
+    public Servo latch1;
+    public Servo latch2;
+
     //public DcMotor armLift;
     //public DcMotor susan;
     //public DcMotor armExt;
@@ -61,10 +65,13 @@ public class RhinoHardware
         intakeR = hwMap.get(DcMotor.class, "intakeR");
 
         liftL = hwMap.get(DcMotor.class, "liftL");
-        liftL = hwMap.get(DcMotor.class, "liftR");
+        liftR = hwMap.get(DcMotor.class, "liftR");
 
         schlide = hwMap.get(CRServo.class, "schlide");
         claw = hwMap.get(Servo.class, "claw");
+
+        latch1 = hwMap.get(Servo.class, "latch1");
+        latch2 = hwMap.get(Servo.class, "latch2");
 
         //susan = hwMap.get(DcMotor.class, "susan");
         //armExt = hwMap.get(DcMotor.class, "armExt");
@@ -91,6 +98,11 @@ public class RhinoHardware
 
         schlide.setDirection(CRServo.Direction.FORWARD);
         schlide.setPower(0);
+
+        latch1.setDirection(Servo.Direction.FORWARD);
+        latch1.setPosition(0);
+        latch2.setDirection(Servo.Direction.REVERSE);
+        latch2.setPosition(0);
         //armExt.setPower(0);
         //armLift.setPower(0);
 
@@ -130,7 +142,6 @@ public class RhinoHardware
         bLMotor.setDirection(DcMotor.Direction.REVERSE);
         bRMotor.setDirection(DcMotor.Direction.FORWARD);
 
-        //TODO: CHECK
         intakeL.setDirection(DcMotor.Direction.FORWARD);
         intakeR.setDirection(DcMotor.Direction.REVERSE);
 

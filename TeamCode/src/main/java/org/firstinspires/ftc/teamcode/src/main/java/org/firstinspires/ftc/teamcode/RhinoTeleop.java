@@ -15,7 +15,7 @@ public class RhinoTeleop extends OpMode {
     private float driveVal = .8f;
     private float drive = driveVal;
     private float driveSlow = .2f;
-    //private boolean intakeToggle = true;
+    private boolean latch = true;
     //private float BRDrive = 1f;
 
     @Override
@@ -33,6 +33,19 @@ public class RhinoTeleop extends OpMode {
 
     {
         mecanumMove();
+
+        if(gamepad1.right_bumper && latch)
+        {
+            robot.latch1.setPosition(1);
+            robot.latch2.setPosition(1);
+            latch = false;
+        }
+        else if(!latch)
+        {
+            robot.latch1.setPosition(0);
+            robot.latch2.setPosition(0);
+            latch = true;
+        }
 
         //compression intake
         if(gamepad1.b)
@@ -54,7 +67,7 @@ public class RhinoTeleop extends OpMode {
             drive = driveVal;
         }
 
-
+        //lift controls
         if(gamepad1.dpad_up || gamepad2.dpad_up)
         {
             robot.liftL.setPower(.3);
@@ -65,7 +78,13 @@ public class RhinoTeleop extends OpMode {
             robot.liftL.setPower(-.3);
             robot.liftR.setPower(-.3);
         }
+        else
+        {
+            robot.liftL.setPower(0);
+            robot.liftR.setPower(0);
+        }
 
+        //slide controls
         if(gamepad1.left_trigger >= .1)
         {
             robot.schlide.setPower(-gamepad1.left_trigger * drive);
@@ -82,7 +101,12 @@ public class RhinoTeleop extends OpMode {
         {
             robot.schlide.setPower(gamepad2.right_trigger * drive);
         }
+        else
+        {
+            robot.schlide.setPower(0);
+        }
 
+        //claw controls
         if(gamepad1.x ||gamepad2.x)
         {
             robot.claw.setPosition(1);
@@ -91,6 +115,8 @@ public class RhinoTeleop extends OpMode {
         {
             robot.claw.setPosition(0);
         }
+
+
     }
 
     public void mecanumMove()
