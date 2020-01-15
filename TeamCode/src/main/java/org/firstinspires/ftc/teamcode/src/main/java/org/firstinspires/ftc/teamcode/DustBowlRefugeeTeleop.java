@@ -8,9 +8,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 //@Disabled
 //@Disabled
 
-public class RhinoTeleop extends OpMode {
+public class DustBowlRefugeeTeleop extends OpMode {
 
-    RhinoHardware robot = new RhinoHardware();
+    DustBowlRefugeeHardware robot = new DustBowlRefugeeHardware();
 
     private float driveVal = .8f;
     private float drive = driveVal;
@@ -32,15 +32,17 @@ public class RhinoTeleop extends OpMode {
     public void loop()
 
     {
+        //mecanum drive
         mecanumMove();
 
+        //latch
         if(gamepad1.right_bumper && latch)
         {
             robot.latch1.setPosition(1);
             robot.latch2.setPosition(1);
             latch = false;
         }
-        else if(!latch)
+        else if(gamepad1.right_bumper && !latch)
         {
             robot.latch1.setPosition(0);
             robot.latch2.setPosition(0);
@@ -58,6 +60,8 @@ public class RhinoTeleop extends OpMode {
             robot.intakeR.setPower(1);
             robot.intakeL.setPower(1);
         }
+
+        //slow drive
         if(gamepad1.left_bumper)
         {
             drive = driveSlow;
@@ -68,12 +72,12 @@ public class RhinoTeleop extends OpMode {
         }
 
         //lift controls
-        if(gamepad1.dpad_up || gamepad2.dpad_up)
+        if(gamepad2.dpad_up)
         {
             robot.liftL.setPower(.3);
             robot.liftR.setPower(.3);
         }
-        else if(gamepad1.dpad_down || gamepad2.dpad_down)
+        else if(gamepad2.dpad_down)
         {
             robot.liftL.setPower(-.3);
             robot.liftR.setPower(-.3);
@@ -85,17 +89,9 @@ public class RhinoTeleop extends OpMode {
         }
 
         //slide controls
-        if(gamepad1.left_trigger >= .1)
+        if(gamepad2.left_trigger >= .1)
         {
             robot.schlide.setPower(-gamepad1.left_trigger * drive);
-        }
-        else if(gamepad2.left_trigger >= .1)
-        {
-            robot.schlide.setPower(-gamepad2.left_trigger * drive);
-        }
-        else if(gamepad1.right_trigger >= .1)
-        {
-            robot.schlide.setPower(gamepad1.right_trigger * drive);
         }
         else if(gamepad2.right_trigger >= .1)
         {
@@ -107,16 +103,14 @@ public class RhinoTeleop extends OpMode {
         }
 
         //claw controls
-        if(gamepad1.x ||gamepad2.x)
+        if(gamepad2.x)
         {
             robot.claw.setPosition(1);
         }
-        else if(gamepad1.y || gamepad2.y)
+        else if(gamepad2.y)
         {
             robot.claw.setPosition(0);
         }
-
-
     }
 
     public void mecanumMove()

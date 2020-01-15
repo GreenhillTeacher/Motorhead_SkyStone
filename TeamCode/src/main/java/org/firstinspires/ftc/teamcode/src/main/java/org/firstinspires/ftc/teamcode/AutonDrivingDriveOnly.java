@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -27,13 +26,12 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGR
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
-import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.from;
 
 //@Autonomous(name="AutonDrivingDriveOnly", group="AutonTesting")
 public class AutonDrivingDriveOnly extends LinearOpMode {
 
     /* Declare OpMode members. */
-    RhinoHardware robot = new RhinoHardware();
+    DustBowlRefugeeHardware robot = new DustBowlRefugeeHardware();
     private ElapsedTime runtime = new ElapsedTime();
     String xyz = "z";
     //CONTAINS ALL METHODS AND VARIABlES TO BE EXTENDED BY OTHER AUTON CLASSES

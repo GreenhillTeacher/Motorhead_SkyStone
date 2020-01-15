@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 //import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 
-public class RhinoHardware
+public class DustBowlRefugeeHardware
 {
     public DcMotor fLMotor;
     public DcMotor fRMotor;
