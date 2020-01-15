@@ -10,8 +10,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
 @TeleOp(name="MecanumTeleop3DriveOnly", group="MecanumBot3")
-//@Disabled
 @Disabled
+//@Disabled
 //@Disabled
 
 public class MecanumTeleop3DriveOnly extends OpMode {
@@ -35,19 +35,6 @@ public class MecanumTeleop3DriveOnly extends OpMode {
     {
 
         mecanumMove();
-        //telemetry.addData("Distance Sensor", robot.distSen.getDistance(DistanceUnit.INCH));
-        /*if(gamepad1.a)
-        {
-            robot.servo1.setPosition(0);
-            robot.servo2.setPosition(1);
-        }
-        if(gamepad1.b)
-        {
-            robot.servo1.setPosition(1);
-            robot.servo2.setPosition(0);
-        }*/
-
-        telemetry.update();
     }
 
     public void mecanumMove()

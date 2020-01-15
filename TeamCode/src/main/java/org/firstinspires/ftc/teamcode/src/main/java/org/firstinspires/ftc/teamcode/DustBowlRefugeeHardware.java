@@ -117,10 +117,10 @@ public class DustBowlRefugeeHardware
 
         liftL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         liftR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //armLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //armExt.setMode(DcMotor.RunMode.RUN_USING_ENCODER);\
-        intakeL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        intakeR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        intakeL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intakeR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
         fLMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bLMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -137,10 +137,10 @@ public class DustBowlRefugeeHardware
         //armExt.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //flipped these 4
-        fLMotor.setDirection(DcMotor.Direction.REVERSE);
-        fRMotor.setDirection(DcMotor.Direction.FORWARD);
-        bLMotor.setDirection(DcMotor.Direction.REVERSE);
-        bRMotor.setDirection(DcMotor.Direction.FORWARD);
+        fLMotor.setDirection(DcMotor.Direction.FORWARD);
+        fRMotor.setDirection(DcMotor.Direction.REVERSE);
+        bLMotor.setDirection(DcMotor.Direction.FORWARD);
+        bRMotor.setDirection(DcMotor.Direction.REVERSE);
 
         intakeL.setDirection(DcMotor.Direction.FORWARD);
         intakeR.setDirection(DcMotor.Direction.REVERSE);
@@ -148,6 +148,7 @@ public class DustBowlRefugeeHardware
         //TODO: CHECK IF CORRECT
         liftL.setDirection(DcMotor.Direction.FORWARD);
         liftR.setDirection(DcMotor.Direction.REVERSE);
+
         //armLift.setDirection(DcMotor.Direction.REVERSE);
         //armExt.setDirection(DcMotor.Direction.FORWARD);
 //

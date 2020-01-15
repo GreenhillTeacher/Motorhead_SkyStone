@@ -84,7 +84,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
  */
 
 @TeleOp(name="VuforiaTest", group ="Test")
-//@Disabled
+@Disabled
 //@Disabled
 public class VuforiaTest extends LinearOpMode {
 

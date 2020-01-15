@@ -2,9 +2,10 @@ package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamc
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 
-@TeleOp(name="RhinoTeleop", group="Rhino")
+@TeleOp(name="DustBowlRefugeeTeleop", group="DustBowlRefugee")
 //@Disabled
 //@Disabled
 
@@ -15,7 +16,7 @@ public class DustBowlRefugeeTeleop extends OpMode {
     private float driveVal = .8f;
     private float drive = driveVal;
     private float driveSlow = .2f;
-    private boolean latch = true;
+    //private boolean latch = true;
     //private float BRDrive = 1f;
 
     @Override
@@ -36,17 +37,17 @@ public class DustBowlRefugeeTeleop extends OpMode {
         mecanumMove();
 
         //latch
-        if(gamepad1.right_bumper && latch)
+        if(gamepad1.y)
         {
             robot.latch1.setPosition(1);
             robot.latch2.setPosition(1);
-            latch = false;
+            //latch = false;
         }
-        else if(gamepad1.right_bumper && !latch)
+        else if(gamepad1.x)
         {
             robot.latch1.setPosition(0);
             robot.latch2.setPosition(0);
-            latch = true;
+            //latch = true;
         }
 
         //compression intake
@@ -115,6 +116,7 @@ public class DustBowlRefugeeTeleop extends OpMode {
 
     public void mecanumMove()
     {
+
         //variables
         double r = Math.hypot(-gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;

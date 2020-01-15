@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
-@TeleOp(name="RhinoTeleop", group="Rhino")
+@TeleOp(name="DustBowlRefugeeTestingTeleop", group="Test")
 //@Disabled
 //@Disabled
 
@@ -12,10 +12,11 @@ public class DustBowlRefugeeTestingTeleop extends OpMode {
 
     DustBowlRefugeeHardware robot = new DustBowlRefugeeHardware();
 
-    private float driveVal = .8f;
+    private float driveVal = .6f;
     private float drive = driveVal;
     private float driveSlow = .2f;
-    private boolean latch = true;
+    //private double up = 1;
+    //private boolean latch = true;
     //private float BRDrive = 1f;
 
     @Override
@@ -34,17 +35,17 @@ public class DustBowlRefugeeTestingTeleop extends OpMode {
     {
         mecanumMove();
 
-        if(gamepad1.right_bumper && latch)
+        if(gamepad1.y)
         {
             robot.latch1.setPosition(1);
             robot.latch2.setPosition(1);
-            latch = false;
+            //latch = false;
         }
-        else if(gamepad1.right_bumper && !latch)
+        else if(gamepad1.x)
         {
             robot.latch1.setPosition(0);
             robot.latch2.setPosition(0);
-            latch = true;
+            //latch = true;
         }
 
         //compression intake
@@ -68,12 +69,12 @@ public class DustBowlRefugeeTestingTeleop extends OpMode {
         }
 
         //lift controls
-        if(gamepad1.dpad_up || gamepad2.dpad_up)
+        if(gamepad1.dpad_up)
         {
             robot.liftL.setPower(.3);
             robot.liftR.setPower(.3);
         }
-        else if(gamepad1.dpad_down || gamepad2.dpad_down)
+        else if(gamepad1.dpad_down)
         {
             robot.liftL.setPower(-.3);
             robot.liftR.setPower(-.3);
@@ -89,17 +90,9 @@ public class DustBowlRefugeeTestingTeleop extends OpMode {
         {
             robot.schlide.setPower(-gamepad1.left_trigger * drive);
         }
-        else if(gamepad2.left_trigger >= .1)
-        {
-            robot.schlide.setPower(-gamepad2.left_trigger * drive);
-        }
         else if(gamepad1.right_trigger >= .1)
         {
             robot.schlide.setPower(gamepad1.right_trigger * drive);
-        }
-        else if(gamepad2.right_trigger >= .1)
-        {
-            robot.schlide.setPower(gamepad2.right_trigger * drive);
         }
         else
         {
