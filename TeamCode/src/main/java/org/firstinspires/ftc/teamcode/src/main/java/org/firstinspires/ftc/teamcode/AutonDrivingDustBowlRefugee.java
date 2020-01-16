@@ -97,6 +97,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
 
     private double gyroTurnThreshold = .7;
     private double degreeError = 7;
+    public double negative90timeout = 2.5;
 
     @Override
     public void runOpMode() {
@@ -106,8 +107,8 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
     {
         if(enabled)
         {
-            robot.latch1.setPosition(1);
-            robot.latch2.setPosition(1);
+            robot.latch1.setPosition(.95);
+            robot.latch2.setPosition(.95);
         }
         else
         {
@@ -276,20 +277,12 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
 
     public void turnToPosition (double target, String xyz, double topPower, double timeoutS) {
         //stopAndReset();
+        //if target
         target*= -1;
         double originalAngle = readAngle(xyz);
 
-        //wild
-        if (target > 0)
-        {
-            target -= 2;
-        }
-        else
-        {
-            target += 2;
-        }
-        //telemetry.addData("hello", "1");
-        //telemetry.update();
+        //undershoots in 1 direction and overshoots in other
+        if(target != 0)target += 4;
 
         runtime.reset();
 
@@ -302,14 +295,24 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
             //telemetry.update();
             angle = readAngle(xyz);
             error = angle - target;
-            if(error > 6)
+
+            //power gets too low towards end of turn
+            if(Math.abs(error) > 6)
             {
                 powerScaled = topPower * (error / 180) * pidMultiplierTurning(error);
             }
-            else
+            else if(error > 0)
             {
                 powerScaled = topPower * (error / 180) * pidMultiplierTurning(error) + .05;
             }
+            //weirdly slow on negative turns
+            else
+            {
+                powerScaled = topPower * (error / 180) * pidMultiplierTurning(error) + .2;
+            }
+
+            //this works for some reason??
+            if(target > 0) powerScaled *= -1;
 
             //double powerScaled = power*pidMultiplier(error);
             telemetry.addData("original angle", originalAngle);
@@ -322,7 +325,6 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
             }
             else if (error < 0)
             {
-
                 normalDrive(powerScaled, -powerScaled);
             }
         } while (opModeIsActive() && (Math.abs(error) > gyroTurnThreshold) && (runtime.seconds() < timeoutS));
@@ -331,7 +333,68 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
 
     }
 
-    public void axisTurn (double target, String xyz, double topPower, double timeoutS) {
+    public void turnDegrees (double degrees, String xyz, double topPower, double timeoutS) {
+        //stopAndReset();
+        //if target
+        double target = readAngle(xyz) + degrees;
+        target*= -1;
+        double originalAngle = readAngle(xyz);
+
+        //undershoots in 1 direction and overshoots in other
+        if(target != 0)target += 4;
+
+        runtime.reset();
+
+        double angle = readAngle(xyz); //variable for gyro correction around z axis
+        double error = angle - target;
+        double powerScaled = topPower;
+        do {
+            //telemetry.addData("hello", "2");
+            //sleep(1000);
+            //telemetry.update();
+            angle = readAngle(xyz);
+            error = angle - target;
+
+            //power gets too low towards end of turn
+            if(Math.abs(error) > 6)
+            {
+                powerScaled = topPower * (error / 180) * pidMultiplierTurning(error);
+            }
+            else if(error > 0)
+            {
+                powerScaled = topPower * (error / 180) * pidMultiplierTurning(error) + .05;
+            }
+            //weirdly slow on negative turns
+            else
+            {
+                powerScaled = topPower * (error / 180) * pidMultiplierTurning(error) + .2;
+            }
+
+            //this works for some reason??
+            if(target > 0) powerScaled *= -1;
+
+            //double powerScaled = power*pidMultiplier(error);
+            telemetry.addData("original angle", originalAngle);
+            telemetry.addData("current angle", readAngle(xyz));
+            telemetry.addData("error", error);
+            telemetry.update();
+            if (error > 0)
+            {
+                normalDrive(-powerScaled, powerScaled);
+            }
+            else if (error < 0)
+            {
+                normalDrive(powerScaled, -powerScaled);
+            }
+        } while (opModeIsActive() && (Math.abs(error) > gyroTurnThreshold) && (runtime.seconds() < timeoutS));
+        normalDrive(0, 0);
+        //stopAndReset();
+
+    }
+
+    public void axisTurn (double target, String xyz, double topPower, double timeoutS)
+    {
+        //turning w/ axis on side of robot
         //stopAndReset();
         target*= -1;
         double originalAngle = readAngle(xyz);
@@ -610,9 +673,10 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
         stopAndReset();
     }
 */
-    public void gyroDrive (double distance, double angle)
+    public void gyroDrive (double distance)
     {
         //updateAngles();
+        double angle = readAngle("z");
         stopAndReset();
 
         int fLTarget;
@@ -686,6 +750,16 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
 
                 leftSpeed *= gyroDriveSpeed;
                 rightSpeed *= gyroDriveSpeed;
+
+                //increase starting speed of drive
+                if(robot.fLMotor.getCurrentPosition()< 50)
+                {
+                    leftSpeed += .1;
+                }
+                if(robot.fRMotor.getCurrentPosition() < 50)
+                {
+                    rightSpeed += .1;
+                }
 
                 robot.fLMotor.setPower(leftSpeed);
                 robot.fRMotor.setPower(rightSpeed);

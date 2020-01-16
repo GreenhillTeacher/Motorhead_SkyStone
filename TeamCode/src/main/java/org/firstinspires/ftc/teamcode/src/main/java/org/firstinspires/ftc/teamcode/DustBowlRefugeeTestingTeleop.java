@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamc
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
 @TeleOp(name="DustBowlRefugeeTestingTeleop", group="Test")
@@ -34,7 +36,25 @@ public class DustBowlRefugeeTestingTeleop extends OpMode {
 
     {
         mecanumMove();
+        //gamepad1.
 
+        //switch forward driving direction
+        if(gamepad1.start)
+        {
+            robot.fLMotor.setDirection(DcMotor.Direction.REVERSE);
+            robot.fRMotor.setDirection(DcMotor.Direction.FORWARD);
+            robot.bLMotor.setDirection(DcMotor.Direction.REVERSE);
+            robot.bRMotor.setDirection(DcMotor.Direction.FORWARD);
+        }
+        else if (gamepad1.back)
+        {
+            robot.fLMotor.setDirection(DcMotor.Direction.FORWARD);
+            robot.fRMotor.setDirection(DcMotor.Direction.REVERSE);
+            robot.bLMotor.setDirection(DcMotor.Direction.FORWARD);
+            robot.bRMotor.setDirection(DcMotor.Direction.REVERSE);
+        }
+
+        //latch
         if(gamepad1.y)
         {
             robot.latch1.setPosition(1);
@@ -49,16 +69,18 @@ public class DustBowlRefugeeTestingTeleop extends OpMode {
         }
 
         //compression intake
-        if(gamepad1.b)
+        if(gamepad1.a)
         {
             robot.intakeL.setPower(0);
             robot.intakeR.setPower(0);
         }
-        else if (gamepad1.a)
+        else if (gamepad1.b)
         {
             robot.intakeR.setPower(1);
             robot.intakeL.setPower(1);
         }
+
+        //slow drive
         if(gamepad1.left_bumper)
         {
             drive = driveSlow;

@@ -36,6 +36,22 @@ public class DustBowlRefugeeTeleop extends OpMode {
         //mecanum drive
         mecanumMove();
 
+        //switch forward driving direction
+        if(gamepad1.start)
+        {
+            robot.fLMotor.setDirection(DcMotor.Direction.REVERSE);
+            robot.fRMotor.setDirection(DcMotor.Direction.FORWARD);
+            robot.bLMotor.setDirection(DcMotor.Direction.REVERSE);
+            robot.bRMotor.setDirection(DcMotor.Direction.FORWARD);
+        }
+        else if (gamepad1.back)
+        {
+            robot.fLMotor.setDirection(DcMotor.Direction.FORWARD);
+            robot.fRMotor.setDirection(DcMotor.Direction.REVERSE);
+            robot.bLMotor.setDirection(DcMotor.Direction.FORWARD);
+            robot.bRMotor.setDirection(DcMotor.Direction.REVERSE);
+        }
+
         //latch
         if(gamepad1.y)
         {
@@ -51,12 +67,12 @@ public class DustBowlRefugeeTeleop extends OpMode {
         }
 
         //compression intake
-        if(gamepad1.b)
+        if(gamepad1.a)
         {
             robot.intakeL.setPower(0);
             robot.intakeR.setPower(0);
         }
-        else if (gamepad1.a)
+        else if (gamepad1.b)
         {
             robot.intakeR.setPower(1);
             robot.intakeL.setPower(1);

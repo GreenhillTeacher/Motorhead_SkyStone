@@ -3,14 +3,28 @@ package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamc
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
+
+import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
+import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
+import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
+import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
+import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 //@Disabled
-@Autonomous(name="TestDriving", group="Test")
-public class TestDriving extends AutonDrivingDustBowlRefugee {
+@Autonomous(name="TestAuton", group="Test")
+public class TestAuton extends AutonDrivingDustBowlRefugee {
 //    AutonDrivingDriveOnly auton = new AutonDrivingDriveOnly();
 
     //SkyStoneHardwareDrivingOnly robot = new SkyStoneHardwareDrivingOnly();
@@ -51,10 +65,37 @@ public class TestDriving extends AutonDrivingDustBowlRefugee {
         //gyroDriveStrafe(10, 0);
         //gyroDrive(47.5, 0);
 
-        //sleep(5000);
-        turnToPosition(90, "z", turnSpeed, 10);
+        //line up with center foundation
+        gyroDrive(-13);
+
         sleep(100);
-        turnToPosition(0, "z", turnSpeed, 10);
+
+        //strafe away from wall
+        robot.fLMotor.setPower(.6);
+        robot.bLMotor.setPower(-.6);
+        robot.fRMotor.setPower(-.6);
+        robot.bRMotor.setPower(.6);
+
+        sleep(250);
+
+        normalDrive(0,0);
+
+        sleep(100);
+
+        //turn towards foundation
+        turnToPosition(-90, "z", turnSpeed, negative90timeout);
+
+        //drive to foundation and latch
+        gyroDrive(-24);
+        latch(true);
+
+        sleep(250);
+
+        //drive back and turn
+        gyroDrive(12);
+        turnDegrees(90, "z", turnSpeed, 10);
+
+        sleep(500);
         telemetry.addData("Path", "Complete");
         telemetry.update();
     }
