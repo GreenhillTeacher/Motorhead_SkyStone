@@ -1,22 +1,22 @@
-package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.src.main.java.legacy;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.configuration.annotations.DigitalIoDeviceType;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-@Autonomous(name="RightWallPark", group="WallPark")
+@Autonomous(name="LeftBridgeParkNoArm", group="BridgePark")
 @Disabled
-public class RightWallPark extends AutonDriving {
+public class LeftBridgeParkNoArm extends AutonDriving {
 
     @Override
     public void runOpMode()
     {
+
         robot.init(hardwareMap);
         BNO055IMU.Parameters p = new BNO055IMU.Parameters();
         p.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -44,7 +44,12 @@ public class RightWallPark extends AutonDriving {
 
         waitForStart();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-        robot.claw.setPosition(clawClosed);
-        encoderDrive(18,"b", 5, driveSpeed);
+
+        //
+        encoderDrive(24.5,"f", 5, driveSpeed);
+        turnToPosition(90,"z",turnSpeed,5,false);
+        encoderDrive(15,"f",5,driveSpeed);
+        turnToPosition(0,"z",turnSpeed,5,false);
+        encoderDrive(23.5, "f",5, driveSpeed);
     }
 }

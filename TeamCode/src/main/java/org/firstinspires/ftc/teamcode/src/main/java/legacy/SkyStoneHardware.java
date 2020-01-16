@@ -1,23 +1,13 @@
-package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.src.main.java.legacy;
 
-import com.qualcomm.hardware.motors.RevRoboticsCoreHexMotor;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 //public class package org.firstinspires.ftc.teamcode.src;
 
-        import com.qualcomm.hardware.motors.RevRoboticsCoreHexMotor;
-        import com.qualcomm.robotcore.hardware.ColorSensor;
-        import com.qualcomm.robotcore.hardware.DcMotor;
-        import com.qualcomm.robotcore.hardware.DcMotorSimple;
 //import com.qualcomm.robotcore.hardware.DistanceSensor;
-        import com.qualcomm.robotcore.hardware.HardwareMap;
-        import com.qualcomm.robotcore.hardware.Servo;
+
 
 public class SkyStoneHardware
 {

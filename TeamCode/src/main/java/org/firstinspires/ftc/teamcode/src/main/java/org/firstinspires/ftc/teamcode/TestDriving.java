@@ -22,9 +22,9 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
-@Disabled
+//@Disabled
 @Autonomous(name="TestDriving", group="Test")
-public class TestDriving extends AutonDrivingDriveOnly {
+public class TestDriving extends AutonDrivingDustBowlRefugee {
 //    AutonDrivingDriveOnly auton = new AutonDrivingDriveOnly();
 
     //SkyStoneHardwareDrivingOnly robot = new SkyStoneHardwareDrivingOnly();
@@ -62,8 +62,27 @@ public class TestDriving extends AutonDrivingDriveOnly {
         startAngle = readAngle("z");
 
         //gyroDrive(29, 0);
+        //gyroDriveStrafe(10, 0);
+        //gyroDrive(47.5, 0);
+
+        gyroDrive(10, 0);
+
         sleep(100);
-        axisTurn(-90, "z", axisTurnSpeed, 10);
+
+        robot.fLMotor.setPower(-.4);
+        robot.bLMotor.setPower(.4);
+        robot.fRMotor.setPower(.4);
+        robot.bRMotor.setPower(-.4);
+
+        sleep(500);
+
+        normalDrive(0,0);
+
+        sleep(100);
+
+        turnToPosition(-90, "z", turnSpeed, 10);
+        //wallStrafe("left", 1000);
+        //robot.fLMotor
         //sleep(100);
         //turnToPosition(90, "z", turnSpeed, 10, false);
         //turnToPosition(90, "z", turnSpeed, 10, false);

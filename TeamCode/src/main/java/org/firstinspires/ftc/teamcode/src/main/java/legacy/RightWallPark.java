@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.src.main.java.legacy;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -9,9 +9,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-@Autonomous(name="RightBridgeParkArm", group="BridgePark")
+@Autonomous(name="RightWallPark", group="WallPark")
 @Disabled
-public class RightBridgeParkArm extends AutonDriving {
+public class RightWallPark extends AutonDriving {
 
     @Override
     public void runOpMode()
@@ -43,12 +43,7 @@ public class RightBridgeParkArm extends AutonDriving {
 
         waitForStart();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-
-        //
-        encoderDrive(24.5,"f", 5, driveSpeed);
-        turnToPosition(-90,"z",turnSpeed,5,false);
-        encoderDrive(9,"f",5,driveSpeed);
-        turnToPosition(90,"z",turnSpeed,5,false);
-        encoderDrive(23.5, "f",5, driveSpeed);
+        robot.claw.setPosition(clawClosed);
+        encoderDrive(18,"b", 5, driveSpeed);
     }
 }

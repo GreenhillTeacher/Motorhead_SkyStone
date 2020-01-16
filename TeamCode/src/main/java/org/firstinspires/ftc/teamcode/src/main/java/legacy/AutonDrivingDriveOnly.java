@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.src.main.java.legacy;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -18,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.DustBowlRefugeeHardware;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 public class AutonDrivingDriveOnly extends LinearOpMode {
 
     /* Declare OpMode members. */
-    DustBowlRefugeeHardware robot = new DustBowlRefugeeHardware();
+    SkyStoneHardware robot = new SkyStoneHardware();
     private ElapsedTime runtime = new ElapsedTime();
     String xyz = "z";
     //CONTAINS ALL METHODS AND VARIABlES TO BE EXTENDED BY OTHER AUTON CLASSES

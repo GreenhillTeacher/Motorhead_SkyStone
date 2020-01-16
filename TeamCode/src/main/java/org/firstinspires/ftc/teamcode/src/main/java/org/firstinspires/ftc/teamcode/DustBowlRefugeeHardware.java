@@ -137,10 +137,10 @@ public class DustBowlRefugeeHardware
         //armExt.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //flipped these 4
-        fLMotor.setDirection(DcMotor.Direction.FORWARD);
-        fRMotor.setDirection(DcMotor.Direction.REVERSE);
-        bLMotor.setDirection(DcMotor.Direction.FORWARD);
-        bRMotor.setDirection(DcMotor.Direction.REVERSE);
+        fLMotor.setDirection(DcMotor.Direction.REVERSE);
+        fRMotor.setDirection(DcMotor.Direction.FORWARD);
+        bLMotor.setDirection(DcMotor.Direction.REVERSE);
+        bRMotor.setDirection(DcMotor.Direction.FORWARD);
 
         intakeL.setDirection(DcMotor.Direction.FORWARD);
         intakeR.setDirection(DcMotor.Direction.REVERSE);

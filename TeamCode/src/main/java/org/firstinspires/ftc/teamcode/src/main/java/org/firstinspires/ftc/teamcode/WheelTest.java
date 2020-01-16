@@ -21,7 +21,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 public class WheelTest extends LinearOpMode {
 
     /* Declare OpMode members. */
-    SkyStoneHardware robot = new SkyStoneHardware();
+    DustBowlRefugeeHardware robot = new DustBowlRefugeeHardware();
     private ElapsedTime runtime = new ElapsedTime();
     String xyz = "z";
 
@@ -373,26 +373,5 @@ public class WheelTest extends LinearOpMode {
             robot.fLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             //  sleep(250);   // optional pause after each move
         }
-    }
-    public void armExtend(double inches, double topPower, double timeoutS)
-    {
-        //TODO: CHECK PULLEY CIRCUMFERENCE
-        int target = robot.armExt.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH_ARM);
-
-        robot.armExt.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.armExt.setTargetPosition(target);
-
-        runtime.reset();
-        while(opModeIsActive() && runtime.seconds() < timeoutS && robot.armExt.isBusy())
-        {
-            double error = target - robot.armExt.getCurrentPosition();
-            double power = topPower * pidMultiplierDriving(error);
-            robot.armExt.setPower(power);
-            telemetry.addData("Path1",  "Running to %7d", target);
-            telemetry.addData("Path2",  "Running at %7d", robot.armExt.getCurrentPosition());
-            telemetry.update();
-        }
-        robot.armExt.setPower(0);
     }
 }
