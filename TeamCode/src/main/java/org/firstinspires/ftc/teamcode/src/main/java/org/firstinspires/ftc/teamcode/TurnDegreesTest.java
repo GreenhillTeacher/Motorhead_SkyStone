@@ -24,7 +24,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 
 @Autonomous(name="TurnDegreesTest", group="Test")
 @Disabled
-public class TurnDegreesTest extends AutonDrivingDriveOnly {
+public class TurnDegreesTest extends AutonDrivingDustBowlRefugee {
 
     //public double forwardInches = 81;
     @Override

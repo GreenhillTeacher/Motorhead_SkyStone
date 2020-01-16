@@ -65,7 +65,7 @@ public class TestDriving extends AutonDrivingDustBowlRefugee {
         //gyroDriveStrafe(10, 0);
         //gyroDrive(47.5, 0);
 
-        gyroDrive(10, 0);
+        /*gyroDrive(10, 0);
 
         sleep(100);
 
@@ -78,7 +78,7 @@ public class TestDriving extends AutonDrivingDustBowlRefugee {
 
         normalDrive(0,0);
 
-        sleep(100);
+        sleep(100);*/
 
         turnToPosition(-90, "z", turnSpeed, 10);
         //wallStrafe("left", 1000);
