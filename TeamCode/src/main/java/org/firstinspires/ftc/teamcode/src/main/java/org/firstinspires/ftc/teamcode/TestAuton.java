@@ -30,8 +30,8 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
     //SkyStoneHardwareDrivingOnly robot = new SkyStoneHardwareDrivingOnly();
     @Override
     public void runOpMode() {
-        //robot.init(hardwareMap);
-        //auton.runOpMode();
+
+        //init
         robot.init(hardwareMap);
         BNO055IMU.Parameters p = new BNO055IMU.Parameters();
         p.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -66,7 +66,7 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
         //gyroDrive(47.5, 0);
 
         //line up with center foundation
-        gyroDrive(-13);
+        gyroDrive(-12.5, gyroDriveThreshold);
 
         sleep(100);
 
@@ -86,14 +86,30 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
         turnToPosition(-90, "z", turnSpeed, negative90timeout);
 
         //drive to foundation and latch
-        gyroDrive(-24);
+        gyroDrive(-25.5, .5);
+
+        sleep(100);
+        //fix tilting with gyrodrive
+        turnToPosition(-90, "z", turnSpeed, negative90timeout);
+
+        //latch
         latch(true);
 
-        sleep(250);
+        sleep(600);
 
+        //gyroDrive(15, .5);
         //drive back and turn
-        gyroDrive(12);
-        turnDegrees(90, "z", turnSpeed, 10);
+        //gyroDrive(15, gyroDriveThreshold);
+        //drive back
+        robot.fLMotor.setPower(.3);
+        robot.fRMotor.setPower(.3);
+        robot.bLMotor.setPower(.3);
+        robot.bRMotor.setPower(.3);
+        sleep(1300);
+        normalDrive(0, 0);
+
+        turnToPosition(-90, "z", turnSpeed, negative90timeout);
+        //turnDegrees(90, "z", turnSpeed, 10);
 
         sleep(500);
         telemetry.addData("Path", "Complete");

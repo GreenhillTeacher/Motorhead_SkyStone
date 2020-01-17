@@ -92,7 +92,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
     Acceleration gravity;
     public double startAngle = 0;
     //TODO: CHECK
-    private double gyroDriveThreshold = 1;
+    public double gyroDriveThreshold = 1;
     private double gyroDriveSpeed = .275;
 
     private double gyroTurnThreshold = .7;
@@ -282,7 +282,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
         double originalAngle = readAngle(xyz);
 
         //undershoots in 1 direction and overshoots in other
-        if(target != 0)target += 4;
+        //if(target != 0)target += 4;
 
         runtime.reset();
 
@@ -303,16 +303,16 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
             }
             else if(error > 0)
             {
-                powerScaled = topPower * (error / 180) * pidMultiplierTurning(error) + .05;
+                powerScaled = topPower * (error / 180) * pidMultiplierTurning(error) + .1;
             }
             //weirdly slow on negative turns
             else
             {
-                powerScaled = topPower * (error / 180) * pidMultiplierTurning(error) + .2;
+                powerScaled = topPower * (error / 180) * pidMultiplierTurning(error) + .4;
             }
 
             //this works for some reason??
-            if(target > 0) powerScaled *= -1;
+            powerScaled *= -1;
 
             //double powerScaled = power*pidMultiplier(error);
             telemetry.addData("original angle", originalAngle);
@@ -673,7 +673,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
         stopAndReset();
     }
 */
-    public void gyroDrive (double distance)
+    public void gyroDrive (double distance, double threshold)
     {
         //updateAngles();
         double angle = readAngle("z");
@@ -727,7 +727,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
                 // adjust relative speed based on heading error.
                 error = getError(angle);
 
-                if(Math.abs(error) < gyroDriveThreshold)
+                if(Math.abs(error) < threshold)
                 {
                     error = 0;
                 }

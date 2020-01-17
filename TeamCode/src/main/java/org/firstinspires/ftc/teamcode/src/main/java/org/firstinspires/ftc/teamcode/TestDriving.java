@@ -47,14 +47,15 @@ public class TestDriving extends AutonDrivingDustBowlRefugee {
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
         startAngle = readAngle("z");
 
-        //gyroDrive(29, 0);
-        //gyroDriveStrafe(10, 0);
-        //gyroDrive(47.5, 0);
-
         //sleep(5000);
-        turnToPosition(90, "z", turnSpeed, 10);
+
+        turnDegrees(180, "z", .5, 10);
         sleep(100);
-        turnToPosition(0, "z", turnSpeed, 10);
+        turnToPosition(90, "z", turnSpeed, 10);
+        sleep(500);
+        turnToPosition(-90, "z", turnSpeed, negative90timeout);
+        //turnDegrees(90, "z", turnSpeed, 10);
+        //gyroDrive(24, 2);
         telemetry.addData("Path", "Complete");
         telemetry.update();
     }
