@@ -49,10 +49,12 @@ public class TestDriving extends AutonDrivingDustBowlRefugee {
 
         //sleep(5000);
 
-        turnDegrees(180, "z", .5, 10);
+        //turnDegrees(180, "z", .5, 10);
+        //sleep(100);
+        gyroDrive(12, .5);
         sleep(100);
-        turnToPosition(90, "z", turnSpeed, 10);
-        sleep(500);
+        //turnToPosition(90, "z", turnSpeed, 10);
+        //sleep(500);
         turnToPosition(-90, "z", turnSpeed, negative90timeout);
         //turnDegrees(90, "z", turnSpeed, 10);
         //gyroDrive(24, 2);
