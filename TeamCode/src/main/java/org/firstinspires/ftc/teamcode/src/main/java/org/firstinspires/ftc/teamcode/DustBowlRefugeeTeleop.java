@@ -13,7 +13,7 @@ public class DustBowlRefugeeTeleop extends OpMode {
 
     DustBowlRefugeeHardware robot = new DustBowlRefugeeHardware();
 
-    private float driveVal = .8f;
+    private float driveVal = .6f;
     private float drive = driveVal;
     private float driveSlow = .2f;
     //private boolean latch = true;
@@ -67,15 +67,15 @@ public class DustBowlRefugeeTeleop extends OpMode {
         }
 
         //compression intake
-        if(gamepad1.a)
+        if(gamepad1.b)
         {
             robot.intakeL.setPower(0);
             robot.intakeR.setPower(0);
         }
-        else if (gamepad1.b)
+        else if (gamepad1.a)
         {
-            robot.intakeR.setPower(1);
-            robot.intakeL.setPower(1);
+            robot.intakeR.setPower(-1);
+            robot.intakeL.setPower(-1);
         }
 
         //slow drive
@@ -91,13 +91,13 @@ public class DustBowlRefugeeTeleop extends OpMode {
         //lift controls
         if(gamepad2.dpad_up)
         {
-            robot.liftL.setPower(.3);
-            robot.liftR.setPower(.3);
+            robot.liftL.setPower(-.3);
+            robot.liftR.setPower(-.3);
         }
         else if(gamepad2.dpad_down)
         {
-            robot.liftL.setPower(-.3);
-            robot.liftR.setPower(-.3);
+            robot.liftL.setPower(.3);
+            robot.liftR.setPower(.3);
         }
         else
         {
