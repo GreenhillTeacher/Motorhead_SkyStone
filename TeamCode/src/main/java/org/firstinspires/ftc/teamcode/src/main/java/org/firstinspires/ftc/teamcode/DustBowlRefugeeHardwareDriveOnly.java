@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamc
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -136,10 +137,10 @@ public class DustBowlRefugeeHardwareDriveOnly
         //armExt.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //flipped these 4
-        fLMotor.setDirection(DcMotor.Direction.REVERSE);
-        fRMotor.setDirection(DcMotor.Direction.FORWARD);
-        bLMotor.setDirection(DcMotor.Direction.REVERSE);
-        bRMotor.setDirection(DcMotor.Direction.FORWARD);
+        fLMotor.setDirection(DcMotor.Direction.FORWARD);
+        fRMotor.setDirection(DcMotor.Direction.REVERSE);
+        bLMotor.setDirection(DcMotor.Direction.FORWARD);
+        bRMotor.setDirection(DcMotor.Direction.REVERSE);
 
 //        intakeL.setDirection(DcMotor.Direction.FORWARD);
 //        intakeR.setDirection(DcMotor.Direction.REVERSE);

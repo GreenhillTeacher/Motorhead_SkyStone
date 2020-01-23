@@ -11,9 +11,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class DustBowlRefugeeTestingTeleopDriveOnly extends OpMode {
 
-    DustBowlRefugeeHardware robot = new DustBowlRefugeeHardware();
+    DustBowlRefugeeHardwareDriveOnly robot = new DustBowlRefugeeHardwareDriveOnly();
 
-    private float driveVal = .6f;
+    private float driveVal = .666f;
     private float drive = driveVal;
     private float driveSlow = .2f;
     //private double up = 1;
@@ -28,6 +28,10 @@ public class DustBowlRefugeeTestingTeleopDriveOnly extends OpMode {
         robot.init(hardwareMap);
         //robot.intakeL.setPower(1);
         //robot.intakeR.setPower(1);
+        robot.fLMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.fRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.bLMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.bRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     @Override
@@ -80,7 +84,7 @@ public class DustBowlRefugeeTestingTeleopDriveOnly extends OpMode {
 //        }
 
         //slow drive
-        if(gamepad1.left_bumper)
+        if(gamepad1.x || gamepad1.dpad_right)
         {
             drive = driveSlow;
         }
@@ -138,7 +142,7 @@ public class DustBowlRefugeeTestingTeleopDriveOnly extends OpMode {
         //variables
         double r = Math.hypot(-gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
-        double rightX = gamepad1.right_stick_x;
+        double rightX = -gamepad1.right_stick_x;
         final double v1 = r * Math.cos(robotAngle) + rightX;
         final double v2 = r * Math.sin(robotAngle) - rightX;
         final double v3 = r * Math.sin(robotAngle) + rightX;
