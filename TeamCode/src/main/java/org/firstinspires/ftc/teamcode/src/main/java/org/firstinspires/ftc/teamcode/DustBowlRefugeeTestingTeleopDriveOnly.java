@@ -41,6 +41,27 @@ public class DustBowlRefugeeTestingTeleopDriveOnly extends OpMode {
         mecanumMove();
         //gamepad1.
 
+//        if(gamepad1.left_stick_y > .2 || gamepad1.left_stick_y < -.2)
+//        {
+//            robot.fLMotor.setPower(gamepad1.left_stick_y);
+//            robot.fRMotor.setPower(gamepad1.left_stick_y);
+//            robot.bLMotor.setPower(gamepad1.left_stick_y);
+//            robot.bRMotor.setPower(gamepad1.left_stick_y);
+//        }
+//        else if(gamepad1.left_stick_x > .2 || gamepad1.left_stick_x < -.2)
+//        {
+//            robot.fLMotor.setPower(gamepad1.left_stick_x);
+//            robot.fRMotor.setPower(-gamepad1.left_stick_x);
+//            robot.bLMotor.setPower(-gamepad1.left_stick_x);
+//            robot.bRMotor.setPower(gamepad1.left_stick_x);
+//        }
+//        else
+//        {
+//            robot.fLMotor.setPower(0);
+//            robot.fRMotor.setPower(0);
+//            robot.bLMotor.setPower(0);
+//            robot.bRMotor.setPower(0);
+//        }
         //switch forward driving direction
         if(gamepad1.start)
         {
