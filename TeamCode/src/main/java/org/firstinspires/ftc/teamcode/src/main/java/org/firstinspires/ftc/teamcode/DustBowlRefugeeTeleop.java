@@ -16,8 +16,9 @@ public class DustBowlRefugeeTeleop extends OpMode {
     private float driveVal = .6f;
     private float drive = driveVal;
     private float driveSlow = .2f;
-    //private boolean latch = true;
-    //private float BRDrive = 1f;
+    private float driveLeft = 1f;
+    private float driveSlowLeft = .6f;
+    private float driveLeftVal = 1f;
 
     @Override
     public void init()
@@ -53,13 +54,13 @@ public class DustBowlRefugeeTeleop extends OpMode {
         }
 
         //latch
-        if(gamepad1.y)
+        if(gamepad1.right_trigger >= .1)
         {
             robot.latch1.setPosition(1);
             robot.latch2.setPosition(1);
             //latch = false;
         }
-        else if(gamepad1.x)
+        else if(gamepad1.left_trigger >= .1)
         {
             robot.latch1.setPosition(0);
             robot.latch2.setPosition(0);
@@ -67,25 +68,27 @@ public class DustBowlRefugeeTeleop extends OpMode {
         }
 
         //compression intake
-        if(gamepad1.b)
+        if(gamepad1.y)
         {
-            robot.intakeL.setPower(0);
-            robot.intakeR.setPower(0);
-        }
-        else if (gamepad1.a)
-        {
-            robot.intakeR.setPower(-1);
             robot.intakeL.setPower(-1);
+            robot.intakeR.setPower(-1);
+        }
+        else
+        {
+            robot.intakeR.setPower(0);
+            robot.intakeL.setPower(0);
         }
 
         //slow drive
         if(gamepad1.left_bumper)
         {
             drive = driveSlow;
+            driveLeft = driveSlowLeft;
         }
         else
         {
             drive = driveVal;
+            driveLeft = driveLeftVal;
         }
 
         //lift controls
@@ -108,11 +111,11 @@ public class DustBowlRefugeeTeleop extends OpMode {
         //slide controls
         if(gamepad2.left_trigger >= .1)
         {
-            robot.schlide.setPower(-gamepad1.left_trigger * drive);
+            robot.schlide.setPower(gamepad2.left_trigger * drive);
         }
         else if(gamepad2.right_trigger >= .1)
         {
-            robot.schlide.setPower(gamepad2.right_trigger * drive);
+            robot.schlide.setPower(-gamepad2.right_trigger * drive);
         }
         else
         {
@@ -142,9 +145,9 @@ public class DustBowlRefugeeTeleop extends OpMode {
         final double v3 = r * Math.sin(robotAngle) + rightX;
         final double v4 = r * Math.cos(robotAngle) - rightX;
 
-        robot.fLMotor.setPower(-drive * v1);
+        robot.fLMotor.setPower(-driveLeft * v1);
         robot.fRMotor.setPower(-drive * v2);
-        robot.bLMotor.setPower(-drive * v3);
+        robot.bLMotor.setPower(-driveLeft * v3);
         robot.bRMotor.setPower(-drive * v4);
     }
 }
