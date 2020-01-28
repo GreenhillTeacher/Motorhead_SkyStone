@@ -15,7 +15,7 @@ public class DustBowlRefugeeTestingTeleopDriveOnly extends OpMode {
 
     private float driveVal = .666f;
     private float drive = driveVal;
-    private float driveSlow = .2f;
+    private float driveSlow = .3f;
     //private double up = 1;
     //private boolean latch = true;
     //private float BRDrive = 1f;
