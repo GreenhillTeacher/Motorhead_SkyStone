@@ -78,6 +78,19 @@ public class DustBowlRefugeeTestingTeleopDriveOnly extends OpMode {
             robot.bRMotor.setDirection(DcMotor.Direction.REVERSE);
         }
 
+        //cr claw
+        if(gamepad1.a)
+        {
+            robot.claw.setPower(1);
+        }
+        else if(gamepad1.b)
+        {
+            robot.claw.setPower(-1);
+        }
+        else
+        {
+            robot.claw.setPower(0);
+        }
         //latch
 //        if(gamepad1.y)
 //        {
