@@ -25,7 +25,7 @@ public class DustBowlRefugeeHardware
     public DcMotor liftR;
 
     public CRServo schlide;
-    public Servo claw;
+    public CRServo claw;
 
     public Servo latch1;
     public Servo latch2;
@@ -68,7 +68,7 @@ public class DustBowlRefugeeHardware
         liftR = hwMap.get(DcMotor.class, "liftR");
 
         schlide = hwMap.get(CRServo.class, "schlide");
-        claw = hwMap.get(Servo.class, "claw");
+        claw = hwMap.get(CRServo.class, "claw");
 
         latch1 = hwMap.get(Servo.class, "latch1");
         latch2 = hwMap.get(Servo.class, "latch2");
@@ -93,8 +93,8 @@ public class DustBowlRefugeeHardware
         liftL.setPower(0);
         liftR.setPower(0);
 
-        claw.setDirection(Servo.Direction.FORWARD);
-        claw.setPosition(0);
+        claw.setDirection(CRServo.Direction.FORWARD);
+        claw.setPower(0);
 
         schlide.setDirection(CRServo.Direction.FORWARD);
         schlide.setPower(0);
