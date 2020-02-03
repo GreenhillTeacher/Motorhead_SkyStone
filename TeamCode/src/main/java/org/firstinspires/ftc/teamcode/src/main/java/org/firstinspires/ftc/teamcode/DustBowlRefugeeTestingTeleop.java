@@ -124,11 +124,11 @@ public class DustBowlRefugeeTestingTeleop extends OpMode {
         //claw controls
         if(gamepad1.x ||gamepad2.x)
         {
-            robot.claw.setPosition(1);
+            robot.claw.setPower(1);
         }
         else if(gamepad1.y || gamepad2.y)
         {
-            robot.claw.setPosition(0);
+            robot.claw.setPower(0);
         }
 
 
