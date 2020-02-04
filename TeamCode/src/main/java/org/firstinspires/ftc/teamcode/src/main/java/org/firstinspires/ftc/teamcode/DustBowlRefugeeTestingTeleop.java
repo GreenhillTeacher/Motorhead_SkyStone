@@ -110,7 +110,7 @@ public class DustBowlRefugeeTestingTeleop extends OpMode {
         //slide controls
         if(gamepad1.left_trigger >= .1)
         {
-            robot.schlide.setPower(-gamepad2.left_trigger * drive);
+            robot.schlide.setPower(-gamepad1.left_trigger * drive);
         }
         else if(gamepad1.right_trigger >= .1)
         {
@@ -127,6 +127,10 @@ public class DustBowlRefugeeTestingTeleop extends OpMode {
             robot.claw.setPower(1);
         }
         else if(gamepad1.y || gamepad2.y)
+        {
+            robot.claw.setPower(-1);
+        }
+        else
         {
             robot.claw.setPower(0);
         }
