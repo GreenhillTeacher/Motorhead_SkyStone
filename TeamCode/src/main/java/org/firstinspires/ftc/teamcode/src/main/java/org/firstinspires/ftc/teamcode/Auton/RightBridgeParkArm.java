@@ -1,19 +1,19 @@
-package org.firstinspires.ftc.teamcode.src.main.java.legacy;
+package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Auton;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Auton.AutonDrivingDustBowlRefugee;
+//import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.AutonDriving;
 
-@Autonomous(name="TurnDegreesTest", group="Test")
-@Disabled
-public class TurnDegreesTest extends AutonDriving {
+@Autonomous(name="RightBridgeParkArm", group="BridgePark")
+//@Disabled
+public class RightBridgeParkArm extends AutonDrivingDustBowlRefugee {
 
-    //public double forwardInches = 81;
     @Override
     public void runOpMode()
     {
@@ -42,18 +42,14 @@ public class TurnDegreesTest extends AutonDriving {
         robot.bLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.bRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-
         waitForStart();
-
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
-
-
-        ///ACTUAL CODE
-        turnDegreesLegacy(90, .5, 5);
-        sleep(500);
-
-       telemetry.addData("path", "complete");
-       telemetry.update();
+        //
+        gyroDrive(24.5,gyroDriveThreshold);
+        turnToPosition(-90,"z",turnSpeed,negative90timeout);
+        gyroDrive(9,gyroDriveThreshold);
+        turnToPosition(90,"z",turnSpeed,5);
+        gyroDrive(23.5, gyroDriveThreshold);
     }
 }

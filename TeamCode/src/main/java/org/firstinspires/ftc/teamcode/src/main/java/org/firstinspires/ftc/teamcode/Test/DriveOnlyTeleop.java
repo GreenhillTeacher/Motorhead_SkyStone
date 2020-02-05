@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -8,12 +8,12 @@ import org.firstinspires.ftc.teamcode.src.main.java.legacy.MecanumHardware3Drive
 
 
 @TeleOp(name="DriveOnlyTeleop", group="Test")
-//@Disabled
+@Disabled
 //@Disabled
 
 public class DriveOnlyTeleop extends OpMode {
 
-    TestHardware robot = new TestHardware();
+    DriveOnlyHardware robot = new DriveOnlyHardware();
 
     private float drive = .4f;
     //private float BRDrive = 1f;
@@ -33,16 +33,6 @@ public class DriveOnlyTeleop extends OpMode {
 
         mecanumMove();
 
-        if(gamepad1.a)
-        {
-            robot.latch1.setPosition(0);
-            robot.latch2.setPosition(0);
-        }
-        else if (gamepad1.b)
-        {
-            robot.latch1.setPosition(1);
-            robot.latch2.setPosition(1);
-        }
     }
 
     public void mecanumMove()

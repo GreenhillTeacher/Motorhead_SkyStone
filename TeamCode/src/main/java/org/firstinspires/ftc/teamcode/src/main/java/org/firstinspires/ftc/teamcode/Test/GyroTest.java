@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Test;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -14,6 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.teamcode.src.main.java.legacy.MecanumHardware3;
+import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.DustBowlRefugeeHardware;
 //import org.firstinspires.ftc.teamcode.SkyStoneHardware;
 
 
@@ -23,7 +24,7 @@ import org.firstinspires.ftc.teamcode.src.main.java.legacy.MecanumHardware3;
 
 public class GyroTest extends OpMode {
 
-    DustBowlRefugeeHardware robot = new DustBowlRefugeeHardware();
+    DriveOnlyHardware robot = new DriveOnlyHardware();
 
     private float drive = .8f;
     BNO055IMU imu;
