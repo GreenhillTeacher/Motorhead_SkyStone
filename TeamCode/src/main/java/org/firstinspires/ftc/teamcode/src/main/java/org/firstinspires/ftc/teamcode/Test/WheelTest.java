@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Test;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -15,13 +15,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.DustBowlRefugeeHardware;
 
 @Autonomous(name="WheelTest", group="Test")
 @Disabled
 public class WheelTest extends LinearOpMode {
 
     /* Declare OpMode members. */
-    DustBowlRefugeeHardware robot = new DustBowlRefugeeHardware();
+    DriveOnlyHardware robot = new DriveOnlyHardware();
     private ElapsedTime runtime = new ElapsedTime();
     String xyz = "z";
 

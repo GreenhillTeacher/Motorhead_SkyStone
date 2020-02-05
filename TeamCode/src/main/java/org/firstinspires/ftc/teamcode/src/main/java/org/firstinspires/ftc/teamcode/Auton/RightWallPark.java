@@ -1,19 +1,17 @@
-package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Auton;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
-import org.firstinspires.ftc.teamcode.src.main.java.legacy.AutonDriving;
-//import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.AutonDriving;
+import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Auton.AutonDrivingDustBowlRefugee;
 
-@Autonomous(name="LeftWallPark", group="WallPark")
+@Autonomous(name="RightWallPark", group="WallPark")
 //@Disabled
-public class LeftWallPark extends AutonDrivingDustBowlRefugee {
+public class RightWallPark extends AutonDrivingDustBowlRefugee {
 
     @Override
     public void runOpMode()
@@ -45,9 +43,7 @@ public class LeftWallPark extends AutonDrivingDustBowlRefugee {
 
         waitForStart();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-
-        //
         //robot.claw.setPosition(clawClosed);
-        gyroDrive(18,gyroDriveThreshold);
+        gyroDrive(-18,gyroDriveThreshold);
     }
 }

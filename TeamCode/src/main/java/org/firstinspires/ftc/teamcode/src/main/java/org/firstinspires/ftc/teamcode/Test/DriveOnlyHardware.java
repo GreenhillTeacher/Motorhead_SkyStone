@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Test;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 //import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 
-public class DustBowlRefugeeHardwareDriveOnly
+public class DriveOnlyHardware
 {
     public DcMotor fLMotor;
     public DcMotor fRMotor;
@@ -144,7 +144,7 @@ public class DustBowlRefugeeHardwareDriveOnly
 //        intakeL.setDirection(DcMotor.Direction.FORWARD);
 //        intakeR.setDirection(DcMotor.Direction.REVERSE);
 //
-//        //TODO: CHECK IF CORRECT
+//
 //        liftL.setDirection(DcMotor.Direction.FORWARD);
 //        liftR.setDirection(DcMotor.Direction.REVERSE);
 

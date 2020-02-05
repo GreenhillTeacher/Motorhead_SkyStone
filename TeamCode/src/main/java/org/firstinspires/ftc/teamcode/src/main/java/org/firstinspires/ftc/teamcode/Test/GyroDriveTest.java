@@ -1,22 +1,23 @@
-package org.firstinspires.ftc.teamcode.src.main.java.legacy;
+package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Test;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-@Autonomous(name="TurnDegreesTest", group="Test")
-@Disabled
-public class TurnDegreesTest extends AutonDriving {
+//@Disabled
+@Autonomous(name="TestAutonDriveOnly", group="Test")
+public class GyroDriveTest extends AutonDrivingDriveOnly {
+//    AutonDrivingDriveOnly auton = new AutonDrivingDriveOnly();
 
-    //public double forwardInches = 81;
+    //SkyStoneHardwareDrivingOnly robot = new SkyStoneHardwareDrivingOnly();
     @Override
-    public void runOpMode()
-    {
+    public void runOpMode() {
+
+        //init
         robot.init(hardwareMap);
         BNO055IMU.Parameters p = new BNO055IMU.Parameters();
         p.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -42,18 +43,19 @@ public class TurnDegreesTest extends AutonDriving {
         robot.bLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.bRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-
         waitForStart();
-
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+        startAngle = readAngle("z");
 
+        //gyroDrive(29, 0);
+        //gyroDriveStrafe(10, 0);
+        //gyroDrive(47.5, 0);
 
+        //line up with center foundation
+        gyroDrive(10, gyroDriveThreshold);
 
-        ///ACTUAL CODE
-        turnDegreesLegacy(90, .5, 5);
         sleep(500);
-
-       telemetry.addData("path", "complete");
-       telemetry.update();
+        telemetry.addData("Path", "Complete");
+        telemetry.update();
     }
 }
