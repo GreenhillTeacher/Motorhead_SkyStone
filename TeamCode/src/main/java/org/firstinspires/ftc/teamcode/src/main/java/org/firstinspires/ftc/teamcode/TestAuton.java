@@ -66,50 +66,53 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
         //gyroDrive(47.5, 0);
 
         //line up with center foundation
-        gyroDrive(-12.5, gyroDriveThreshold);
+        //gyroDrive(-12.5, gyroDriveThreshold);
 
-        sleep(100);
-
-        //strafe away from wall
-        robot.fLMotor.setPower(.6);
-        robot.bLMotor.setPower(-.6);
-        robot.fRMotor.setPower(-.6);
-        robot.bRMotor.setPower(.6);
-
-        sleep(250);
-
-        normalDrive(0,0);
-
-        sleep(100);
-
-        //turn towards foundation
-        turnToPosition(-90, "z", turnSpeed, negative90timeout);
-
-        //drive to foundation and latch
-        gyroDrive(-25.5, .5);
-
-        sleep(100);
-        //fix tilting with gyrodrive
-        turnToPosition(-90, "z", turnSpeed, negative90timeout);
-
-        //latch
-        latch(true);
-
-        sleep(600);
-
-        //gyroDrive(15, .5);
-        //drive back and turn
-        //gyroDrive(15, gyroDriveThreshold);
-        //drive back
-        robot.fLMotor.setPower(.3);
-        robot.fRMotor.setPower(.3);
-        robot.bLMotor.setPower(.3);
-        robot.bRMotor.setPower(.3);
-        sleep(1300);
-        normalDrive(0, 0);
-
-        turnToPosition(-90, "z", turnSpeed, negative90timeout);
-        //turnDegrees(90, "z", turnSpeed, 10);
+        gyroDrive(20, gyroDriveThreshold);
+        turnToPosition(-90, "z", 1, 7);
+        gyroDrive(20,gyroDriveThreshold);
+//        sleep(100);
+//
+//        //strafe away from wall
+//        robot.fLMotor.setPower(.6);
+//        robot.bLMotor.setPower(-.6);
+//        robot.fRMotor.setPower(-.6);
+//        robot.bRMotor.setPower(.6);
+//
+//        sleep(250);
+//
+//        normalDrive(0,0);
+//
+//        sleep(100);
+//
+//        //turn towards foundation
+//        turnToPosition(-90, "z", turnSpeed, negative90timeout);
+//
+//        //drive to foundation and latch
+//        gyroDrive(-25.5, .5);
+//
+//        sleep(100);
+//        //fix tilting with gyrodrive
+//        turnToPosition(-90, "z", turnSpeed, negative90timeout);
+//
+//        //latch
+//        latch(true);
+//
+//        sleep(600);
+//
+//        //gyroDrive(15, .5);
+//        //drive back and turn
+//        //gyroDrive(15, gyroDriveThreshold);
+//        //drive back
+//        robot.fLMotor.setPower(.3);
+//        robot.fRMotor.setPower(.3);
+//        robot.bLMotor.setPower(.3);
+//        robot.bRMotor.setPower(.3);
+//        sleep(1300);
+//        normalDrive(0, 0);
+//
+//        turnToPosition(-90, "z", turnSpeed, negative90timeout);
+//        //turnDegrees(90, "z", turnSpeed, 10);
 
         sleep(500);
         telemetry.addData("Path", "Complete");
