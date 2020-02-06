@@ -89,13 +89,16 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
     public double gyroDriveThreshold = .7;
     public double gyroDriveSpeedSlow = .27;
     public double gyroDriveSpeed = .32;
-    public double gyroDriveSpeedFast = .37;
+    public double gyroDriveSpeedFast = .35;
     private double gyroDriveInitBoost = .15;
+    public double slow = .3;
+    public double moderate = .5;
+    public double fast = .7;
 
     //gyro turn variables
     private double gyroTurnThreshold = .7;
     private double degreeError = 2;
-    public double turnSpeed = .7;
+    public double turnSpeed = .5;
     public double axisTurnSpeed = 1;
     private double gyroTurnBoost = .01;
 
@@ -300,6 +303,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
             telemetry.addData("original angle", originalAngle);
             telemetry.addData("current angle", readAngle(xyz));
             telemetry.addData("error", error);
+            telemetry.addData("target", target);
             telemetry.update();
             if (error > 0)
             {
@@ -360,6 +364,8 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
             telemetry.addData("original angle", originalAngle);
             telemetry.addData("current angle", readAngle(xyz));
             telemetry.addData("error", error);
+            telemetry.addData("target", target);
+            telemetry.addData("degrees", degrees);
             telemetry.update();
             if (error > 0)
             {
@@ -610,6 +616,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
         }
         stopAndReset();
     }
+
     /*public void armExtend(double inches, double topPower, double timeoutS)
     {
         stopAndReset();
@@ -656,14 +663,9 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
         stopAndReset();
     }
 */
-    public void gyroDrive (double distance, double angle, boolean initBoost, double speed, boolean correction)
+    public void gyroDrive (double distance, double angle, boolean initBoost, double speed, double speedMult)
     {
         stopAndReset();
-
-        /*if(distance < 0)
-        {
-            distance -= 3;
-        }*/
 
         int fLTarget;
         int fRTarget;
@@ -732,6 +734,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
                 leftSpeed = speed + steer;
                 rightSpeed = speed - steer;
 
+                //makes first 100 counts faster bc drive takes a lot of time to accelerate
                 if(initBoost) {
                     if (Math.abs(robot.fLMotor.getCurrentPosition() - fLInit) < 100 && Math.abs(robot.bLMotor.getCurrentPosition() - bLInit) < 100)
                     {
@@ -750,8 +753,8 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
                     rightSpeed /= max;
                 }
 
-                /*leftSpeed *= speed;
-                rightSpeed *= speed;*/
+                leftSpeed *= speedMult;
+                rightSpeed *= speedMult;
 
                 robot.fLMotor.setPower(leftSpeed);
                 robot.fRMotor.setPower(rightSpeed);
@@ -771,10 +774,9 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
             // Stop all motion;
             normalDrive(0, 0);
 
-            if(correction)
-            {
-                turnToPosition(angle, "z", turnSpeed, 2);
-            }
+            //correct for drift during drive
+            turnToPosition(-angle, "z", turnSpeed, 2);
+
             // Turn off RUN_TO_POSITION
             stopAndReset();
         }

@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.AutonDrivingDustBowlRefugee;
 //import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.AutonDriving;
 
-@Autonomous(name="RightBridgeParkArm", group="BridgePark")
+@Autonomous(name="RightBridgePark", group="BridgePark")
 //@Disabled
 public class RightBridgePark extends AutonDrivingDustBowlRefugee {
 
@@ -47,13 +47,15 @@ public class RightBridgePark extends AutonDrivingDustBowlRefugee {
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
         //
-        gyroDrive(25, readAngle("z"), true, gyroDriveSpeedFast, true);
+        gyroDrive(23, readAngle("z"), true, gyroDriveSpeed, moderate);
+
+        sleep(100);
 
         turnDegrees(-90,"z",turnSpeed, 5);
 
         sleep(100);
 
-        gyroDrive(20, readAngle("z"), true, gyroDriveSpeedFast, false);
+        gyroDrive(20, readAngle("z"), true, gyroDriveSpeedFast, moderate);
 
 
         pathComplete(500);

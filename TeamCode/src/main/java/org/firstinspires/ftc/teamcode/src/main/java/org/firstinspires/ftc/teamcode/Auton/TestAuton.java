@@ -57,11 +57,11 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
         //line up with center foundation
         //gyroDrive(-12.5, gyroDriveThreshold);
 
-        gyroDrive(20, readAngle("z"), true, gyroDriveSpeedSlow, true);
+        gyroDrive(20, readAngle("z"), true, gyroDriveSpeedSlow, moderate);
 
         turnToPosition(-90, "z", 1, 7);
 
-        gyroDrive(20,readAngle("z"), true, gyroDriveSpeedSlow, true);
+        gyroDrive(20,readAngle("z"), true, gyroDriveSpeedSlow, moderate);
 //        sleep(100);
 //
 //        //strafe away from wall

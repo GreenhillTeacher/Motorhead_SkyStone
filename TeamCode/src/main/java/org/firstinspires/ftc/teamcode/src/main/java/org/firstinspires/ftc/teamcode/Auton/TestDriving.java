@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamco
 
 //import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Auton.AutonDrivingDustBowlRefugee;
 
-@Disabled
+//@Disabled
 @Autonomous(name="TestDriving", group="AutonTest")
 public class TestDriving extends AutonDrivingDustBowlRefugee {
 //    AutonDrivingDriveOnly auton = new AutonDrivingDriveOnly();
@@ -51,13 +51,13 @@ public class TestDriving extends AutonDrivingDustBowlRefugee {
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
         startAngle = readAngle("z");
 
-        gyroDrive(25, readAngle("z"), true, gyroDriveSpeedFast, true);
+        gyroDrive(25, readAngle("z"), true, gyroDriveSpeedSlow, moderate);
 
-        turnDegrees(90,"z",turnSpeed,5);
+        turnDegrees(90,"z", turnSpeed,5);
 
         sleep(100);
 
-        gyroDrive(20, readAngle("z"), true, gyroDriveSpeed, true);
+        gyroDrive(20, readAngle("z"), true, gyroDriveSpeedSlow, moderate);
 
 
         pathComplete(500);
