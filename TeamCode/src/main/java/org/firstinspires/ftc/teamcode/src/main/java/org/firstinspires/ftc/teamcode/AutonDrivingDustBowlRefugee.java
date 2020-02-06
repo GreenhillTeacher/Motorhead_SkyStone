@@ -624,8 +624,8 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
 
             // Set Target and Turn On RUN_TO_POSITION
             robot.fLMotor.setTargetPosition(fLTarget);
-            robot.fRMotor.setTargetPosition(fRTarget);
-            robot.bLMotor.setTargetPosition(bLTarget);
+            robot.fRMotor.setTargetPosition(-fRTarget);
+            robot.bLMotor.setTargetPosition(-bLTarget);
             robot.bRMotor.setTargetPosition(bRTarget);
 
 
