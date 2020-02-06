@@ -7,7 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
-import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Auton.AutonDrivingDustBowlRefugee;
+//import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Auton.AutonDrivingDustBowlRefugee;
+import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.AutonDrivingDustBowlRefugee;
 
 @Autonomous(name="RightWallPark", group="WallPark")
 //@Disabled
@@ -44,6 +45,9 @@ public class RightWallPark extends AutonDrivingDustBowlRefugee {
         waitForStart();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
         //robot.claw.setPosition(clawClosed);
-        gyroDrive(-18,gyroDriveThreshold);
+
+        gyroDrive(-18 , readAngle("z"), true, gyroDriveSpeedFast, true);
+
+        pathComplete(500);
     }
 }

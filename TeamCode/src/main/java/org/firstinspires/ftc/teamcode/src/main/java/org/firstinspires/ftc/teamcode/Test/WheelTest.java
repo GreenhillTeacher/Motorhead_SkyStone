@@ -96,33 +96,21 @@ public class WheelTest extends LinearOpMode {
         motorTest(robot.bLMotor);
 
         motorTest(robot.bRMotor);
-        //turnToPosition(90, "z", 1, 5, false);
-       // encoderDrive(10, "f", 5,1);
-//        sleep(100);
-//        turnDegrees(-90, "z", 1, 5, false);
-//        sleep(100);
-//        turnDegrees(45, "z", 1, 5, false);
-//        sleep(100);
-//        turnDegrees(-45, "z", 1, 5, false);
-//        sleep(100);
-//        turnDegrees(0, "z", 1, 5, false);
-//        sleep(1500);
-//        encoderDrive(19.75, "f", 10, .8);
-//        sleep(100);
-//        encoderDrive(10, "r", 10, 1);
-//        sleep(100);
-//        encoderDrive(10, "b", 10, 1);
-//        sleep(100);
-//        encoderDrive(10, "l", 10, 1);
-//        sleep(100);
-        //tf.start(); //moved to start of program
 
+        pathComplete(500);
+    }
+
+    public void pathComplete(int millisec)
+    {
+        telemetry.addData("Path", "Complete");
+        telemetry.update();
+        sleep(millisec);
     }
 
     public void motorTest(DcMotor motor)
     {
-        motor.setPower(1);
-        sleep(1000);
+        motor.setPower(.6);
+        sleep(2000);
         motor.setPower(0);
     }
 

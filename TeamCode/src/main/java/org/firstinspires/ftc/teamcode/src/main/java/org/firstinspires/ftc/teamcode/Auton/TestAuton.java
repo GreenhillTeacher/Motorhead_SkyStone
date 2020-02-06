@@ -3,14 +3,16 @@ package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamc
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
-import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Auton.AutonDrivingDustBowlRefugee;
+//import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Auton.AutonDrivingDustBowlRefugee;
+import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.AutonDrivingDustBowlRefugee;
 
-//@Disabled
-@Autonomous(name="TestAuton", group="Test")
+@Disabled
+@Autonomous(name="TestAuton", group="AutonTest")
 public class TestAuton extends AutonDrivingDustBowlRefugee {
 //    AutonDrivingDriveOnly auton = new AutonDrivingDriveOnly();
 
@@ -55,9 +57,11 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
         //line up with center foundation
         //gyroDrive(-12.5, gyroDriveThreshold);
 
-        gyroDrive(20, gyroDriveThreshold);
+        gyroDrive(20, readAngle("z"), true, gyroDriveSpeedSlow, true);
+
         turnToPosition(-90, "z", 1, 7);
-        gyroDrive(20,gyroDriveThreshold);
+
+        gyroDrive(20,readAngle("z"), true, gyroDriveSpeedSlow, true);
 //        sleep(100);
 //
 //        //strafe away from wall
@@ -101,8 +105,6 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
 //        turnToPosition(-90, "z", turnSpeed, negative90timeout);
 //        //turnDegrees(90, "z", turnSpeed, 10);
 
-        sleep(500);
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
+        pathComplete(500);
     }
 }

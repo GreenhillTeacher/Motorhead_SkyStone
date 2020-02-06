@@ -18,9 +18,8 @@ import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamco
 //import org.firstinspires.ftc.teamcode.SkyStoneHardware;
 
 
-@TeleOp(name="GyroTest", group="ColorSensor")
-//@Disabled
-//@Disabled
+@TeleOp(name="GyroTest", group="Test")
+@Disabled
 
 public class GyroTest extends OpMode {
 
@@ -59,23 +58,8 @@ public class GyroTest extends OpMode {
         telemetry.addData("y", readAngle("y"));
         telemetry.addData("z", readAngle("z"));
         telemetry.update();
-//        telemetry.addData("sen1b", robot.sen1.blue());
-//        telemetry.addData("sen2", robot.sen2.alpha());
-//        telemetry.addData("sen3", robot.sen3.alpha());
-//        telemetry.addData("dist", robot.dist.getDistance(DistanceUnit.INCH));//if the distance is < .5in then the stone is too close despite being skystone
-        //and if a nonskystone is more than 5.5in away it needs to be brought closer
-        // if stone is really close then skystone reading are lower across the board than regular stone
-//        double average = robot.sen1.alpha()+ robot.sen3.alpha() + robot.sen2.alpha();
-//        boolean isSkystone = false;
-//        average/=3;
-//        telemetry.addData("average", (robot.sen1.alpha() + robot.sen2.alpha() + robot.sen3.alpha())/3);
-//        if(average < 150)
-//        {
-//            isSkystone = true;
-//        }
-//        telemetry.addData("Is A Skystone", isSkystone);
-       // telemetry.update();
-        //not funny didnt laugh
+
+        //not funny didn't laugh
     }
     public double readAngle(String xyz) {
         Orientation angles;

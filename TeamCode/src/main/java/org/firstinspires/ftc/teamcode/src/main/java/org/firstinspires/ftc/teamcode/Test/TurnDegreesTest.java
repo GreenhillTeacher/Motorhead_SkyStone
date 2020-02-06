@@ -1,24 +1,25 @@
-package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Auton;
+package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Test;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
-import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Auton.AutonDrivingDustBowlRefugee;
+import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.AutonDrivingDustBowlRefugee;
 
-//@Disabled
-@Autonomous(name="TestDriving", group="Test")
-public class TestDriving extends AutonDrivingDustBowlRefugee {
+@Disabled
+@Autonomous(name="TurnDegreesTest", group="Test")
+public class TurnDegreesTest extends AutonDrivingDustBowlRefugee {
 //    AutonDrivingDriveOnly auton = new AutonDrivingDriveOnly();
 
     //SkyStoneHardwareDrivingOnly robot = new SkyStoneHardwareDrivingOnly();
     @Override
     public void runOpMode() {
-        //robot.init(hardwareMap);
-        //auton.runOpMode();
+
+        //init
         robot.init(hardwareMap);
         BNO055IMU.Parameters p = new BNO055IMU.Parameters();
         p.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -48,18 +49,18 @@ public class TestDriving extends AutonDrivingDustBowlRefugee {
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
         startAngle = readAngle("z");
 
+        //gyroDrive(29, 0);
+        //gyroDriveStrafe(10, 0);
+        //gyroDrive(47.5, 0);
+
+        //line up with center foundation
+        //gyroDrive(10, gyroDriveThreshold);
+        turnDegrees(180, "z", .4, 10);
+
         //sleep(5000);
 
-        //turnDegrees(180, "z", .5, 10);
-        //sleep(100);
-        gyroDrive(12, .5);
-        sleep(100);
-        //turnToPosition(90, "z", turnSpeed, 10);
-        //sleep(500);
-        turnToPosition(-90, "z", turnSpeed, negative90timeout);
-        //turnDegrees(90, "z", turnSpeed, 10);
-        //gyroDrive(24, 2);
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
+        //turnDegrees(-90, "z", .4, 10);
+
+        pathComplete(500);
     }
 }

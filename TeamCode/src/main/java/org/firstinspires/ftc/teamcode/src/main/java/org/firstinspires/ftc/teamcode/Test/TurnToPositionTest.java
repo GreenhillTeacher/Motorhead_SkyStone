@@ -3,14 +3,16 @@ package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamc
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.AutonDrivingDustBowlRefugee;
 
-//@Disabled
-@Autonomous(name="TestAutonDriveOnly", group="Test")
-public class TurnToPositionTest extends AutonDrivingDriveOnly {
+@Disabled
+@Autonomous(name="TurnToPositionTest", group="Test")
+public class TurnToPositionTest extends AutonDrivingDustBowlRefugee {
 //    AutonDrivingDriveOnly auton = new AutonDrivingDriveOnly();
 
     //SkyStoneHardwareDrivingOnly robot = new SkyStoneHardwareDrivingOnly();
@@ -53,14 +55,8 @@ public class TurnToPositionTest extends AutonDrivingDriveOnly {
 
         //line up with center foundation
         //gyroDrive(10, gyroDriveThreshold);
-        turnToPosition(90, "z", turnSpeed, 10);
-
-        sleep(500);
-
         turnToPosition(-90, "z", turnSpeed, 10);
 
-        sleep(500);
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
+        pathComplete(500);
     }
 }

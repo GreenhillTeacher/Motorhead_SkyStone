@@ -7,7 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
-import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Auton.AutonDrivingDustBowlRefugee;
+//import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Auton.AutonDrivingDustBowlRefugee;
+import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.AutonDrivingDustBowlRefugee;
 //import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.AutonDriving;
 
 @Autonomous(name="LeftWallPark", group="WallPark")
@@ -47,6 +48,8 @@ public class LeftWallPark extends AutonDrivingDustBowlRefugee {
 
         //
         //robot.claw.setPosition(clawClosed);
-        gyroDrive(18,gyroDriveThreshold);
+        gyroDrive(18 , readAngle("z"), true, gyroDriveSpeedFast, true);
+
+        pathComplete(500);
     }
 }

@@ -1,13 +1,13 @@
 package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 @TeleOp(name="DustBowlRefugeeTeleopPushbot", group="DustBowlRefugee")
-//@Disabled
-//@Disabled
+@Disabled
 
 public class DustBowlRefugeeTeleopPushbot extends OpMode {
 

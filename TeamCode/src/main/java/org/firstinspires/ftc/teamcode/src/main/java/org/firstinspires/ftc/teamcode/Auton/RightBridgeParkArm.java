@@ -7,7 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
-import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Auton.AutonDrivingDustBowlRefugee;
+//import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Auton.AutonDrivingDustBowlRefugee;
+import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.AutonDrivingDustBowlRefugee;
 //import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.AutonDriving;
 
 @Autonomous(name="RightBridgeParkArm", group="BridgePark")
@@ -46,10 +47,15 @@ public class RightBridgeParkArm extends AutonDrivingDustBowlRefugee {
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
         //
-        gyroDrive(24.5,gyroDriveThreshold);
-        turnToPosition(-90,"z",turnSpeed,negative90timeout);
-        gyroDrive(9,gyroDriveThreshold);
-        turnToPosition(90,"z",turnSpeed,5);
-        gyroDrive(23.5, gyroDriveThreshold);
+        gyroDrive(25, readAngle("z"), true, gyroDriveSpeedFast, true);
+
+        turnToPosition(-90,"z",turnSpeed, 5);
+
+        sleep(100);
+
+        gyroDrive(-20, readAngle("z"), true, gyroDriveSpeedFast, false);
+
+
+        pathComplete(500);
     }
 }
