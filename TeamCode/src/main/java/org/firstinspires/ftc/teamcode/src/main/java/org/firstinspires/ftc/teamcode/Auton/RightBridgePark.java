@@ -1,25 +1,23 @@
-package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Test;
+package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Auton;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+//import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Auton.AutonDrivingDustBowlRefugee;
 import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.AutonDrivingDustBowlRefugee;
+//import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.AutonDriving;
 
-@Disabled
-@Autonomous(name="TurnDegreesTest", group="Test")
-public class TurnDegreesTest extends AutonDrivingDustBowlRefugee {
-//    AutonDrivingDriveOnly auton = new AutonDrivingDriveOnly();
+@Autonomous(name="RightBridgeParkArm", group="BridgePark")
+//@Disabled
+public class RightBridgePark extends AutonDrivingDustBowlRefugee {
 
-    //SkyStoneHardwareDrivingOnly robot = new SkyStoneHardwareDrivingOnly();
     @Override
-    public void runOpMode() {
-
-        //init
+    public void runOpMode()
+    {
         robot.init(hardwareMap);
         BNO055IMU.Parameters p = new BNO055IMU.Parameters();
         p.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -47,19 +45,16 @@ public class TurnDegreesTest extends AutonDrivingDustBowlRefugee {
 
         waitForStart();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-        startAngle = readAngle("z");
 
-        //gyroDrive(29, 0);
-        //gyroDriveStrafe(10, 0);
-        //gyroDrive(47.5, 0);
+        //
+        gyroDrive(25, readAngle("z"), true, gyroDriveSpeedFast, true);
 
-        //line up with center foundation
-        //gyroDrive(10, gyroDriveThreshold);
-        turnDegrees(90, "z", .4, 10);
+        turnDegrees(-90,"z",turnSpeed, 5);
 
-        //sleep(5000);
+        sleep(100);
 
-        //turnDegrees(-90, "z", .4, 10);
+        gyroDrive(20, readAngle("z"), true, gyroDriveSpeedFast, false);
+
 
         pathComplete(500);
     }

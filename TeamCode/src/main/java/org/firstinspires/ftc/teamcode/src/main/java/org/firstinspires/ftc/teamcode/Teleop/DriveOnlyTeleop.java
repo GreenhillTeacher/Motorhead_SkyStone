@@ -1,10 +1,11 @@
-package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Test;
+package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.src.main.java.legacy.MecanumHardware3DriveOnly;
+//import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.DriveOnlyHardware;
+import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.DustBowlRefugeeHardware;
 
 
 @TeleOp(name="DriveOnlyTeleop", group="Test")
@@ -13,7 +14,7 @@ import org.firstinspires.ftc.teamcode.src.main.java.legacy.MecanumHardware3Drive
 
 public class DriveOnlyTeleop extends OpMode {
 
-    DriveOnlyHardware robot = new DriveOnlyHardware();
+    DustBowlRefugeeHardware robot = new DustBowlRefugeeHardware();
 
     private float drive = .4f;
     //private float BRDrive = 1f;

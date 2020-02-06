@@ -15,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+//import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.DriveOnlyHardware;
 import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.DustBowlRefugeeHardware;
 
 @Autonomous(name="WheelTest", group="Test")
@@ -22,7 +23,7 @@ import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamco
 public class WheelTest extends LinearOpMode {
 
     /* Declare OpMode members. */
-    DriveOnlyHardware robot = new DriveOnlyHardware();
+    DustBowlRefugeeHardware robot = new DustBowlRefugeeHardware();
     private ElapsedTime runtime = new ElapsedTime();
     String xyz = "z";
 

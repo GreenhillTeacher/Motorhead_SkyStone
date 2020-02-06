@@ -79,22 +79,20 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
     public List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
     public VuforiaTrackables targetsSkyStone;
 
-    //public String skystonePosition = "center";
-    public double driveSpeed = .7;
-
-
-
 
     public Orientation angles;
     public Acceleration gravity;
     public double startAngle = 0;
 
+
+    //gyro drive variables
     public double gyroDriveThreshold = .7;
     public double gyroDriveSpeedSlow = .27;
     public double gyroDriveSpeed = .32;
     public double gyroDriveSpeedFast = .37;
     private double gyroDriveInitBoost = .15;
 
+    //gyro turn variables
     private double gyroTurnThreshold = .7;
     private double degreeError = 2;
     public double turnSpeed = .7;

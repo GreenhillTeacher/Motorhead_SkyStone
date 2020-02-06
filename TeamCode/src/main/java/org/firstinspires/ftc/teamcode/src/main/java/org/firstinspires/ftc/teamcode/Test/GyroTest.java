@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
-import org.firstinspires.ftc.teamcode.src.main.java.legacy.MecanumHardware3;
+//import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.DriveOnlyHardware;
 import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.DustBowlRefugeeHardware;
 //import org.firstinspires.ftc.teamcode.SkyStoneHardware;
 
@@ -23,7 +23,7 @@ import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamco
 
 public class GyroTest extends OpMode {
 
-    DriveOnlyHardware robot = new DriveOnlyHardware();
+    DustBowlRefugeeHardware robot = new DustBowlRefugeeHardware();
 
     private float drive = .8f;
     BNO055IMU imu;

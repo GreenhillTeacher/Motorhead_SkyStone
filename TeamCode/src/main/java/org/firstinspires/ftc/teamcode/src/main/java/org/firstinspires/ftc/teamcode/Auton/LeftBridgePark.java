@@ -9,15 +9,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 //import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Auton.AutonDrivingDustBowlRefugee;
 import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.AutonDrivingDustBowlRefugee;
-//import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.AutonDriving;
 
-@Autonomous(name="RightBridgeParkArm", group="BridgePark")
+@Autonomous(name="LeftBridgeParkNoArm", group="BridgePark")
 //@Disabled
-public class RightBridgeParkArm extends AutonDrivingDustBowlRefugee {
+public class LeftBridgePark extends AutonDrivingDustBowlRefugee {
 
     @Override
     public void runOpMode()
     {
+
         robot.init(hardwareMap);
         BNO055IMU.Parameters p = new BNO055IMU.Parameters();
         p.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -49,11 +49,12 @@ public class RightBridgeParkArm extends AutonDrivingDustBowlRefugee {
         //
         gyroDrive(25, readAngle("z"), true, gyroDriveSpeedFast, true);
 
-        turnToPosition(-90,"z",turnSpeed, 5);
+        turnDegrees(90,"z",turnSpeed,5);
 
         sleep(100);
 
-        gyroDrive(-20, readAngle("z"), true, gyroDriveSpeedFast, false);
+        gyroDrive(20, readAngle("z"), true, gyroDriveSpeed, false);
+
 
 
         pathComplete(500);
