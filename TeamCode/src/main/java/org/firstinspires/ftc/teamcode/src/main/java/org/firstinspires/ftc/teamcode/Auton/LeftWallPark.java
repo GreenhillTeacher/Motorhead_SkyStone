@@ -45,6 +45,7 @@ public class LeftWallPark extends AutonDrivingDustBowlRefugee {
 
         waitForStart();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+        setDir();
 
         //
         //robot.claw.setPosition(clawClosed);

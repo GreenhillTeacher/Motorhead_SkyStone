@@ -44,6 +44,7 @@ public class RightWallPark extends AutonDrivingDustBowlRefugee {
 
         waitForStart();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+        setDir();
         //robot.claw.setPosition(clawClosed);
 
         gyroDrive(-18 , readAngle("z"), true, gyroDriveSpeedFast, slow);

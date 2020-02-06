@@ -50,6 +50,8 @@ public class TestDriving extends AutonDrivingDustBowlRefugee {
         waitForStart();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
         startAngle = readAngle("z");
+        setDir();
+
 
 //        gyroDrive(25, readAngle("z"), true, gyroDriveSpeedSlow, moderate);
 //
@@ -59,7 +61,7 @@ public class TestDriving extends AutonDrivingDustBowlRefugee {
 //
 //        gyroDrive(20, readAngle("z"), true, gyroDriveSpeedSlow, moderate);
 
-        gyroStrafe(15,readAngle("z"), false, .6 ,moderate);
+        gyroStrafe(-400,readAngle("z"), false, .6 ,moderate);
 
 
         pathComplete(500);

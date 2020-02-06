@@ -49,6 +49,7 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
         waitForStart();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
         startAngle = readAngle("z");
+        setDir();
 
         //gyroDrive(29, 0);
         //gyroDriveStrafe(10, 0);

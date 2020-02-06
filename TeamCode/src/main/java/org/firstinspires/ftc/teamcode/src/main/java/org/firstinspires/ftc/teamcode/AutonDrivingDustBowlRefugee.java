@@ -102,6 +102,11 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
     public double axisTurnSpeed = 1;
     private double gyroTurnBoost = .01;
 
+    public double NORTH = 0;
+    public double SOUTH = 180;
+    public double EAST = 90;
+    public double WEST = -90;
+
     @Override
     public void runOpMode() {
     }
@@ -177,6 +182,13 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
     }
 
 
+    public void setDir()
+    {
+        NORTH = readAngle("z");
+        SOUTH = NORTH + 180;
+        EAST = NORTH - 90;
+        WEST = NORTH + 90;
+    }
     public static double counts(double inches)
     {
         double newInches = (inches - 3.7959) / 1.1239;
@@ -618,8 +630,8 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
             // Determine new target position, and pass to motor controller
             moveCounts = (int)(distance * COUNTS_PER_INCH);
             fLTarget = (robot.fLMotor.getCurrentPosition() + moveCounts);
-            fRTarget = -(robot.fRMotor.getCurrentPosition()) + moveCounts;
-            bLTarget = -(robot.bLMotor.getCurrentPosition() + moveCounts);
+            fRTarget = (robot.fRMotor.getCurrentPosition()) + moveCounts;
+            bLTarget = (robot.bLMotor.getCurrentPosition() + moveCounts);
             bRTarget = (robot.bLMotor.getCurrentPosition() + moveCounts);
 
             // Set Target and Turn On RUN_TO_POSITION
