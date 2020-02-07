@@ -725,6 +725,147 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
         }
     }
 
+    public void gyroStrafe2 (double seconds, double angle, double speed, double balanceReduction)
+    {
+        stopAndReset();
+        runtime.reset();
+        int fLTarget;
+        int fRTarget;
+        int bLTarget;
+        int bRTarget;
+
+        int fLInit = robot.fLMotor.getCurrentPosition();
+        int fRInit = robot.fRMotor.getCurrentPosition();
+        int bLInit = robot.bLMotor.getCurrentPosition();
+        int bRInit = robot.bRMotor.getCurrentPosition();
+
+        //int     newRightTarget;
+        int     moveCounts;
+        double  max;
+        double  error;
+        double  steer;
+        double  leftSpeed;
+        double  rightSpeed;
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            for(int i = 0; i < seconds; i++) {
+                double clockStart = runtime.seconds();
+//                moveCounts = (int) (distance * COUNTS_PER_INCH)/10;
+//                fLTarget = (robot.fLMotor.getCurrentPosition() + moveCounts);
+//                fRTarget = (robot.fRMotor.getCurrentPosition() + moveCounts);
+//                bLTarget = (robot.bLMotor.getCurrentPosition() + moveCounts);
+//                bRTarget = (robot.bLMotor.getCurrentPosition() + moveCounts);
+//
+//                // Set Target and Turn On RUN_TO_POSITION
+//                robot.fLMotor.setTargetPosition(fLTarget);
+//                robot.fRMotor.setTargetPosition(-fRTarget);
+//                robot.bLMotor.setTargetPosition(-bLTarget);
+//                robot.bRMotor.setTargetPosition(bRTarget);
+
+
+                robot.fLMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                robot.fRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                robot.bLMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                robot.bRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+                // start motion.
+                //gyroDriveSpeed = Range.clip(Math.abs(speed), 0.0, 1.0);
+                while(Math.abs(clockStart - runtime.seconds()) < 1)
+                {
+                    double fLSpeed = speedCap(speed, balanceReduction, false);
+                    double fRSpeed = speedCap(speed, balanceReduction, false);
+                    double bLSpeed = speedCap(speed, balanceReduction, true);
+                    double bRSpeed = speedCap(speed, balanceReduction, true);
+                    robot.fLMotor.setPower(fLSpeed);
+                    robot.fRMotor.setPower(-fRSpeed);
+                    robot.bLMotor.setPower(-bLSpeed);
+                    robot.bRMotor.setPower(bRSpeed);
+                }
+
+                // keep looping while we are still active, and BOTH motors are running.
+//                while (opModeIsActive() &&
+//                        (robot.fLMotor.isBusy() && robot.fRMotor.isBusy() && robot.bLMotor.isBusy() && robot.bRMotor.isBusy())) {
+//
+//                    // adjust relative speed based on heading error.
+//                    error = getError(angle);
+//
+//                    if (Math.abs(error) < gyroDriveThreshold) {
+//                        error = 0;
+//                    }
+//                    steer = -getSteer(error, P_DRIVE_COEFF);
+//
+//                    // if driving in reverse, the motor correction also needs to be reversed
+//                    if (distance < 0)
+//                        steer *= -1.0;
+//
+//                    leftSpeed = speed + steer;
+//                    rightSpeed = speed - steer;
+//
+//                    //makes first 100 counts faster bc drive takes a lot of time to accelerate
+//
+//                    // Normalize speeds if either one exceeds +/- 1.0;
+//                    max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
+//                    if (max > 1.0) {
+//                        leftSpeed /= max;
+//                        rightSpeed /= max;
+//                    }
+//
+//                    leftSpeed *= speedMult;
+//                    rightSpeed *= speedMult;
+//
+//                    robot.fLMotor.setPower(rightSpeed);
+//                    robot.fRMotor.setPower(-rightSpeed);
+//                    robot.bLMotor.setPower(-leftSpeed);
+//                    robot.bRMotor.setPower(leftSpeed);
+
+                // Display drive status for the driver.
+                //telemetry.addData("Err/St", "%5.1f/%5.1f", error, steer);
+                normalDrive(0, 0); // stops it after 1 second
+                turnToPosition(-angle, "z", turnSpeed, 4); //corrects at the end of each motion set
+                //telemetry.addData("Target", "%7d:%7d:%7d:%7d", fLTarget, fRTarget, bLTarget, bRTarget);
+                telemetry.addData("Actual", "%7d:%7d:%7d:%7d", robot.fLMotor.getCurrentPosition(),
+                        robot.fRMotor.getCurrentPosition(), robot.bLMotor.getCurrentPosition(), robot.bRMotor.getCurrentPosition());
+                //telemetry.addData("Speed", "%5.2f:%5.2f", leftSpeed, rightSpeed);
+                telemetry.addData("Angle", angle);
+                telemetry.update();
+            }
+
+            // Stop all motion;
+            normalDrive(0, 0);
+
+            //correct for drift during drive
+            turnToPosition(-angle, "z", turnSpeed, 4);
+
+            // Turn off RUN_TO_POSITION
+            stopAndReset();
+        }
+    }
+    public double speedCap(double speed, double balanceReduction, boolean AddSubstract)
+    {
+        double fLSpeed;
+        if(AddSubstract)
+        {
+            fLSpeed = speed + balanceReduction;
+        }
+        else
+        {
+            fLSpeed = speed - balanceReduction;
+        }
+
+        if(fLSpeed > 1)
+        {
+            fLSpeed = 1;
+        }
+        else if(fLSpeed < .1)
+        {
+            fLSpeed = .1;
+        }
+        return fLSpeed;
+    }
+
     public void pathComplete(int millisec)
     {
         telemetry.addData("Path", "Complete");
