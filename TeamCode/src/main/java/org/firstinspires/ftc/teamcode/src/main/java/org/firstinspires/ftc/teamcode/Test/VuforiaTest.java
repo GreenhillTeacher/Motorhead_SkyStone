@@ -146,6 +146,7 @@ public class VuforiaTest extends LinearOpMode {
         }
 
 
+        waitForStart();
         targetsSkyStone.activate();
         while (!isStopRequested()) {
 

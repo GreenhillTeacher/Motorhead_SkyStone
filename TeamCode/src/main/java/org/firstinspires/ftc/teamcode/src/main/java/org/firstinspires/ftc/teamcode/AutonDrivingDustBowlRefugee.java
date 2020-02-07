@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
@@ -24,6 +25,7 @@ import java.util.List;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
+import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
@@ -98,7 +100,8 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
     //gyro turn variables
     private double gyroTurnThreshold = .7;
     private double degreeError = 2;
-    public double turnSpeed = .5;
+    public double slowTurnSpeed = .5;
+    public double turnSpeed = .7;
     public double axisTurnSpeed = 1;
     private double gyroTurnBoost = .01;
 
@@ -110,6 +113,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
     @Override
     public void runOpMode() {
     }
+
 
 
     public String vuforia(List<VuforiaTrackable> allTrackables, VuforiaTrackables targetsSkyStone)
@@ -278,7 +282,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
     public void turnDegrees (double degrees, String xyz, double topPower, double timeoutS) {
         //stopAndReset();
 
-        degrees *= -1;
+        //degrees *= -1;
         if(degrees < 0)
         {
             degrees += degreeError;
@@ -595,7 +599,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
             normalDrive(0, 0);
 
             //correct for drift during drive
-            turnToPosition(-angle, "z", turnSpeed, 2);
+            turnToPosition(-angle, "z", slowTurnSpeed, 2);
 
             // Turn off RUN_TO_POSITION
             stopAndReset();
@@ -848,152 +852,6 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
         sleep(millisec);
     }
 
-    public void gyroDriveWithC (double inches, double angle, String heading, double timeoutS)
-    {
-        //THIS IS BROKEN AS FUCK
-        //WHAT A RIP
-
-        stopAndReset();
-        runtime.reset();
-
-        //inches *= .5;
-        int TargetFL = 0;
-        int TargetFR = 0;
-        int TargetBL = 0;
-        int TargetBR = 0;
-        double errorFL = 0;
-        double errorFR = 0;
-        double errorBL = 0;
-        double errorBR = 0;
-        double powerFL = 0;
-        double powerFR = 0;
-        double powerBL = 0;
-        double powerBR = 0;
-        //int newLeftTarget;
-        //int newRightTarget;
-        //int counts;
-        double  max;
-        double  angleError;
-        double  steer;
-        //double  leftSpeed;
-        //double  rightSpeed;
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive())
-        {
-            if(heading == "f")
-            {
-                TargetFL = robot.fLMotor.getCurrentPosition() + (int)( inches* COUNTS_PER_INCH);
-                TargetFR = robot.fRMotor.getCurrentPosition() + (int)( inches* COUNTS_PER_INCH);
-                TargetBL = robot.bLMotor.getCurrentPosition() + (int)( inches* COUNTS_PER_INCH);
-                TargetBR = robot.bRMotor.getCurrentPosition() + (int)( inches* COUNTS_PER_INCH);
-
-            }
-
-            else if(heading == "b")
-            {
-                TargetFL = robot.fLMotor.getCurrentPosition() - (int)( inches* COUNTS_PER_INCH);
-                TargetFR = robot.fRMotor.getCurrentPosition() - (int)( inches* COUNTS_PER_INCH);
-                TargetBL = robot.bLMotor.getCurrentPosition() - (int)( inches* COUNTS_PER_INCH);
-                TargetBR = robot.bRMotor.getCurrentPosition() - (int)( inches* COUNTS_PER_INCH);
-
-
-            }
-
-            else
-            {
-                telemetry.addData("not a valid direction", heading );
-            }
-
-            // Set Target and Turn On RUN_TO_POSITION
-            robot.fLMotor.setTargetPosition(TargetFL);
-            robot.fRMotor.setTargetPosition(TargetFR);
-            robot.bLMotor.setTargetPosition(TargetBL);
-            robot.bRMotor.setTargetPosition(TargetBR);
-
-            robot.fLMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.fRMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.bLMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.bRMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            // keep looping while we are still active, and BOTH motors are running.
-            while (opModeIsActive() &&
-                    (robot.fLMotor.isBusy() && robot.fRMotor.isBusy() && robot.bLMotor.isBusy() && robot.bRMotor.isBusy()) && runtime.seconds() <= timeoutS) {
-
-                // adjust relative speed based on heading error.
-
-                //prevent over-correcting by having a threshold
-                angleError = getError(angle);
-                if(Math.abs(angleError) > 7)
-                {
-                    steer = getSteer(angleError, P_DRIVE_COEFF);
-                }
-                else
-                {
-                    steer = 0;
-                }
-                //steer = getSteer(error, P_DRIVE_COEFF);
-
-                // if driving in reverse, the motor correction also needs to be reversed
-                if (heading.equals("b"))
-                {
-                    steer *= -1.0;
-                }
-                else if(!heading.equals("f"))
-                {
-                    steer = 0;
-                }
-
-                // powerFL = (topPower - steer) * speed;
-                // rightSpeed = (speed + steer) * speed;
-                errorFL = TargetFL - robot.fLMotor.getCurrentPosition();
-                errorFR = TargetFR - robot.fRMotor.getCurrentPosition();
-                errorBL = TargetBL - robot.bLMotor.getCurrentPosition();
-                errorBR = TargetBR - robot.bRMotor.getCurrentPosition();
-
-                //steer *= 1.2;
-
-                powerFL = gyroDriveSpeed - steer;
-                powerFR = gyroDriveSpeed + steer;
-                powerBL = gyroDriveSpeed - steer;
-                powerBR = gyroDriveSpeed + steer;
-
-                // Normalize speeds if either one exceeds +/- 1.0;
-                max = Math.max(Math.max(Math.abs(powerFL), Math.abs(powerFR)), Math.max(powerBL, powerBR));
-                if (max > 1)
-                {
-                    powerFL /= max;
-                    powerFR /= max;
-                    powerBL /= max;
-                    powerBR /= max;
-                }
-
-                powerFL *= pidMultiplierDriving(errorFL);
-                powerFR *= pidMultiplierDriving(errorFR);
-                powerBL *= pidMultiplierDriving(errorBL);
-                powerBR *= pidMultiplierDriving(errorBR);
-
-                robot.fLMotor.setPower(powerFL * gyroDriveSpeed);
-                robot.bLMotor.setPower(powerFR * gyroDriveSpeed);
-                robot.fRMotor.setPower(powerBL * gyroDriveSpeed);
-                robot.bRMotor.setPower(powerBR * gyroDriveSpeed);
-
-                // Display drive status for the driver.
-                telemetry.addData("Err/St",  "%5.1f/%5.1f",  angleError, steer);
-                telemetry.addData("Target",  "%7d:%7d:%7d:%7d", TargetFL,  TargetFR, TargetBL, TargetBR);
-                telemetry.addData("Current Pos",  "%7d:%7d:%7d:%7d", robot.fLMotor.getCurrentPosition(),  robot.fLMotor.getCurrentPosition(), robot.fLMotor.getCurrentPosition(), robot.fLMotor.getCurrentPosition());
-                telemetry.addData("Speed",   "%5.2f:%5.2f:%5.2f:%5.2f",  powerFL, powerFR, powerBL, powerBR);
-                telemetry.update();
-            }
-
-            // Stop all motion;
-            normalDrive(0 ,0);
-
-            // Turn off RUN_TO_POSITION
-            stopAndReset();
-        }
-        stopAndReset();
-    }
 
     /*public void armExtend(double inches, double topPower, double timeoutS)
     {

@@ -55,7 +55,7 @@ public class TurnDegreesTest extends AutonDrivingDustBowlRefugee {
 
         //line up with center foundation
         //gyroDrive(10, gyroDriveThreshold);
-        turnDegrees(90, "z", .4, 10);
+        turnDegrees(90, "z", turnSpeed, 10);
 
         //sleep(5000);
 
