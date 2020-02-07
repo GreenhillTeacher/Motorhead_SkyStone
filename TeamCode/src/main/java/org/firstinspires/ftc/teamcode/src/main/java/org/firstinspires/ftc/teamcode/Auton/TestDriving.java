@@ -61,7 +61,7 @@ public class TestDriving extends AutonDrivingDustBowlRefugee {
 //
 //        gyroDrive(20, readAngle("z"), true, gyroDriveSpeedSlow, moderate);
 
-        gyroStrafe(-400,readAngle("z"), false, .6 ,moderate);
+        gyroStrafe2(40, NORTH, .5, .2);
 
 
         pathComplete(500);
