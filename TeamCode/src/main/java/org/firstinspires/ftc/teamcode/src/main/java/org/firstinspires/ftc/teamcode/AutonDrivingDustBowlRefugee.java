@@ -821,29 +821,50 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
 //                    robot.bLMotor.setPower(-leftSpeed);
 //                    robot.bRMotor.setPower(leftSpeed);
 
-                    // Display drive status for the driver.
-                    //telemetry.addData("Err/St", "%5.1f/%5.1f", error, steer);
-                    normalDrive(0, 0); // stops it after 1 second
-                    turnToPosition(-angle, "z", turnSpeed, 4); //corrects at the end of each motion set
-                    //telemetry.addData("Target", "%7d:%7d:%7d:%7d", fLTarget, fRTarget, bLTarget, bRTarget);
-                    telemetry.addData("Actual", "%7d:%7d:%7d:%7d", robot.fLMotor.getCurrentPosition(),
-                            robot.fRMotor.getCurrentPosition(), robot.bLMotor.getCurrentPosition(), robot.bRMotor.getCurrentPosition());
-                    //telemetry.addData("Speed", "%5.2f:%5.2f", leftSpeed, rightSpeed);
-                    telemetry.addData("Angle", angle);
-                    telemetry.update();
-                }
+                // Display drive status for the driver.
+                //telemetry.addData("Err/St", "%5.1f/%5.1f", error, steer);
+                normalDrive(0, 0); // stops it after 1 second
+                turnToPosition(-angle, "z", turnSpeed, 4); //corrects at the end of each motion set
+                //telemetry.addData("Target", "%7d:%7d:%7d:%7d", fLTarget, fRTarget, bLTarget, bRTarget);
+                telemetry.addData("Actual", "%7d:%7d:%7d:%7d", robot.fLMotor.getCurrentPosition(),
+                        robot.fRMotor.getCurrentPosition(), robot.bLMotor.getCurrentPosition(), robot.bRMotor.getCurrentPosition());
+                //telemetry.addData("Speed", "%5.2f:%5.2f", leftSpeed, rightSpeed);
+                telemetry.addData("Angle", angle);
+                telemetry.update();
+            }
 
-                // Stop all motion;
-                normalDrive(0, 0);
+            // Stop all motion;
+            normalDrive(0, 0);
 
-                //correct for drift during drive
-                turnToPosition(-angle, "z", turnSpeed, 4);
+            //correct for drift during drive
+            turnToPosition(-angle, "z", turnSpeed, 4);
 
-                // Turn off RUN_TO_POSITION
-                stopAndReset();
+            // Turn off RUN_TO_POSITION
+            stopAndReset();
         }
     }
+    public double speedCap(double speed, double balanceReduction, boolean AddSubstract)
+    {
+        double fLSpeed;
+        if(AddSubstract)
+        {
+            fLSpeed = speed + balanceReduction;
+        }
+        else
+        {
+            fLSpeed = speed - balanceReduction;
+        }
 
+        if(fLSpeed > 1)
+        {
+            fLSpeed = 1;
+        }
+        else if(fLSpeed < .1)
+        {
+            fLSpeed = .1;
+        }
+        return fLSpeed;
+    }
 
     public void pathComplete(int millisec)
     {
@@ -1069,28 +1090,5 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
      */
     public double getSteer(double error, double PCoeff) {
         return Range.clip(error * PCoeff, -1, 1);
-    }
-
-    public double speedCap(double speed, double balanceReduction, boolean AddSubstract)
-    {
-        double fLSpeed;
-        if(AddSubstract)
-        {
-            fLSpeed = speed + balanceReduction;
-        }
-        else
-        {
-            fLSpeed = speed - balanceReduction;
-        }
-
-        if(fLSpeed > 1)
-        {
-            fLSpeed = 1;
-        }
-        else if(fLSpeed < .1)
-        {
-            fLSpeed = .1;
-        }
-        return fLSpeed;
     }
 }
