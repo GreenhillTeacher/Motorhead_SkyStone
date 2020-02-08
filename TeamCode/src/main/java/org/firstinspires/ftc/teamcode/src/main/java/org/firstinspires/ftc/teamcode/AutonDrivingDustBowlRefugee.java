@@ -725,7 +725,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
         }
     }
 
-    public void gyroStrafe2 (double seconds, double angle, double speed, double balanceReduction)
+    public void gyroStrafe2 (int iterations, double angle, double speed, double balanceReduction, int milliseconds)
     {
         stopAndReset();
         runtime.reset();
@@ -751,8 +751,8 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            for(int i = 0; i < seconds; i++) {
-                double clockStart = runtime.seconds();
+            for(int i = 0; i < iterations; i++) {
+                ElapsedTime clock = new ElapsedTime();
 //                moveCounts = (int) (distance * COUNTS_PER_INCH)/10;
 //                fLTarget = (robot.fLMotor.getCurrentPosition() + moveCounts);
 //                fRTarget = (robot.fRMotor.getCurrentPosition() + moveCounts);
@@ -773,7 +773,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
 
                 // start motion.
                 //gyroDriveSpeed = Range.clip(Math.abs(speed), 0.0, 1.0);
-                while(Math.abs(clockStart - runtime.seconds()) < 1)
+                while(clock.milliseconds() < milliseconds)
                 {
                     double fLSpeed = speedCap(speed, balanceReduction, false);
                     double fRSpeed = speedCap(speed, balanceReduction, false);
@@ -837,16 +837,17 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
             normalDrive(0, 0);
 
             //correct for drift during drive
-            turnToPosition(-angle, "z", turnSpeed, 4);
+            turnToPosition(-angle, "z", turnSpeed, 2);
 
             // Turn off RUN_TO_POSITION
             stopAndReset();
         }
     }
-    public double speedCap(double speed, double balanceReduction, boolean AddSubstract)
+
+    public double speedCap (double speed, double balanceReduction, boolean AddSubstract)
     {
         double fLSpeed;
-        if(AddSubstract)
+        if(!AddSubstract)
         {
             fLSpeed = speed + balanceReduction;
         }
