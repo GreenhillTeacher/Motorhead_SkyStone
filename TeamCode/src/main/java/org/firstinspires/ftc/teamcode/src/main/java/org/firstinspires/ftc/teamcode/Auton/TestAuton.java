@@ -158,12 +158,17 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
 
         sleep(100);
 
-        turnDegrees(90, "z", turnSpeed, 5);
+
+        //turnDegrees(90, "z", turnSpeed, 5);
 
         sleep(100);
 
         //TODO: ADD SKYSTONE POSITION DEPENDENT CODE
 
+        if(skystone.equals("center"))
+        {
+
+        }
         //gyroDrive(-5, EAST, true, gyroDriveSpeedSlow, slow);
 
         //sleep(1000);

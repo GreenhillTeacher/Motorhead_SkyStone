@@ -56,14 +56,12 @@ public class DustBowlRefugeeTeleop extends OpMode {
         //latch
         if(gamepad1.right_trigger >= .1)
         {
-            robot.latch1.setPosition(1);
-            robot.latch2.setPosition(1);
+            robot.latch.setPosition(1);
             //latch = false;
         }
         else if(gamepad1.left_trigger >= .1)
         {
-            robot.latch1.setPosition(0);
-            robot.latch2.setPosition(0);
+            robot.latch.setPosition(0);
             //latch = true;
         }
 
@@ -125,11 +123,11 @@ public class DustBowlRefugeeTeleop extends OpMode {
         //claw controls
         if(gamepad2.x)
         {
-            robot.claw.setPower(1);
+            robot.claw.setPosition(1);
         }
         else if(gamepad2.y)
         {
-            robot.claw.setPower(0);
+            robot.claw.setPosition(0);
         }
     }
 

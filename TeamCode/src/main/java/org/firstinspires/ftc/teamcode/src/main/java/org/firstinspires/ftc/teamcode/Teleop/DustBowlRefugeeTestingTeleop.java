@@ -57,18 +57,16 @@ public class DustBowlRefugeeTestingTeleop extends OpMode {
         }
 
         //latch
-        if(gamepad1.y)
-        {
-            robot.latch1.setPosition(1);
-            robot.latch2.setPosition(1);
-            //latch = false;
-        }
-        else if(gamepad1.x)
-        {
-            robot.latch1.setPosition(0);
-            robot.latch2.setPosition(0);
-            //latch = true;
-        }
+//        if(gamepad1.y)
+//        {
+//            robot.latch.setPosition(1);
+//            //latch = false;
+//        }
+//        else if(gamepad1.x)
+//        {
+//            robot.latch.setPosition(0);
+//            //latch = true;
+//        }
 
         //compression intake
         if(gamepad1.a)
@@ -126,18 +124,12 @@ public class DustBowlRefugeeTestingTeleop extends OpMode {
         //claw controls
         if(gamepad1.x ||gamepad2.x)
         {
-            robot.claw.setPower(1);
+            robot.claw.setPosition(.5);
         }
         else if(gamepad1.y || gamepad2.y)
         {
-            robot.claw.setPower(-1);
+            robot.claw.setPosition(.1);
         }
-        else
-        {
-            robot.claw.setPower(0);
-        }
-
-
     }
 
     public void mecanumMove()
