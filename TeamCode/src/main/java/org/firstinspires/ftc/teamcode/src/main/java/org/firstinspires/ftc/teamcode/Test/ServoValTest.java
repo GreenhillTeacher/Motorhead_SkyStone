@@ -13,15 +13,16 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
-//import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.DriveOnlyHardware;
 import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.DustBowlRefugeeHardware;
+
+//import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.DriveOnlyHardware;
 //import org.firstinspires.ftc.teamcode.SkyStoneHardware;
 
 
-@TeleOp(name="GyroTest", group="Test")
-@Disabled
+@TeleOp(name="ServoValTest", group="Test")
+//@Disabled
 
-public class GyroTest extends OpMode {
+public class ServoValTest extends OpMode {
 
     DustBowlRefugeeHardware robot = new DustBowlRefugeeHardware();
 
@@ -45,19 +46,19 @@ public class GyroTest extends OpMode {
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
-
+        /*robot.latch.setPosition(0);
+        robot.claw.setPosition(0);*/
     }
 
     @Override
     public void loop()
     {
         //waitForStart();
-        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-        //
-        telemetry.addData("x", readAngle("x"));
-        telemetry.addData("y", readAngle("y"));
-        telemetry.addData("z", readAngle("z"));
-        telemetry.update();
+        //imu.startAccelerationInte
+        if(gamepad1.a)
+        {
+            robot.claw.setPosition(.35);
+        }
 
         //not funny didn't laugh
     }

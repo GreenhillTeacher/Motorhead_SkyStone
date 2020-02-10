@@ -52,7 +52,10 @@ public class TestDriving extends AutonDrivingDustBowlRefugee {
         startAngle = readAngle("z");
         setDir();
 
-        gyroStrafe2(1, NORTH, .6, .1, 1000);
+        sleep(5000);
+
+        turnToPosition(NORTH, "z", turnSpeed, 10);
+        //strafe(2, NORTH, .6, left, leftBal, 400);
 //
 //        turnDegrees(90,"z", turnSpeed,5);
 //

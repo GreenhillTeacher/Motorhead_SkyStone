@@ -91,14 +91,15 @@ public class DustBowlRefugeeHardware
         liftL.setPower(0);
         liftR.setPower(0);
 
-        claw.scaleRange(.15,.45);
+        claw.scaleRange(.14,.5);
         claw.setDirection(Servo.Direction.FORWARD);
-        claw.setPosition(.1);
+        //claw.setPosition(.1);
 
         schlide.setDirection(CRServo.Direction.FORWARD);
         schlide.setPower(0);
 
         latch.setDirection(Servo.Direction.FORWARD);
+        latch.scaleRange(.1,.5);
         //latch1.setPosition(.5);
         //latch2.setPosition(.5);
         //armExt.setPower(0);

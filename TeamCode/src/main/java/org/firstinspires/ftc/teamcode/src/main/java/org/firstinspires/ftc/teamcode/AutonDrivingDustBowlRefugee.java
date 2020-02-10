@@ -96,6 +96,8 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
     public double slow = .3;
     public double moderate = .5;
     public double fast = .7;
+    public boolean right = true;
+    public boolean left = false;
 
     //gyro turn variables
     private double gyroTurnThreshold = .7;
@@ -103,12 +105,17 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
     public double slowTurnSpeed = .5;
     public double turnSpeed = .7;
     public double axisTurnSpeed = 1;
-    private double gyroTurnBoost = .01;
+    private double gyroTurnBoost = .05;
 
     public double NORTH = 0;
     public double SOUTH = 180;
     public double EAST = 90;
     public double WEST = -90;
+
+    public double rightBal = .1;
+    public double leftBal = .07;
+
+    public double clawPos = .35;
 
     @Override
     public void runOpMode() {
@@ -121,7 +128,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
         runtime.reset();
         String skystonePosition = "null";
         targetsSkyStone.activate();
-        while (runtime.seconds() <= 3) {
+        while (runtime.seconds() <= 5) {
 
             // check all the trackable targets to see which one (if any) is visible.
             targetVisible = false;
@@ -146,12 +153,12 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
                 VectorF translation = lastLocation.getTranslation();
                 telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
                         translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
+                telemetry.addData("Position", translation.get(1)/ mmPerInch);
 
                 // express the rotation of the robot in degrees.
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
-                telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+                //telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
                 double pos = translation.get(1);
-                //TODO: FIND POS
                 if(pos > 0)
                 {
                     skystonePosition = "right";
@@ -224,7 +231,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
     }
 
 
-    public void turnToPosition (double target, String xyz, double topPower, double timeoutS) {
+    /*public void turnToPosition (double target, String xyz, double topPower, double timeoutS) {
         //stopAndReset();
         target*= -1;
         double originalAngle = readAngle(xyz);
@@ -243,15 +250,15 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
 
         runtime.reset();
 
-        double angle = readAngle(xyz); //variable for gyro correction around z axis
-        double error = target - angle;
-        double powerScaled = topPower;
+        double angle; //variable for gyro correction around z axis
+        double error;
+        double powerScaled;
         do {
             //telemetry.addData("hello", "2");
             //sleep(1000);
             //telemetry.update();
             angle = readAngle(xyz);
-            error = target - angle;
+            error = angle - target;
             powerScaled = topPower * Math.abs(error / 180) * pidMultiplierTurning(error);
             if(error < 6)
             {
@@ -259,30 +266,30 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
             }
 
             //double powerScaled = power*pidMultiplier(error);
-            telemetry.addData("original angle", originalAngle);
-            telemetry.addData("current angle", readAngle(xyz));
-            telemetry.addData("error", error);
-            telemetry.addData("target", target);
-            telemetry.update();
+
             if (error > 0)
             {
-                normalDrive(-powerScaled, powerScaled);
+                normalDrive(powerScaled, -powerScaled);
             }
             else if (error < 0)
             {
-
-                normalDrive(powerScaled, -powerScaled);
+                normalDrive(-powerScaled, powerScaled);
             }
+            telemetry.addData("original angle", originalAngle);
+            telemetry.addData("current angle", angle);
+            telemetry.addData("error", error);
+            telemetry.addData("target", target);
+            telemetry.update();
         } while (opModeIsActive() && (Math.abs(error) > gyroTurnThreshold) && (runtime.seconds() < timeoutS));
         normalDrive(0, 0);
         //stopAndReset();
         updateAngles();
-    }
+    }*/
 
     public void turnDegrees (double degrees, String xyz, double topPower, double timeoutS) {
         //stopAndReset();
 
-        //degrees *= -1;
+        degrees *= -1;
         if(degrees < 0)
         {
             degrees += degreeError;
@@ -306,12 +313,82 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
         double angle = readAngle(xyz); //variable for gyro correction around z axis
         double error = target - angle;
         double powerScaled = topPower;
+        double degreesTurned;
         do {
             //telemetry.addData("hello", "2");
             //sleep(1000);
             //telemetry.update();
             angle = readAngle(xyz);
-            error = target - angle;
+            error = angle - target;
+            degreesTurned = angle - originalAngle;
+
+            powerScaled = topPower * Math.abs(error/180) * pidMultiplierTurning(error);
+            if(error < 6)
+            {
+                powerScaled += gyroTurnBoost + .01;
+            }
+            else if (degreesTurned < 6)
+            {
+                powerScaled += gyroTurnBoost + .01;
+            }
+
+            //double powerScaled = power*pidMultiplier(error);
+            telemetry.addData("original angle", originalAngle);
+            telemetry.addData("current angle", readAngle(xyz));
+            telemetry.addData("error", error);
+            telemetry.addData("target", target);
+            telemetry.addData("degrees", degrees);
+            telemetry.addData("degrees turned", degreesTurned);
+            telemetry.update();
+            if (error > 0)
+            {
+                normalDrive(-powerScaled, powerScaled);
+            }
+            else if (error < 0)
+            {
+
+                normalDrive(powerScaled, -powerScaled);
+            }
+        } while (opModeIsActive() && (Math.abs(error) > gyroTurnThreshold) && (runtime.seconds() < timeoutS));
+        normalDrive(0, 0);
+        //stopAndReset();
+        updateAngles();
+
+    }
+
+    public void turnToPosition (double degrees, String xyz, double topPower, double timeoutS) {
+        //stopAndReset();
+
+        degrees *= -1;
+        if(degrees < 0)
+        {
+            degrees += degreeError;
+        }
+        else
+        {
+            degrees -= degreeError;
+        }
+        double originalAngle = readAngle(xyz);
+
+        double target = degrees;
+
+        //wild
+
+
+        //telemetry.addData("hello", "1");
+        //telemetry.update();
+
+        runtime.reset();
+
+        double angle = readAngle(xyz); //variable for gyro correction around z axis
+        double error = target - angle;
+        double powerScaled = topPower;
+        do {
+            //telemetry.addData("hello", "2");
+            //sleep(1000);
+            //telemetry.update();
+            angle = readAngle(xyz);
+            error = angle - target;
 
             powerScaled = topPower * Math.abs(error/180) * pidMultiplierTurning(error);
             if(error < 6)
@@ -324,16 +401,16 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
             telemetry.addData("current angle", readAngle(xyz));
             telemetry.addData("error", error);
             telemetry.addData("target", target);
-            telemetry.addData("degrees", degrees);
+            //telemetry.addData("degrees", degrees);
             telemetry.update();
             if (error > 0)
             {
-                normalDrive(-powerScaled, powerScaled);
+                normalDrive(powerScaled, -powerScaled);
             }
             else if (error < 0)
             {
 
-                normalDrive(powerScaled, -powerScaled);
+                normalDrive(-powerScaled, powerScaled);
             }
         } while (opModeIsActive() && (Math.abs(error) > gyroTurnThreshold) && (runtime.seconds() < timeoutS));
         normalDrive(0, 0);
@@ -489,6 +566,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
 */
     public void gyroDrive (double distance, double angle, boolean initBoost, double speed, double speedMult)
     {
+        angle *= -1;
         stopAndReset();
 
         int fLTarget;
@@ -606,7 +684,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
         }
     }
 
-    public void gyroStrafe (double distance, double angle, boolean initBoost, double speed, double speedMult)
+    /*public void gyroStrafe (double distance, double angle, boolean initBoost, double speed, double speedMult)
     {
         stopAndReset();
 
@@ -723,30 +801,17 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
             // Turn off RUN_TO_POSITION
             stopAndReset();
         }
-    }
+    }*/
 
-    public void gyroStrafe2 (int iterations, double angle, double speed, double balanceReduction, int milliseconds)
+    public void strafe (int iterations, double angle, double speed, boolean direction, double balanceReduction, int milliseconds)
     {
         stopAndReset();
         runtime.reset();
-        int fLTarget;
-        int fRTarget;
-        int bLTarget;
-        int bRTarget;
-
-        int fLInit = robot.fLMotor.getCurrentPosition();
-        int fRInit = robot.fRMotor.getCurrentPosition();
-        int bLInit = robot.bLMotor.getCurrentPosition();
-        int bRInit = robot.bRMotor.getCurrentPosition();
-
         //int     newRightTarget;
-        int     moveCounts;
-        double  max;
-        double  error;
-        double  steer;
-        double  leftSpeed;
-        double  rightSpeed;
-
+        double fLSpeed;
+        double fRSpeed;
+        double bLSpeed;
+        double bRSpeed;
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
@@ -775,69 +840,50 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
                 //gyroDriveSpeed = Range.clip(Math.abs(speed), 0.0, 1.0);
                 while(clock.milliseconds() < milliseconds)
                 {
-                    double fLSpeed = speedCap(speed, balanceReduction, false);
-                    double fRSpeed = speedCap(speed, balanceReduction, false);
-                    double bLSpeed = speedCap(speed, balanceReduction, true);
-                    double bRSpeed = speedCap(speed, balanceReduction, true);
-                    robot.fLMotor.setPower(fLSpeed);
-                    robot.fRMotor.setPower(-fRSpeed);
-                    robot.bLMotor.setPower(-bLSpeed);
-                    robot.bRMotor.setPower(bRSpeed);
+                    if(direction)
+                    {
+                         fLSpeed = speedCap(speed, balanceReduction, false);
+                         fRSpeed = speedCap(speed, balanceReduction, false);
+                         bLSpeed = speedCap(speed, balanceReduction, true);
+                         bRSpeed = speedCap(speed, balanceReduction, true);
+                        robot.fLMotor.setPower(fLSpeed);
+                        robot.fRMotor.setPower(-fRSpeed);
+                        robot.bLMotor.setPower(-bLSpeed);
+                        robot.bRMotor.setPower(bRSpeed);
+                    }
+                    else
+                    {
+                         fLSpeed = speedCap(speed, balanceReduction, false);
+                         fRSpeed = speedCap(speed, balanceReduction, false);
+                         bLSpeed = speedCap(speed, balanceReduction, true);
+                         bRSpeed = speedCap(speed, balanceReduction, true);
+                        robot.fLMotor.setPower(-fLSpeed);
+                        robot.fRMotor.setPower(fRSpeed);
+                        robot.bLMotor.setPower(bLSpeed);
+                        robot.bRMotor.setPower(-bRSpeed);
+                    }
+                    telemetry.addData("fL Speed", fLSpeed);
+                    telemetry.addData("fR Speed", fRSpeed);
+                    telemetry.addData("bL Speed", bLSpeed);
+                    telemetry.addData("bR Speed", bRSpeed);
+                    telemetry.addData("milliseconds", milliseconds);
+                    telemetry.addData("clock", clock.milliseconds());
+                    telemetry.addData("iteration", i);
+                    telemetry.update();
+
                 }
 
-                // keep looping while we are still active, and BOTH motors are running.
-//                while (opModeIsActive() &&
-//                        (robot.fLMotor.isBusy() && robot.fRMotor.isBusy() && robot.bLMotor.isBusy() && robot.bRMotor.isBusy())) {
-//
-//                    // adjust relative speed based on heading error.
-//                    error = getError(angle);
-//
-//                    if (Math.abs(error) < gyroDriveThreshold) {
-//                        error = 0;
-//                    }
-//                    steer = -getSteer(error, P_DRIVE_COEFF);
-//
-//                    // if driving in reverse, the motor correction also needs to be reversed
-//                    if (distance < 0)
-//                        steer *= -1.0;
-//
-//                    leftSpeed = speed + steer;
-//                    rightSpeed = speed - steer;
-//
-//                    //makes first 100 counts faster bc drive takes a lot of time to accelerate
-//
-//                    // Normalize speeds if either one exceeds +/- 1.0;
-//                    max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
-//                    if (max > 1.0) {
-//                        leftSpeed /= max;
-//                        rightSpeed /= max;
-//                    }
-//
-//                    leftSpeed *= speedMult;
-//                    rightSpeed *= speedMult;
-//
-//                    robot.fLMotor.setPower(rightSpeed);
-//                    robot.fRMotor.setPower(-rightSpeed);
-//                    robot.bLMotor.setPower(-leftSpeed);
-//                    robot.bRMotor.setPower(leftSpeed);
-
-                // Display drive status for the driver.
-                //telemetry.addData("Err/St", "%5.1f/%5.1f", error, steer);
                 normalDrive(0, 0); // stops it after 1 second
-                turnToPosition(-angle, "z", turnSpeed, 4); //corrects at the end of each motion set
+                //turnToPosition(-angle, "z", turnSpeed, 4); //corrects at the end of each motion set
+                sleep(300);
                 //telemetry.addData("Target", "%7d:%7d:%7d:%7d", fLTarget, fRTarget, bLTarget, bRTarget);
-                telemetry.addData("Actual", "%7d:%7d:%7d:%7d", robot.fLMotor.getCurrentPosition(),
-                        robot.fRMotor.getCurrentPosition(), robot.bLMotor.getCurrentPosition(), robot.bRMotor.getCurrentPosition());
-                //telemetry.addData("Speed", "%5.2f:%5.2f", leftSpeed, rightSpeed);
-                telemetry.addData("Angle", angle);
-                telemetry.update();
             }
 
             // Stop all motion;
             normalDrive(0, 0);
 
             //correct for drift during drive
-            turnToPosition(-angle, "z", turnSpeed, 2);
+            //turnToPosition(-angle, "z", turnSpeed, 3);
 
             // Turn off RUN_TO_POSITION
             stopAndReset();
@@ -846,25 +892,26 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
 
     public double speedCap (double speed, double balanceReduction, boolean AddSubstract)
     {
-        double fLSpeed;
+        double Speed;
         if(!AddSubstract)
         {
-            fLSpeed = speed + balanceReduction;
+            Speed = speed + balanceReduction;
         }
         else
         {
-            fLSpeed = speed - balanceReduction;
+            Speed = speed - balanceReduction;
         }
 
-        if(fLSpeed > 1)
+
+        if(Speed > 1)
         {
-            fLSpeed = 1;
+            Speed = 1;
         }
-        else if(fLSpeed < .1)
+        else if(Speed < .1)
         {
-            fLSpeed = .1;
+            Speed = .1;
         }
-        return fLSpeed;
+        return Speed;
     }
 
     public void pathComplete(int millisec)

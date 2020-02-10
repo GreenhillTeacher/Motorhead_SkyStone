@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Auton;
 
+import android.database.sqlite.SQLiteException;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -138,14 +140,21 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
                 .translation(0, 0, stoneZ)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
 
+        robot.claw.setPosition(clawPos);
         waitForStart();
+
+
+
+
+
+
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
         startAngle = readAngle("z");
         setDir();
 
         sleep(100);
 
-        gyroDrive(13, NORTH, true, gyroDriveSpeedSlow, slow);
+        gyroDrive(14, NORTH, true, gyroDriveSpeedSlow, moderate);//13 is the only distance that works pls no change
 
         sleep(100);
 
@@ -165,10 +174,23 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
 
         //TODO: ADD SKYSTONE POSITION DEPENDENT CODE
 
-        if(skystone.equals("center"))
-        {
+        if(skystone.equals("center")) {
+            strafe(7, NORTH, .6, left, leftBal + .01, 280);
 
+
+            sleep(100);
+            turnToPosition(NORTH + 30, "z", turnSpeed, 10);
+
+
+            robot.intakeL.setPower(1);
+            robot.intakeR.setPower(1);
+            gyroDrive(25, NORTH + 30, true, gyroDriveSpeed, moderate);
+
+            sleep(300);
+            robot.intakeL.setPower(0);
+            robot.intakeR.setPower(0);
         }
+        //turnDegrees(25, "z", turnSpeed, 10);
         //gyroDrive(-5, EAST, true, gyroDriveSpeedSlow, slow);
 
         //sleep(1000);
