@@ -55,7 +55,7 @@ public class GyroDriveTest extends AutonDrivingDustBowlRefugee {
         //gyroDrive(47.5, 0);
 
         //line up with center foundation
-        gyroDrive(10, readAngle("z"), true, gyroDriveSpeed, slow);
+        gyroDrive(10, readAngle("z"), true, gyroDriveSpeed, slow, 10);
 
         pathComplete(500);
     }

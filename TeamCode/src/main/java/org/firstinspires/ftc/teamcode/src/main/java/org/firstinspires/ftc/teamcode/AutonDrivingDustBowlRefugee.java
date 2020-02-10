@@ -494,7 +494,9 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
             telemetry.update();
                 //normalDrive(powerScaled, -powerScaled);
 
+            if(clock)
                 normalDrive(powerScaled, -powerScaled);
+            else normalDrive(-powerScaled, powerScaled);
         } while (opModeIsActive() && (Math.abs(error) > gyroTurnThreshold) && (runtime.seconds() < timeoutS));
         normalDrive(0, 0);
         //stopAndReset();
@@ -647,8 +649,9 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
         stopAndReset();
     }
 */
-    public void gyroDrive (double distance, double angle, boolean initBoost, double speed, double speedMult)
+    public void gyroDrive (double distance, double angle, boolean initBoost, double speed, double speedMult, double timeoutS)
     {
+        runtime.reset();
         angle *= -1;
         stopAndReset();
 
@@ -701,7 +704,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
 
             // keep looping while we are still active, and BOTH motors are running.
             while (opModeIsActive() &&
-                    (robot.fLMotor.isBusy() && robot.fRMotor.isBusy() && robot.bLMotor.isBusy() && robot.bRMotor.isBusy())) {
+                    (robot.fLMotor.isBusy() && robot.fRMotor.isBusy() && robot.bLMotor.isBusy() && robot.bRMotor.isBusy()) && runtime.seconds() < timeoutS) {
 
                 // adjust relative speed based on heading error.
                 error = getError(angle);

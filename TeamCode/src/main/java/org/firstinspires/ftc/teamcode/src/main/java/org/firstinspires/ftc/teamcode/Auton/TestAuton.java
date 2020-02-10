@@ -115,27 +115,6 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
         List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
         allTrackables.addAll(targetsSkyStone);
 
-        /**
-         * In order for localization to work, we need to tell the system where each target is on the field, and
-         * where the phone resides on the robot.  These specifications are in the form of <em>transformation matrices.</em>
-         * Transformation matrices are a central, important concept in the math here involved in localization.
-         * See <a href="https://en.wikipedia.org/wiki/Transformation_matrix">Transformation Matrix</a>
-         * for detailed information. Commonly, you'll encounter transformation matrices as instances
-         * of the {@link OpenGLMatrix} class.
-         *
-         * If you are standing in the Red Alliance Station looking towards the center of the field,
-         *     - The X axis runs from your left to the right. (positive from the center to the right)
-         *     - The Y axis runs from the Red Alliance Station towards the other side of the field
-         *       where the Blue Alliance Station is. (Positive is from the center, towards the BlueAlliance station)
-         *     - The Z axis runs from the floor, upwards towards the ceiling.  (Positive is above the floor)
-         *
-         * Before being transformed, each target image is conceptually located at the origin of the field's
-         *  coordinate system (the center of the field), facing up.
-         */
-
-        // Set the position of the Stone Target.  Since it's not fixed in position, assume it's at the field origin.
-        // Rotated it to to face forward, and raised it to sit on the ground correctly.
-        // This can be used for generic target-centric approach algorithms
         stoneTarget.setLocation(OpenGLMatrix
                 .translation(0, 0, stoneZ)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
@@ -153,7 +132,7 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
         setDir();
 
 
-        gyroDrive(14, NORTH, true, gyroDriveSpeed - .02, moderate);//13 is the only distance that works pls no change
+        gyroDrive(14, NORTH, true, gyroDriveSpeed - .02, moderate, 10);//13 is the only distance that works pls no change
 
         turnToPosition(NORTH, "z", turnSpeed + .05, 5, false);
 
@@ -171,8 +150,6 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
         //turnDegrees(90, "z", turnSpeed, 5);
 
 
-        //TODO: ADD SKYSTONE POSITION DEPENDENT CODE
-
         if(skystone.equals("center")) {
             strafe(4, .6, left, leftBal + .01, 362.5, .04);
 
@@ -183,10 +160,12 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
 
             robot.intakeL.setPower(1);
             robot.intakeR.setPower(1);
-            gyroDrive(30, NORTH + 31, true, gyroDriveSpeed, moderate + .03);
+            gyroDrive(30, NORTH + 31, true, gyroDriveSpeed, moderate + .03, 5);
 
 
         }
+
+        //TODO: WORK ON ALT SKYSTONE POSITIONS
         /*else if(skystone.equals("left"))
         {
             strafe(4, .6, left, leftBal + .01, 362.5, .04);
@@ -229,13 +208,14 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
         turnToPosition(178, "z", turnSpeed, 5, false);
 
         sleep(100);
-        gyroDrive(-25, SOUTH, true, gyroDriveSpeed, slow);
+        gyroDrive(-25, SOUTH, true, gyroDriveSpeed, moderate,10);
 
         robot.latch.setPosition(0);
 
         sleep(1000);
 
-        turnToPosition(EAST, "z", turnSpeed, 5, false, true);
+        //TODO: WTF IS UP W/ THIS
+        turnToPosition(EAST, "z", .5, 5, false, true);
 
         //turnDegrees(90, "z", turnSpeed, 5);
         //sleep(100);

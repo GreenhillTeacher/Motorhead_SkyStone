@@ -99,7 +99,7 @@ public class DustBowlRefugeeHardware
         schlide.setPower(0);
 
         latch.setDirection(Servo.Direction.FORWARD);
-        latch.scaleRange(.1,.5);
+        latch.scaleRange(.085,.5);
         //latch1.setPosition(.5);
         //latch2.setPosition(.5);
         //armExt.setPower(0);
@@ -144,7 +144,6 @@ public class DustBowlRefugeeHardware
         intakeL.setDirection(DcMotor.Direction.FORWARD);
         intakeR.setDirection(DcMotor.Direction.REVERSE);
 
-        //TODO: CHECK IF CORRECT
         liftL.setDirection(DcMotor.Direction.FORWARD);
         liftR.setDirection(DcMotor.Direction.REVERSE);
 
