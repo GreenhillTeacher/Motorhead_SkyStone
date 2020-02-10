@@ -54,7 +54,7 @@ public class TestDriving extends AutonDrivingDustBowlRefugee {
 
         sleep(5000);
 
-        turnToPosition(NORTH, "z", turnSpeed, 10);
+        turnToPosition(NORTH, "z", turnSpeed, 10, false);
         //strafe(2, NORTH, .6, left, leftBal, 400);
 //
 //        turnDegrees(90,"z", turnSpeed,5);

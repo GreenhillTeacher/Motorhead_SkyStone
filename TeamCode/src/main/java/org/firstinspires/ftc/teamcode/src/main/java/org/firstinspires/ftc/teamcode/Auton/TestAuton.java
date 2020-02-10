@@ -152,11 +152,11 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
         startAngle = readAngle("z");
         setDir();
 
-        sleep(100);
 
-        gyroDrive(14, NORTH, true, gyroDriveSpeedSlow, moderate);//13 is the only distance that works pls no change
+        gyroDrive(14, NORTH, true, gyroDriveSpeed - .02, moderate);//13 is the only distance that works pls no change
 
-        sleep(100);
+        turnToPosition(NORTH, "z", turnSpeed + .05, 5, false);
+
 
         String skystone = vuforia(allTrackables, targetsSkyStone);
 
@@ -170,26 +170,75 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
 
         //turnDegrees(90, "z", turnSpeed, 5);
 
-        sleep(100);
 
         //TODO: ADD SKYSTONE POSITION DEPENDENT CODE
 
         if(skystone.equals("center")) {
-            strafe(7, NORTH, .6, left, leftBal + .01, 280);
+            strafe(4, .6, left, leftBal + .01, 362.5, .04);
 
 
             sleep(100);
-            turnToPosition(NORTH + 30, "z", turnSpeed, 10);
+            turnToPosition(NORTH + 31, "z", turnSpeed, 10, true);
 
 
             robot.intakeL.setPower(1);
             robot.intakeR.setPower(1);
-            gyroDrive(25, NORTH + 30, true, gyroDriveSpeed, moderate);
+            gyroDrive(30, NORTH + 31, true, gyroDriveSpeed, moderate + .03);
 
-            sleep(300);
-            robot.intakeL.setPower(0);
-            robot.intakeR.setPower(0);
+
         }
+        /*else if(skystone.equals("left"))
+        {
+            strafe(4, .6, left, leftBal + .01, 362.5, .04);
+
+
+            sleep(100);
+            turnToPosition(NORTH + 15, "z", turnSpeed, 10, false);
+
+
+            robot.intakeL.setPower(1);
+            robot.intakeR.setPower(1);
+            gyroDrive(30, NORTH + 15, true, gyroDriveSpeed, moderate + .03);
+        }
+        else
+        {
+            strafe(4, .6, left, leftBal + .01, 362.5, .04);
+
+
+            sleep(100);
+            turnToPosition(NORTH + 40, "z", turnSpeed, 10, false);
+
+
+            robot.intakeL.setPower(1);
+            robot.intakeR.setPower(1);
+            gyroDrive(30, NORTH + 40, true, gyroDriveSpeed, moderate + .03);
+        }*/
+        //sleep(100);
+        //turnToPosition(EAST, "z", 1, 5, true);
+
+
+        sleep(100);
+
+
+        //gyroDrive(-10, );
+
+        strafe(1, .9, right, .05, 2600, .03);
+        robot.intakeL.setPower(0);
+        robot.intakeR.setPower(0);
+
+        turnToPosition(178, "z", turnSpeed, 5, false);
+
+        sleep(100);
+        gyroDrive(-25, SOUTH, true, gyroDriveSpeed, slow);
+
+        robot.latch.setPosition(0);
+
+        sleep(1000);
+
+        turnToPosition(EAST, "z", turnSpeed, 5, false, true);
+
+        //turnDegrees(90, "z", turnSpeed, 5);
+        //sleep(100);
         //turnDegrees(25, "z", turnSpeed, 10);
         //gyroDrive(-5, EAST, true, gyroDriveSpeedSlow, slow);
 

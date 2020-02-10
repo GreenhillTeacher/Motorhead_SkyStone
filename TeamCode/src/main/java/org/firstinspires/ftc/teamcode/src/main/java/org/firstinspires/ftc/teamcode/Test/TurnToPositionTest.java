@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.AutonDrivingDustBowlRefugee;
 
-@Disabled
+//@Disabled
 @Autonomous(name="TurnToPositionTest", group="Test")
 public class TurnToPositionTest extends AutonDrivingDustBowlRefugee {
 //    AutonDrivingDriveOnly auton = new AutonDrivingDriveOnly();
@@ -55,7 +55,7 @@ public class TurnToPositionTest extends AutonDrivingDustBowlRefugee {
 
         //line up with center foundation
         //gyroDrive(10, gyroDriveThreshold);
-        turnToPosition(-90, "z", turnSpeed, 10);
+        turnToPosition(178, "z", turnSpeed, 10, false);
 
         pathComplete(500);
     }

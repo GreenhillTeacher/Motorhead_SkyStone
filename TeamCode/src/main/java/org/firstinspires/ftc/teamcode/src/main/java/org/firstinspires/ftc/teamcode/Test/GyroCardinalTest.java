@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Test;
 
+import android.icu.lang.UCharacter;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -15,12 +16,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
-//import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.DriveOnlyHardware;
+import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.AutonDrivingDustBowlRefugee;
 import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.DustBowlRefugeeHardware;
 
-@Autonomous(name="WheelTest", group="Test")
+//import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.DriveOnlyHardware;
+
+@Autonomous(name="GyroCardinalTest", group="Test")
 //@Disabled
-public class WheelTest extends LinearOpMode {
+public class GyroCardinalTest extends AutonDrivingDustBowlRefugee {
 
     /* Declare OpMode members. */
     DustBowlRefugeeHardware robot = new DustBowlRefugeeHardware();
@@ -90,15 +93,19 @@ public class WheelTest extends LinearOpMode {
         waitForStart();
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
-        motorTest(robot.fLMotor);
+        setDir();
 
-        motorTest(robot.fRMotor);
+        runtime.reset();
 
-        motorTest(robot.bLMotor);
-
-        motorTest(robot.bRMotor);
-
-        pathComplete(500);
+        while(runtime.seconds() < 10)
+        {
+            telemetry.addData("angle", readAngle("z"));
+            telemetry.addData("North", NORTH);
+            telemetry.addData("South", SOUTH);
+            telemetry.addData("East", EAST);
+            telemetry.addData("West", WEST);
+            telemetry.update();
+        }
     }
 
     public void pathComplete(int millisec)
