@@ -891,6 +891,8 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
 
     public void strafe (int iterations, double speed, boolean isRight, double balanceReduction, double milliseconds, double moreBalance)
     {
+        //balance reduction: add to this if the back of the robot is faster than the front, subtract for opposite
+        //more balance: add to this if the robot is driving slightly backwards, subtract for opposite
         stopAndReset();
         runtime.reset();
         //int     newRightTarget;
@@ -995,7 +997,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
         }
     }
 
-    public double speedCap (double speed, double balanceReduction, boolean AddSubstract)
+    /*public double speedCap (double speed, double balanceReduction, boolean AddSubstract)
     {
         double Speed;
         if(!AddSubstract)
@@ -1017,7 +1019,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
             Speed = .1;
         }
         return Speed;
-    }
+    }*/
 
     public void pathComplete(int millisec)
     {
