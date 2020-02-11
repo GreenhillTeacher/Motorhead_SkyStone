@@ -99,7 +99,8 @@ public class DustBowlRefugeeHardware
         schlide.setPower(0);
 
         latch.setDirection(Servo.Direction.FORWARD);
-        latch.scaleRange(.085,.5);
+        latch.scaleRange(0.32,1);
+        latch.setPosition(1);
         //latch1.setPosition(.5);
         //latch2.setPosition(.5);
         //armExt.setPower(0);

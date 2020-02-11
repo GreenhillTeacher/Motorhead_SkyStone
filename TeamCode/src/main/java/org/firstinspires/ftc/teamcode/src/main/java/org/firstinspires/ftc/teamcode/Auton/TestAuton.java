@@ -132,7 +132,7 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
 
 
             sleep(100);
-            turnToPosition(NORTH + 31, "z", turnSpeed, 10, true);
+            turnToPosition(NORTH + 34, "z", turnSpeed, 10, true);
 
 
             robot.intakeL.setPower(1);
@@ -178,9 +178,11 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
 
         //gyroDrive(-10, );
 
-        strafe(1, .9, right, .05, 2600, .03);
+        strafe(2, .9, right, .035, 1300, .03);
         robot.intakeL.setPower(0);
         robot.intakeR.setPower(0);
+
+        gyroDrive(3, NORTH, true, gyroDriveSpeed, moderate + .03, 5);
 
         turnToPosition(178, "z", turnSpeed, 5, false);
 

@@ -47,7 +47,7 @@ public class RightWallPark extends AutonDrivingDustBowlRefugee {
         setDir();
         //robot.claw.setPosition(clawClosed);
 
-        gyroDrive(-18 , readAngle("z"), true, gyroDriveSpeedFast, slow);
+        gyroDrive(-18 , readAngle("z"), true, gyroDriveSpeedFast, slow, 10);
 
         pathComplete(500);
     }

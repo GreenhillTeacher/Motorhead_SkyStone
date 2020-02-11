@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamcode.Test;
 
+import android.widget.Button;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -57,9 +60,17 @@ public class ServoValTest extends OpMode {
         //imu.startAccelerationInte
         if(gamepad1.a)
         {
-            robot.claw.setPosition(.35);
+            robot.latch.setPosition(robot.latch.getPosition() + .001);
+            telemetry.addData("Button","a");
+        }
+        if(gamepad1.b)
+        {
+            robot.latch.setPosition(robot.latch.getPosition() - .001);
+            telemetry.addData("Button","b");
         }
 
+        telemetry.addData("Latch Position", robot.latch.getPosition());
+        telemetry.update();
         //not funny didn't laugh
     }
     public double readAngle(String xyz) {

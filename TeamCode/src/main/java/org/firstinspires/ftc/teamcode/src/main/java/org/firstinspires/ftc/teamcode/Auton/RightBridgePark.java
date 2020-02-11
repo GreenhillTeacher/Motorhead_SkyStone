@@ -48,7 +48,7 @@ public class RightBridgePark extends AutonDrivingDustBowlRefugee {
         setDir();
 
         //
-        gyroDrive(23, readAngle("z"), true, gyroDriveSpeed, moderate);
+        gyroDrive(23, readAngle("z"), true, gyroDriveSpeed, moderate, 10);
 
         sleep(100);
 
@@ -56,7 +56,7 @@ public class RightBridgePark extends AutonDrivingDustBowlRefugee {
 
         sleep(100);
 
-        gyroDrive(20, readAngle("z"), true, gyroDriveSpeedFast, moderate);
+        gyroDrive(20, readAngle("z"), true, gyroDriveSpeedFast, moderate, 10);
 
 
         pathComplete(500);
