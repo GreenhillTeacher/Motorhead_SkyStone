@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamco
 
 
 @TeleOp(name="DustBowlRefugeeTeleopPushbot", group="DustBowlRefugee")
-@Disabled
+//@Disabled
 
 public class DustBowlRefugeeTeleopPushbot extends OpMode {
 
@@ -18,9 +18,9 @@ public class DustBowlRefugeeTeleopPushbot extends OpMode {
     private float driveVal = .6f;
     private float drive = driveVal;
     private float driveSlow = .2f;
-    private float driveLeft = .8f;
-    private float driveSlowLeft = .4f;
-    private float driveLeftVal = .8f;
+    //private float driveLeft = .8f;
+    //private float driveSlowLeft = .4f;
+    //private float driveLeftVal = .8f;
     //private boolean latch = true;
     //private float BRDrive = 1f;
 
@@ -38,44 +38,31 @@ public class DustBowlRefugeeTeleopPushbot extends OpMode {
     public void loop()
 
     {
+        //teleop w/ hold and reversible intake in order to work as a pushbot
         //mecanum drive
         mecanumMove();
 
         //switch forward driving direction
-        if(gamepad1.start)
-        {
-            robot.fLMotor.setDirection(DcMotor.Direction.REVERSE);
-            robot.fRMotor.setDirection(DcMotor.Direction.FORWARD);
-            robot.bLMotor.setDirection(DcMotor.Direction.REVERSE);
-            robot.bRMotor.setDirection(DcMotor.Direction.FORWARD);
-        }
-        else if (gamepad1.back)
-        {
-            robot.fLMotor.setDirection(DcMotor.Direction.FORWARD);
-            robot.fRMotor.setDirection(DcMotor.Direction.REVERSE);
-            robot.bLMotor.setDirection(DcMotor.Direction.FORWARD);
-            robot.bRMotor.setDirection(DcMotor.Direction.REVERSE);
-        }
 
         //latch
-        if(gamepad1.right_trigger > .1)
+        if(gamepad1.left_trigger >= .1)
         {
             robot.latch.setPosition(1);
             //latch = false;
         }
-        else if(gamepad1.left_trigger > .1)
+        else if(gamepad1.right_trigger >= .1)
         {
             robot.latch.setPosition(0);
             //latch = true;
         }
 
-        //compression intake
-        if(gamepad1.b)
+        //compression intake reversible and hold button
+        if(gamepad1.y)
         {
             robot.intakeL.setPower(1);
             robot.intakeR.setPower(1);
         }
-        else if (gamepad1.y)
+        else if (gamepad1.x)
         {
             robot.intakeR.setPower(-1);
             robot.intakeL.setPower(-1);
@@ -86,28 +73,36 @@ public class DustBowlRefugeeTeleopPushbot extends OpMode {
             robot.intakeL.setPower(0);
         }
 
+        //hold intake controls
+        /*
+        if(gamepad1.y)
+        {
+            robot.intakeL.setPower(-1);
+            robot.intakeR.setPower(-1);
+        }*/
+
         //slow drive
         if(gamepad1.left_bumper)
         {
             drive = driveSlow;
-            driveLeft = driveSlowLeft;
+            //driveLeft = driveSlowLeft;
         }
         else
         {
             drive = driveVal;
-            driveLeft = driveLeftVal;
+            //driveLeft = driveLeftVal;
         }
 
         //lift controls
         if(gamepad2.dpad_up)
         {
-            robot.liftL.setPower(-.3);
-            robot.liftR.setPower(-.3);
+            robot.liftL.setPower(-1);
+            robot.liftR.setPower(-1);
         }
         else if(gamepad2.dpad_down)
         {
-            robot.liftL.setPower(.3);
-            robot.liftR.setPower(.3);
+            robot.liftL.setPower(1);
+            robot.liftR.setPower(1);
         }
         else
         {
@@ -152,9 +147,9 @@ public class DustBowlRefugeeTeleopPushbot extends OpMode {
         final double v3 = r * Math.sin(robotAngle) + rightX;
         final double v4 = r * Math.cos(robotAngle) - rightX;
 
-        robot.fLMotor.setPower(-driveLeft * v1);
+        robot.fLMotor.setPower(-drive * v1);
         robot.fRMotor.setPower(-drive * v2);
-        robot.bLMotor.setPower(-driveLeft * v3);
+        robot.bLMotor.setPower(-drive * v3);
         robot.bRMotor.setPower(-drive * v4);
     }
 }

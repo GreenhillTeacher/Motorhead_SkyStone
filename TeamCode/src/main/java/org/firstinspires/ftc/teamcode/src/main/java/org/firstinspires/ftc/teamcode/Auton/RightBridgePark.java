@@ -47,8 +47,8 @@ public class RightBridgePark extends AutonDrivingDustBowlRefugee {
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
         setDir();
 
-        //
-        gyroDrive(23, readAngle("z"), true, gyroDriveSpeed, moderate);
+        //drive forward, turn, and drive forward to park
+        gyroDrive(23, readAngle("z"), true, gyroDriveSpeed, moderate, 10);
 
         sleep(100);
 
@@ -56,7 +56,7 @@ public class RightBridgePark extends AutonDrivingDustBowlRefugee {
 
         sleep(100);
 
-        gyroDrive(20, readAngle("z"), true, gyroDriveSpeedFast, moderate);
+        gyroDrive(20, readAngle("z"), true, gyroDriveSpeedFast, moderate, 10);
 
 
         pathComplete(500);

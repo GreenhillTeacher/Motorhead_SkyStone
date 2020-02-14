@@ -37,6 +37,7 @@ public class DustBowlRefugeeTestingTeleop extends OpMode {
     public void loop()
 
     {
+        //all inputs are on both controllers
         mecanumMove();
         //gamepad1.
 

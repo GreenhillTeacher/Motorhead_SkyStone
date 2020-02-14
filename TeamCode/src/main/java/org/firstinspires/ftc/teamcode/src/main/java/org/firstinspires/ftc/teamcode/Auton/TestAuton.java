@@ -109,11 +109,9 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
         setDir();
 
 
-        gyroDrive(14, NORTH, true, gyroDriveSpeed - .02, moderate, 10);//13 is the only distance that works pls no change
-
+        //get in position and read skystone
+        gyroDrive(14, NORTH, true, gyroDriveSpeed - .02, moderate, 10);//14 is the only distance that works pls no change
         turnToPosition(NORTH, "z", turnSpeed + .05, 5, false);
-
-
         String skystone = vuforia(allTrackables, targetsSkyStone);
 
         //sleep(1000);
@@ -127,25 +125,22 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
         //turnDegrees(90, "z", turnSpeed, 5);
 
 
-        if(skystone.equals("center")) {
+        //aim for corner of block to intake
+        if(skystone.equals("center"))
+        {
+
             strafe(4, .6, left, leftBal + .01, 362.5, .04);
-
-
             sleep(100);
             turnToPosition(NORTH + 31, "z", turnSpeed, 10, true);
-
-
             robot.intakeL.setPower(1);
             robot.intakeR.setPower(1);
             gyroDrive(30, NORTH + 31, true, gyroDriveSpeed, moderate + .03, 5);
-
-
         }
 
         //TODO: WORK ON ALT SKYSTONE POSITIONS
         /*else if(skystone.equals("left"))
         {
-            strafe(4, .6, left, leftBal + .01, 362.5, .04);
+            strafe(3, .6, left, leftBal + .01, 250, .04);
 
 
             sleep(100);
@@ -158,7 +153,7 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
         }
         else
         {
-            strafe(4, .6, left, leftBal + .01, 362.5, .04);
+            strafe(6, .6, left, leftBal + .01, 362.5, .04);
 
 
             sleep(100);
@@ -176,84 +171,31 @@ public class TestAuton extends AutonDrivingDustBowlRefugee {
         sleep(100);
 
 
-        //gyroDrive(-10, );
-
+        //strafe under skybridge
         strafe(1, .9, right, .05, 2600, .03);
         robot.intakeL.setPower(0);
         robot.intakeR.setPower(0);
 
+        //turn towards foundation
         turnToPosition(178, "z", turnSpeed, 5, false);
 
-        //drive towards the foundation
+        //drive towards the foundation & grab
         sleep(100);
         gyroDrive(-25, SOUTH, true, gyroDriveSpeed, moderate,10);
-
         robot.latch.setPosition(0);
 
         sleep(1000);
 
+        //turn drive and strafe along wall
         turnToPosition(EAST, "z", .5, 5, false, true);
+        sleep(100);
+        gyroDrive(20, EAST, true, gyroDriveSpeed, moderate, 10);
+        strafe(4, .6, right, rightBal,250, .03);
 
-        //turnDegrees(90, "z", turnSpeed, 5);
-        //sleep(100);
-        //turnDegrees(25, "z", turnSpeed, 10);
-        //gyroDrive(-5, EAST, true, gyroDriveSpeedSlow, slow);
 
-        //sleep(1000);
-        //gyroDrive(29, 0);
-        //gyroDriveStrafe(10, 0);
-        //gyroDrive(47.5, 0);
+        //let go of foundation
+        robot.latch.setPosition(1);
 
-        //line up with center foundation
-        //gyroDrive(-12.5, gyroDriveThreshold);
-
-        //gyroDrive(20, readAngle("z"), true, gyroDriveSpeedSlow, moderate);
-
-        //turnToPosition(-90, "z", 1, 7);
-
-        //gyroDrive(20,readAngle("z"), true, gyroDriveSpeedSlow, moderate);
-//        sleep(100);
-//
-//        //strafe away from wall
-//        robot.fLMotor.setPower(.6);
-//        robot.bLMotor.setPower(-.6);
-//        robot.fRMotor.setPower(-.6);
-//        robot.bRMotor.setPower(.6);
-//
-//        sleep(250);
-//
-//        normalDrive(0,0);
-//
-//        sleep(100);
-//
-//        //turn towards foundation
-//        turnToPosition(-90, "z", turnSpeed, negative90timeout);
-//
-//        //drive to foundation and latch
-//        gyroDrive(-25.5, .5);
-//
-//        sleep(100);
-//        //fix tilting with gyrodrive
-//        turnToPosition(-90, "z", turnSpeed, negative90timeout);
-//
-//        //latch
-//        latch(true);
-//
-//        sleep(600);
-//
-//        //gyroDrive(15, .5);
-//        //drive back and turn
-//        //gyroDrive(15, gyroDriveThreshold);
-//        //drive back
-//        robot.fLMotor.setPower(.3);
-//        robot.fRMotor.setPower(.3);
-//        robot.bLMotor.setPower(.3);
-//        robot.bRMotor.setPower(.3);
-//        sleep(1300);
-//        normalDrive(0, 0);
-//
-//        turnToPosition(-90, "z", turnSpeed, negative90timeout);
-//        //turnDegrees(90, "z", turnSpeed, 10);
 
         pathComplete(500);
     }

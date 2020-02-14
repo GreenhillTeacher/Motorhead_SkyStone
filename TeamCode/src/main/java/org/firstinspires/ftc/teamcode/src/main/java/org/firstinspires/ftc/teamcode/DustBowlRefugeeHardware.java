@@ -91,7 +91,7 @@ public class DustBowlRefugeeHardware
         liftL.setPower(0);
         liftR.setPower(0);
 
-        claw.scaleRange(.14,.5);
+        claw.scaleRange(.3,.5);
         claw.setDirection(Servo.Direction.FORWARD);
         //claw.setPosition(.1);
 
@@ -99,11 +99,7 @@ public class DustBowlRefugeeHardware
         schlide.setPower(0);
 
         latch.setDirection(Servo.Direction.FORWARD);
-        latch.scaleRange(.085,.5);
-        //latch1.setPosition(.5);
-        //latch2.setPosition(.5);
-        //armExt.setPower(0);
-        //armLift.setPower(0);
+        latch.scaleRange(.1,.7);
 
 
 
@@ -136,10 +132,10 @@ public class DustBowlRefugeeHardware
         //armExt.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //flipped these 4
-        fLMotor.setDirection(DcMotor.Direction.FORWARD);
-        fRMotor.setDirection(DcMotor.Direction.REVERSE);
-        bLMotor.setDirection(DcMotor.Direction.FORWARD);
-        bRMotor.setDirection(DcMotor.Direction.REVERSE);
+        fLMotor.setDirection(DcMotor.Direction.REVERSE);
+        fRMotor.setDirection(DcMotor.Direction.FORWARD);
+        bLMotor.setDirection(DcMotor.Direction.REVERSE);
+        bRMotor.setDirection(DcMotor.Direction.FORWARD);
 
         intakeL.setDirection(DcMotor.Direction.FORWARD);
         intakeR.setDirection(DcMotor.Direction.REVERSE);

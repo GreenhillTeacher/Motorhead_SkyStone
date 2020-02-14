@@ -16,9 +16,7 @@ public class DustBowlRefugeeTeleop extends OpMode {
     private float driveVal = .6f;
     private float drive = driveVal;
     private float driveSlow = .2f;
-    private float driveLeft = 1f;
-    private float driveSlowLeft = .6f;
-    private float driveLeftVal = 1f;
+    //private boolean reversed = false;
 
     @Override
     public void init()
@@ -26,8 +24,6 @@ public class DustBowlRefugeeTeleop extends OpMode {
         //Initialize the hardware variables.
         //The init() method of the hardware class does all the work here
         robot.init(hardwareMap);
-        //robot.intakeL.setPower(1);
-        //robot.intakeR.setPower(1);
     }
 
     @Override
@@ -38,28 +34,14 @@ public class DustBowlRefugeeTeleop extends OpMode {
         mecanumMove();
 
         //switch forward driving direction
-        if(gamepad1.start)
-        {
-            robot.fLMotor.setDirection(DcMotor.Direction.REVERSE);
-            robot.fRMotor.setDirection(DcMotor.Direction.FORWARD);
-            robot.bLMotor.setDirection(DcMotor.Direction.REVERSE);
-            robot.bRMotor.setDirection(DcMotor.Direction.FORWARD);
-        }
-        else if (gamepad1.back)
-        {
-            robot.fLMotor.setDirection(DcMotor.Direction.FORWARD);
-            robot.fRMotor.setDirection(DcMotor.Direction.REVERSE);
-            robot.bLMotor.setDirection(DcMotor.Direction.FORWARD);
-            robot.bRMotor.setDirection(DcMotor.Direction.REVERSE);
-        }
 
         //latch
-        if(gamepad1.right_trigger >= .1)
+        if(gamepad1.left_trigger >= .1)
         {
             robot.latch.setPosition(1);
             //latch = false;
         }
-        else if(gamepad1.left_trigger >= .1)
+        else if(gamepad1.right_trigger >= .1)
         {
             robot.latch.setPosition(0);
             //latch = true;
@@ -68,37 +50,50 @@ public class DustBowlRefugeeTeleop extends OpMode {
         //compression intake
         if(gamepad1.y)
         {
-            robot.intakeL.setPower(-1);
-            robot.intakeR.setPower(-1);
+            robot.intakeL.setPower(1);
+            robot.intakeR.setPower(1);
         }
-        else
+        else if (gamepad1.x)
         {
             robot.intakeR.setPower(0);
             robot.intakeL.setPower(0);
         }
 
+        //hold intake controls
+        /*
+        if(gamepad1.y)
+        {
+            robot.intakeL.setPower(-1);
+            robot.intakeR.setPower(-1);
+        }
+        else
+        {
+            robot.intakeL.setPower(0);
+            robot.intakeR.setPower(0);
+        }*/
+
         //slow drive
         if(gamepad1.left_bumper)
         {
             drive = driveSlow;
-            driveLeft = driveSlowLeft;
+            //driveLeft = driveSlowLeft;
         }
         else
         {
             drive = driveVal;
-            driveLeft = driveLeftVal;
+            //driveLeft = driveLeftVal;
         }
 
         //lift controls
-        if(gamepad2.dpad_up)
+        if(gamepad2.dpad_down)
         {
-            robot.liftL.setPower(-.3);
-            robot.liftR.setPower(-.3);
+            robot.liftL.setPower(-1);
+            robot.liftR.setPower(-1);
         }
-        else if(gamepad2.dpad_down)
+        else if(gamepad2.dpad_up)
         {
-            robot.liftL.setPower(.3);
-            robot.liftR.setPower(.3);
+            robot.liftL.setPower(1);
+            robot.liftR.setPower(1);
         }
         else
         {
@@ -137,15 +132,17 @@ public class DustBowlRefugeeTeleop extends OpMode {
         //variables
         double r = Math.hypot(-gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
-        double rightX = gamepad1.right_stick_x;
+        double rightX;
+        rightX = gamepad1.right_stick_x;
+        //if(!reversed) rightX *= -1;
         final double v1 = r * Math.cos(robotAngle) + rightX;
         final double v2 = r * Math.sin(robotAngle) - rightX;
         final double v3 = r * Math.sin(robotAngle) + rightX;
         final double v4 = r * Math.cos(robotAngle) - rightX;
 
-        robot.fLMotor.setPower(-driveLeft * v1);
+        robot.fLMotor.setPower(-drive * v1);
         robot.fRMotor.setPower(-drive * v2);
-        robot.bLMotor.setPower(-driveLeft * v3);
+        robot.bLMotor.setPower(-drive * v3);
         robot.bRMotor.setPower(-drive * v4);
     }
 }

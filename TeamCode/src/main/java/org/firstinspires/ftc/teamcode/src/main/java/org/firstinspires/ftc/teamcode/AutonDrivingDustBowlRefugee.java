@@ -125,6 +125,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
 
     public String vuforia(List<VuforiaTrackable> allTrackables, VuforiaTrackables targetsSkyStone)
     {
+        //vuforia function and returns string w/ skystone position
         runtime.reset();
         String skystonePosition = "null";
         targetsSkyStone.activate();
@@ -195,6 +196,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
 
     public void setDir()
     {
+        //sets referential directions based on the starting position of the robot to use w/ turn to position
         NORTH = readAngle("z");
         SOUTH = NORTH + 178;
         EAST = NORTH + 90;
@@ -209,14 +211,15 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
 
     public void updateAngles()
     {
-        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
     }
 
 
 
 
 
-    public void normalDrive(double lpower, double rpower) {
+    public void normalDrive(double lpower, double rpower)
+    {
 
         if (opModeIsActive()) {
             robot.fLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -311,7 +314,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
         runtime.reset();
 
         double angle = readAngle(xyz); //variable for gyro correction around z axis
-        double error = target - angle;
+        double error = angle - target;
         double powerScaled = topPower;
         double degreesTurned;
         do {
@@ -381,7 +384,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
         runtime.reset();
 
         double angle = readAngle(xyz); //variable for gyro correction around z axis
-        double error = target - angle;
+        double error = angle - target;
         double powerScaled = topPower;
         double degreesTurned;
         do {
@@ -392,6 +395,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
             error = angle - target;
             degreesTurned = angle - originalAngle;
 
+            //things to make the turn faster at the beginning and end so it doesn't slow down to basically a stop
             if(!fast)
             {
                 powerScaled = topPower * Math.abs(error/180) * pidMultiplierTurning(error);
@@ -435,6 +439,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
     public void turnToPosition (double degrees, String xyz, double topPower, double timeoutS, boolean fast, boolean clock) {
         //stopAndReset();
 
+        //forced direction turn to position in case the direction handling doesn't work
         degrees *= -1;
         if(degrees < 0)
         {
@@ -468,6 +473,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
             error = angle - target;
             degreesTurned = angle - originalAngle;
 
+            //adds boosts in certain places to make the turn faster
             if(!fast)
             {
                 powerScaled = topPower * Math.abs(error/180) * pidMultiplierTurning(error);
@@ -506,6 +512,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
 
     public void axisTurn (double target, String xyz, double topPower, double timeoutS) {
         //stopAndReset();
+        //turn centered around the side of the robot
         target*= -1;
         double originalAngle = readAngle(xyz);
 
@@ -603,52 +610,6 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
         }
     }
 
-    /*public void armExtend(double inches, double topPower, double timeoutS)
-    {
-        stopAndReset();
-        int target = robot.armExt.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH_ARM);
-
-        robot.armExt.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.armExt.setTargetPosition(target);
-
-        runtime.reset();
-        while(opModeIsActive() && runtime.seconds() < timeoutS && robot.armExt.isBusy())
-        {
-            double error = target - robot.armExt.getCurrentPosition();
-            double power = topPower * pidMultiplierDriving(error);
-            robot.armExt.setPower(power);
-            telemetry.addData("Path1",  "Running to %7d", target);
-            telemetry.addData("Path2",  "Running at %7d", robot.armExt.getCurrentPosition());
-            telemetry.update();
-        }
-        robot.armExt.setPower(0);
-        stopAndReset();
-    }
-
-    public void armLift(double inches, double topPower, double timeoutS)
-    {
-        stopAndReset();
-        int target = robot.armLift.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH_ARM);
-
-        robot.armLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.armLift.setTargetPosition(target);
-
-        runtime.reset();
-        while(opModeIsActive() && runtime.seconds() < timeoutS && robot.armLift.isBusy())
-        {
-            double error = target - robot.armLift.getCurrentPosition();
-            double power = topPower * pidMultiplierDriving(error);
-            robot.armLift.setPower(power);
-            telemetry.addData("Path1",  "Running to %7d", target);
-            telemetry.addData("Path2",  "Running at %7d", robot.armLift.getCurrentPosition());
-            telemetry.update();
-        }
-        robot.armLift.setPower(0);
-        stopAndReset();
-    }
-*/
     public void gyroDrive (double distance, double angle, boolean initBoost, double speed, double speedMult, double timeoutS)
     {
         runtime.reset();
@@ -713,6 +674,8 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
                 {
                     error = 0;
                 }
+
+                //changes powers in order to correct for turning while driving
                 steer = -getSteer(error, P_DRIVE_COEFF);
 
                 // if driving in reverse, the motor correction also needs to be reversed
@@ -997,29 +960,7 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
         }
     }
 
-    /*public double speedCap (double speed, double balanceReduction, boolean AddSubstract)
-    {
-        double Speed;
-        if(!AddSubstract)
-        {
-            Speed = speed + balanceReduction;
-        }
-        else
-        {
-            Speed = speed - balanceReduction;
-        }
 
-
-        if(Speed > 1)
-        {
-            Speed = 1;
-        }
-        else if(Speed < .1)
-        {
-            Speed = .1;
-        }
-        return Speed;
-    }*/
 
     public void pathComplete(int millisec)
     {
@@ -1027,54 +968,6 @@ public class AutonDrivingDustBowlRefugee extends LinearOpMode {
         telemetry.update();
         sleep(millisec);
     }
-
-
-    /*public void armExtend(double inches, double topPower, double timeoutS)
-    {
-        stopAndReset();
-        int target = robot.armExt.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH_ARM);
-
-        robot.armExt.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.armExt.setTargetPosition(target);
-
-        runtime.reset();
-        while(opModeIsActive() && runtime.seconds() < timeoutS && robot.armExt.isBusy())
-        {
-            double error = target - robot.armExt.getCurrentPosition();
-            double power = topPower * pidMultiplierDriving(error);
-            robot.armExt.setPower(power);
-            telemetry.addData("Path1",  "Running to %7d", target);
-            telemetry.addData("Path2",  "Running at %7d", robot.armExt.getCurrentPosition());
-            telemetry.update();
-        }
-        robot.armExt.setPower(0);
-        stopAndReset();
-    }
-
-    public void armLift(double inches, double topPower, double timeoutS)
-    {
-        stopAndReset();
-        int target = robot.armLift.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH_ARM);
-
-        robot.armLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.armLift.setTargetPosition(target);
-
-        runtime.reset();
-        while(opModeIsActive() && runtime.seconds() < timeoutS && robot.armLift.isBusy())
-        {
-            double error = target - robot.armLift.getCurrentPosition();
-            double power = topPower * pidMultiplierDriving(error);
-            robot.armLift.setPower(power);
-            telemetry.addData("Path1",  "Running to %7d", target);
-            telemetry.addData("Path2",  "Running at %7d", robot.armLift.getCurrentPosition());
-            telemetry.update();
-        }
-        robot.armLift.setPower(0);
-        stopAndReset();
-    }
-*/
 
 
     /*
