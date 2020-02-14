@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.src.main.java.org.firstinspires.ftc.teamco
 
 
 @TeleOp(name="DriveOnlyTeleop", group="Test")
-@Disabled
+
 //@Disabled
 
 public class DriveOnlyTeleop extends OpMode {
