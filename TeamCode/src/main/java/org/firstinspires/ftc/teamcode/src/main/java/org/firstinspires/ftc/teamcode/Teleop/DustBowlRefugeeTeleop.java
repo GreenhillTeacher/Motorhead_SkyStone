@@ -35,6 +35,17 @@ public class DustBowlRefugeeTeleop extends OpMode {
 
         //switch forward driving direction
 
+        if(gamepad1.start)
+        {
+            drive *= -1;
+        }
+        else if(gamepad1.back)
+        {
+            if(drive < 0) //checks if it has already been flipped. If it hasn't nothing happens
+            {
+                drive *= -1;
+            }
+        }
         //latch
         if(gamepad1.left_trigger >= .1)
         {
@@ -85,15 +96,15 @@ public class DustBowlRefugeeTeleop extends OpMode {
         }
 
         //lift controls
-        if(gamepad2.dpad_down)
+        if(gamepad2.dpad_up)
         {
             robot.liftL.setPower(-1);
             robot.liftR.setPower(-1);
         }
-        else if(gamepad2.dpad_up)
+        else if(gamepad2.dpad_down)
         {
-            robot.liftL.setPower(1);
-            robot.liftR.setPower(1);
+            robot.liftL.setPower(.5);
+            robot.liftR.setPower(.5);
         }
         else
         {
