@@ -37,6 +37,7 @@ public class DustBowlRefugeeTeleop extends OpMode {
 
         if(gamepad1.start)
         {
+            if(drive > 0)
             drive *= -1;
         }
         else if(gamepad1.back)

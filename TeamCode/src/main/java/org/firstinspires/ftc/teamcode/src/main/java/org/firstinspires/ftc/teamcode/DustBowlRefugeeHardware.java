@@ -91,7 +91,7 @@ public class DustBowlRefugeeHardware
         liftL.setPower(0);
         liftR.setPower(0);
 
-        claw.scaleRange(.255,.66);
+        claw.scaleRange(.5,.6);
         claw.setDirection(Servo.Direction.FORWARD);
         //claw.setPosition(.1);
 

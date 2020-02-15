@@ -43,6 +43,18 @@ public class DustBowlRefugeeTeleopPushbot extends OpMode {
         mecanumMove();
 
         //switch forward driving direction
+        if(gamepad1.start)
+        {
+            if(drive > 0)
+                drive *= -1;
+        }
+        else if(gamepad1.back)
+        {
+            if(drive < 0) //checks if it has already been flipped. If it hasn't nothing happens
+            {
+                drive *= -1;
+            }
+        }
 
         //latch
         if(gamepad1.left_trigger >= .1)
@@ -141,15 +153,15 @@ public class DustBowlRefugeeTeleopPushbot extends OpMode {
         //variables
         double r = Math.hypot(-gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
-        double rightX = gamepad1.right_stick_x;
+        double rightX = -gamepad1.right_stick_x;
         final double v1 = r * Math.cos(robotAngle) + rightX;
         final double v2 = r * Math.sin(robotAngle) - rightX;
         final double v3 = r * Math.sin(robotAngle) + rightX;
         final double v4 = r * Math.cos(robotAngle) - rightX;
 
-        robot.fLMotor.setPower(-drive * v1);
-        robot.fRMotor.setPower(-drive * v2);
-        robot.bLMotor.setPower(-drive * v3);
-        robot.bRMotor.setPower(-drive * v4);
+        robot.fLMotor.setPower(drive * v1);
+        robot.fRMotor.setPower(drive * v2);
+        robot.bLMotor.setPower(drive * v3);
+        robot.bRMotor.setPower(drive * v4);
     }
 }
